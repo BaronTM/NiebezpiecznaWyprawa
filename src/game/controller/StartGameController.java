@@ -2,6 +2,7 @@ package game.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.Socket;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -9,6 +10,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import game.model.GameServer;
+import game.model.Gra;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -65,6 +68,13 @@ public class StartGameController {
         clickBut();
         startAnchor.setVisible(false);
         waitingAnchor.setVisible(true);
+        Main.getExecutor().submit(new GameServer());
+        Main.setGra(new Gra());
+        try {
+			Main.getGra().setSock(new Socket("127.0.0.1", 4242));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     @FXML public void joinGame() {
@@ -76,6 +86,7 @@ public class StartGameController {
     	clickBut();
     	startAnchor.setVisible(true);
         waitingAnchor.setVisible(false);
+        Main.getExecutor().shutdownNow();
     }
     
     @FXML public void hoverBut() {

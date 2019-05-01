@@ -13,12 +13,13 @@ public class Gracz {
 	private List<Pionek> pionki;
 	private Color kolor;
 	private int liczbaPionkow;
-	private Gra gra;
+	private Rozgrywka gra;
 	private Pionek aktualnyPionek;
 	
 	public Gracz(int id, String imie, Color kolor) {
 		this.imie = imie;
 		this.id = id;
+		pkt = 0;
 		liczbaPionkow = 4;
 		this.kolor = kolor;;
 		pionki = new ArrayList<Pionek>();
@@ -33,7 +34,7 @@ public class Gracz {
 		return pionki;
 	}
 	
-	public void setGra(Gra gra) {
+	public void setGra(Rozgrywka gra) {
 		this.gra = gra;
 	}
 	

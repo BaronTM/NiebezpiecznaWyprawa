@@ -8,28 +8,64 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import game.controller.Main;
+
+
 public class GameServer implements Runnable {
 	
-	private ObjectOutputStream wyj;
-	private ObjectInputStream wej;
-	private Object o1;
-	private Object o2;
+	private Socket g1Socket;
+	private Socket g2Socket;
+	private ObjectOutputStream oosg1;
+	private ObjectOutputStream oosg2;
+	private ObjectInputStream oisg1;
+	private ObjectInputStream oisg2;
+	
+	private Rozgrywka rozgrywka;
 	
 	
 	@Override
 	public void run() {
-		System.out.println("Uruchamianie serwera");
 		try {
-			ServerSocket gniazdoSerwera = new ServerSocket(4242);
-			Socket clientSocket = gniazdoSerwera.accept();
-			wyj = new ObjectOutputStream(clientSocket.getOutputStream());	
-			wej = new ObjectInputStream(clientSocket.getInputStream());
-			while ((o1 = wej.readObject()) != null) {
-				o2 = wej.readObject();
-				// dzialanie
-			}
+			ServerSocket gniazdoSerwera = new ServerSocket(4242);	
+			
+			g1Socket = gniazdoSerwera.accept();
+			oosg1 = new ObjectOutputStream(g1Socket.getOutputStream());			
+			Main.getExecutor().submit(new ObslugaGracza(g1Socket));
+			System.out.println("Socket gamer 1: " + g1Socket.getPort());
+			
+			g2Socket = gniazdoSerwera.accept();
+			oosg2 = new ObjectOutputStream(g2Socket.getOutputStream());			
+			Main.getExecutor().submit(new ObslugaGracza(g2Socket));
+			System.out.println("Socket gamer 2: " + g2Socket.getPort());
+		
 		} catch (Exception e) {
 		}
-	}	
+	}
+	
+	
+	public class ObslugaGracza implements Runnable {
+		ObjectInputStream wej;
+		Socket gniazdoKlienta;
 
+		public ObslugaGracza(Socket socket) {
+			try {
+				gniazdoKlienta = socket;
+				wej = new ObjectInputStream(gniazdoKlienta.getInputStream());
+			} catch (Exception e) {
+			}
+		}
+
+		@Override
+		public void run() {
+			Object o1 = null;
+			Object o2 = null;
+			
+			try {
+				while ((o1 = wej.readObject()) != null) {
+					o2 = wej.readObject();
+				}
+			} catch (Exception e) {
+			}
+		}
+	}
 }

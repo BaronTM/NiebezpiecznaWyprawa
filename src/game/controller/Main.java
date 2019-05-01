@@ -1,18 +1,23 @@
 package game.controller;
 
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import game.model.Gra;
-import game.model.Gracz;
-import game.model.Pionek;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import test.ViewTest;
 
 
 public class Main extends Application {
+	
+	private static Socket socket;
+	private static Gra gra;
+	private static ExecutorService executor;
 	
     @Override
     public void start(Stage primaryStage) {
@@ -29,26 +34,7 @@ public class Main extends Application {
             startGameController.setMain(this);
             startGameController.setPrimaryStage(primaryStage);
             scene.getStylesheets().add(ViewTest.class.getResource("/game/view/styl.css").toExternalForm());
-            
-//            gra = new Gra();
-//            Gracz g1 = new Gracz(1, "Adam", Color.RED);
-//            Gracz g2 = new Gracz(2, "Roman", Color.LIME);
-//            gra.dodajGracza(g1);
-//            gra.dodajGracza(g2);
-//                    
-//            for (int i = 0; i < g1.getPionki().size(); i++) {
-//            	Pionek p = g1.getPionki().get(i);
-//            	pane.getChildren().add(p);
-//            	p.setLayoutX(30 + i * 60 - p.getStageX());
-//            	p.setLayoutY(620 - p.getStageY() + 10);
-//            }
-//            
-//            for (int i = 0; i < g2.getPionki().size(); i++) {
-//            	Pionek p = g2.getPionki().get(i);
-//            	pane.getChildren().add(p);
-//            	p.setLayoutX(290 + i * 60 - p.getStageX());
-//            	p.setLayoutY(620 - p.getStageY() + 10);
-//            }
+            executor = Executors.newFixedThreadPool(3);
             
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -60,4 +46,29 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+	public static Socket getSocket() {
+		return socket;
+	}
+
+	public static void setSocket(Socket socket) {
+		Main.socket = socket;
+	}
+
+	public static Gra getGra() {
+		return gra;
+	}
+
+	public static void setGra(Gra gra) {
+		Main.gra = gra;
+	}
+
+	public static ExecutorService getExecutor() {
+		return executor;
+	}
+
+	public static void setExecutor(ExecutorService executor) {
+		Main.executor = executor;
+	}
+    
 }
