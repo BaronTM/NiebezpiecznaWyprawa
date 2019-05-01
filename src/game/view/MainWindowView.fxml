@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="650.0" maxWidth="500.0" minHeight="650.0" minWidth="500.0" prefHeight="650.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.controller.MainWindowController">
+   <children>
+      <MenuBar layoutX="14.0" layoutY="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Reset" />
+            <Menu mnemonicParsing="false" text="Zakończ" />
+            <Menu mnemonicParsing="false" text="Instrukcja" />
+            <Menu mnemonicParsing="false" text="O autorach" />
+        </menus>
+      </MenuBar>
+      <ImageView fitHeight="510.0" fitWidth="510.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+         <image>
+            <Image url="@graphics/most.jpg" />
+         </image>
+      </ImageView>
+      <Circle centerX="30.0" centerY="620.0" radius="25.0" stroke="RED" strokeType="INSIDE">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="1.0">
+               <stops>
+                  <Stop color="#ff1f1f" />
+                  <Stop color="#ff1f1f" offset="0.2128609234901449" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Circle>
+      <Circle centerX="90.0" centerY="620.0" radius="25.0" stroke="RED" strokeType="INSIDE">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="1.0">
+               <stops>
+                  <Stop color="#ff1f1f" />
+                  <Stop color="#ff1f1f" offset="0.2128609234901449" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Circle>
+      <Circle centerX="150.0" centerY="620.0" radius="25.0" stroke="RED" strokeType="INSIDE">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="1.0">
+               <stops>
+                  <Stop color="#ff1f1f" />
+                  <Stop color="#ff1f1f" offset="0.2128609234901449" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Circle>
+      <Circle centerX="210.0" centerY="620.0" radius="25.0" stroke="RED" strokeType="INSIDE">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="1.0">
+               <stops>
+                  <Stop color="#ff1f1f" />
+                  <Stop color="#ff1f1f" offset="0.2128609234901449" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Circle>
+      <Circle centerX="290.0" centerY="620.0" radius="25.0" stroke="GREEN" strokeType="INSIDE">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="1.0">
+               <stops>
+                  <Stop color="#11fc00" />
+                  <Stop color="#21ff29" offset="0.21286092349014485" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Circle>
+            <Circle centerX="350.0" centerY="620.0" radius="25.0" stroke="GREEN" strokeType="INSIDE">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="1.0">
+               <stops>
+                  <Stop color="#11fc00" />
+                  <Stop color="#21ff29" offset="0.21286092349014485" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Circle>
+            <Circle centerX="410.0" centerY="620.0" radius="25.0" stroke="GREEN" strokeType="INSIDE">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="1.0">
+               <stops>
+                  <Stop color="#11fc00" />
+                  <Stop color="#21ff29" offset="0.21286092349014485" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Circle>
+      <Circle centerX="470.0" centerY="620.0" radius="25.0" stroke="GREEN" strokeType="INSIDE">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="1.0">
+               <stops>
+                  <Stop color="#11fc00" />
+                  <Stop color="#21ff29" offset="0.21286092349014485" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Circle>
+      <Button fx:id="losuj" contentDisplay="CENTER" depthTest="ENABLE" layoutX="184.0" layoutY="34.0" mnemonicParsing="false" onMouseClicked="#uruchomLosowanie" text="Losuj" textFill="#2200ff" underline="true" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="32.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <effect>
+            <Blend mode="SOFT_LIGHT" />
+         </effect>
+      </Button>
+
+   </children>
+</AnchorPane>
