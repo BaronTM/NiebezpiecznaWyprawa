@@ -33,7 +33,7 @@ public class Gra {
 		return praweWspDesek;
 	}
 	
-	public static int[][] getKanienieWsp() {
+	public static int[][] getKamienieWsp() {
 		return kamienieWsp;
 	}	
 	
@@ -50,9 +50,7 @@ public class Gra {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-
+	}	
 
 	static {
 		leweWspDesek = new int[][] {{380, 510}, {362, 468}, {330, 420}, {298, 376}, {276, 342}, {254, 304}, {228, 259}, {204, 226}, {183, 191}};

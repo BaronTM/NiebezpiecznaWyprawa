@@ -40,7 +40,11 @@ public class StartGameController {
     @FXML
     private AnchorPane waitingAnchor;
     @FXML
+    private AnchorPane joinAnchor;
+    @FXML
     private ImageView cancelBut;
+    @FXML
+    private ImageView cancelJoinBut;
     @FXML
     private Label startButLab;
     @FXML
@@ -48,8 +52,11 @@ public class StartGameController {
     @FXML
     private Label joinButLab;
     @FXML
-    private Label cancelButLab;    
-    
+    private Label cancelButLab;
+    @FXML
+    private Label cancelJoinButLab;
+    @FXML
+    private ImageView joinError;
     
     public void setMain(Main main) {
         this.main = main;
@@ -78,15 +85,41 @@ public class StartGameController {
     }
     
     @FXML public void joinGame() {
-        System.out.println("Dolacz");
         clickBut();
+        startAnchor.setVisible(false);
+        joinAnchor.setVisible(true);
+        System.out.println("Dolacz");
+        Main.setGra(new Gra());
+        try {
+			Main.getGra().setSock(new Socket("127.0.0.1", 4242));
+			System.out.println("Polaczono");
+			Main.runGame();
+		} catch (IOException e) {
+			joinError.setVisible(true);
+			hoverBut();
+		}
     }
 
     @FXML public void cancelWaiting() {
     	clickBut();
     	startAnchor.setVisible(true);
         waitingAnchor.setVisible(false);
-        Main.getExecutor().shutdownNow();
+        Main.cancelExecutor();
+    }
+    
+    @FXML public void cancelJoining() {
+    	clickBut();
+    	if (Main.getGra().getSock() != null) {
+    		try {
+				Main.getGra().getSock().close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	startAnchor.setVisible(true);
+        joinAnchor.setVisible(false);
+		joinError.setVisible(true);
     }
     
     @FXML public void hoverBut() {
@@ -106,6 +139,8 @@ public class StartGameController {
     	hoverTransY = -20;
     	startAnchor.setVisible(true);
         waitingAnchor.setVisible(false);
+        joinAnchor.setVisible(false);
+        joinError.setVisible(false);
     	startBut.setCursor(Cursor.HAND);
     	joinBut.setCursor(Cursor.HAND);
     	exitBut.setCursor(Cursor.HAND);
@@ -180,6 +215,19 @@ public class StartGameController {
 			startBut.setTranslateY(0);
 			startButLab.setTranslateX(0);
 			startButLab.setTranslateY(0);
+		});
+		
+		cancelJoinBut.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_ENTERED, event -> {
+			cancelJoinBut.setTranslateX(hoverTransX);
+			cancelJoinBut.setTranslateY(hoverTransY);
+			cancelJoinButLab.setTranslateX(hoverTransX);
+			cancelJoinButLab.setTranslateY(hoverTransY);
+		});
+		cancelJoinBut.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_EXITED, event -> {
+			cancelJoinBut.setTranslateX(0);
+			cancelJoinBut.setTranslateY(0);
+			cancelJoinButLab.setTranslateX(0);
+			cancelJoinButLab.setTranslateY(0);
 		});
     }
 

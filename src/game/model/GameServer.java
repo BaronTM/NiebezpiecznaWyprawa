@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import game.controller.Main;
+import javafx.application.Platform;
 
 
 public class GameServer implements Runnable {
@@ -21,13 +22,13 @@ public class GameServer implements Runnable {
 	private ObjectInputStream oisg2;
 	
 	private Rozgrywka rozgrywka;
-	
+
 	
 	@Override
 	public void run() {
 		try {
 			ServerSocket gniazdoSerwera = new ServerSocket(4242);	
-			
+			Main.setServerSocket(gniazdoSerwera);
 			g1Socket = gniazdoSerwera.accept();
 			oosg1 = new ObjectOutputStream(g1Socket.getOutputStream());			
 			Main.getExecutor().submit(new ObslugaGracza(g1Socket));
@@ -37,8 +38,12 @@ public class GameServer implements Runnable {
 			oosg2 = new ObjectOutputStream(g2Socket.getOutputStream());			
 			Main.getExecutor().submit(new ObslugaGracza(g2Socket));
 			System.out.println("Socket gamer 2: " + g2Socket.getPort());
-		
+			gniazdoSerwera.close();
+			Platform.runLater(() -> {
+					Main.runGame();
+			  });
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

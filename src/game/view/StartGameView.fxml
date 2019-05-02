@@ -76,5 +76,24 @@
             </Label>
          </children>
       </AnchorPane>
+      <AnchorPane fx:id="joinAnchor" layoutX="30.0" layoutY="30.0" maxHeight="650.0" maxWidth="700.0" minHeight="650.0" minWidth="700.0" prefHeight="650.0" prefWidth="700.0" styleClass="start_pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fx:id="joinError" fitHeight="430.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" styleClass="wooden_info" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="170.0">
+               <image>
+                  <Image url="@graphics/skull_sign.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cancelJoinBut" fitHeight="207.0" fitWidth="388.0" layoutX="-4.0" layoutY="10.0" onMouseClicked="#cancelJoining" onMouseEntered="#hoverBut" pickOnBounds="true" preserveRatio="true" styleClass="wooden_but" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="520.0">
+               <image>
+                  <Image url="@graphics/wyjdz_but.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="cancelJoinButLab" alignment="CENTER" disable="true" layoutX="135.0" layoutY="565.0" rotate="-12.5" styleClass="wood_label" text="ANULUJ">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
