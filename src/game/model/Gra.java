@@ -4,38 +4,36 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import org.cojen.dirmi.Environment;
+
+import game.controller.Main;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import sun.util.locale.provider.LocaleResources;
 
-public class Gra {
+public class Gra extends UnicastRemoteObject implements RemoteGame {
 	
-	private Gracz gracz;
-	private Gracz graczMock;
-	private Gracz aktuGracz;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6259052728076334751L;
 	private Socket sock;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	
-	private static int[][] leweWspDesek;
-	private static int[][] praweWspDesek;
-	private static int[][] kamienieWsp;
-	
-	public Gra() {
-		gracz = new Gracz(1, "Pierwszy", Color.AQUA);
-		graczMock = new Gracz(2, "Drugi", Color.LAVENDER);
+	public Gra() throws RemoteException {
+		super();
 	}
-	
-	public static int[][] getLeweWspDesek() {
-		return leweWspDesek;
-	}
-	
-	public static int[][] getPraweWspDesek() {
-		return praweWspDesek;
-	}
-	
-	public static int[][] getKamienieWsp() {
-		return kamienieWsp;
-	}	
 	
 	public Socket getSock() {
 		return sock;
@@ -46,15 +44,91 @@ public class Gra {
 		try {
 			oos = new ObjectOutputStream(sock.getOutputStream());
 			ois = new ObjectInputStream(sock.getInputStream());
+			//Main.getExecutor().submit(new Thread(() -> remoteReader()));
+//			Registry registry = LocateRegistry.createRegistry(5850);
+//			registry.rebind("Gra", this);
+//			Environment env = new Environment();
+//			env.newSessionAcceptor(5080).acceptAll(this);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}	
-
-	static {
-		leweWspDesek = new int[][] {{380, 510}, {362, 468}, {330, 420}, {298, 376}, {276, 342}, {254, 304}, {228, 259}, {204, 226}, {183, 191}};
-		praweWspDesek = new int[][] {{464, 431}, {441, 398}, {404, 370}, {375, 329}, {354, 293}, {334, 258}, {304, 220}, {280, 185}, {258, 153}};
-		kamienieWsp = new int[][] {{178, 144}, {100, 168}, {69, 224}, {55, 279}, {74, 340}, {48, 402}, {102, 439}, {49, 500}};
 	}
+	
+	public String getSocketOfSecondPlayer() {
+		Object obj = null;
+		String s = null;
+		try {
+			oos.writeObject("Socket");
+			while ((obj = ois.readObject()) != null) {
+				System.out.println("pobrano objekt z serwera");
+				System.out.println(obj.getClass());
+				s = (String) obj;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return s;
+	}
+
+	public void remoteReader() {
+		Object obj = null;
+		try {
+			while ((obj = ois.readObject()) != null) {
+				System.out.println("pobrano objekt z serwera");
+				System.out.println(obj.getClass());
+				System.out.println((String) obj);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void remoteSender() {
+		try {
+			oos.writeObject("Pozdrawiam");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public String getDiceResult() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean getDecision() throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean moveCounter() throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean showScore() throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateData() throws RemoteException {
+		AnchorPane pane = (AnchorPane) Main.getMainStage().getScene().getRoot();
+		Pionek p = new Pionek(Color.AQUA, 1);
+		p.setLayoutX(100);
+		p.setLayoutY(100);
+		pane.getChildren().add(p);
+		return true;
+	}
+	
 }

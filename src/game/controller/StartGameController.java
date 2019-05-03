@@ -3,6 +3,7 @@ package game.controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+import java.rmi.RemoteException;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -76,7 +77,12 @@ public class StartGameController {
         startAnchor.setVisible(false);
         waitingAnchor.setVisible(true);
         Main.getExecutor().submit(new GameServer());
-        Main.setGra(new Gra());
+        try {
+			Main.setGra(new Gra());
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         try {
 			Main.getGra().setSock(new Socket("127.0.0.1", 4242));
 		} catch (IOException e) {
@@ -89,7 +95,12 @@ public class StartGameController {
         startAnchor.setVisible(false);
         joinAnchor.setVisible(true);
         System.out.println("Dolacz");
-        Main.setGra(new Gra());
+        try {
+			Main.setGra(new Gra());
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         try {
 			Main.getGra().setSock(new Socket("127.0.0.1", 4242));
 			System.out.println("Polaczono");

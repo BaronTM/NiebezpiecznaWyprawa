@@ -1,7 +1,17 @@
 package game.controller;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
+import org.cojen.dirmi.Environment;
+import org.cojen.dirmi.Session;
+
+import game.model.RemoteGame;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -30,6 +40,29 @@ public class MainWindowController {
     }
 
     public void losuj() {
+    	    	
+//    	try {
+//    		Registry registry = LocateRegistry.getRegistry("172.28.112.208");
+//			RemoteGame remoteGame = (RemoteGame) registry.lookup("Gra"); 
+//			remoteGame.updateData();
+//		} catch (RemoteException | NotBoundException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+    	
+    	Environment env = new Environment();
+        //String host = args[0];
+        Session session;
+		try {
+			session = env.newSessionConnector("172.28.112.208", 1234).connect();
+			RemoteGame remoteGame = (RemoteGame) session.receive();
+	        remoteGame.updateData();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        
+        
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/LosujWindowView.fxml"));
         try {
             AnchorPane pane = loader.load();

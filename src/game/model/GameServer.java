@@ -4,6 +4,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,19 +31,22 @@ public class GameServer implements Runnable {
 			ServerSocket gniazdoSerwera = new ServerSocket(4242);	
 			Main.setServerSocket(gniazdoSerwera);
 			g1Socket = gniazdoSerwera.accept();
-			oosg1 = new ObjectOutputStream(g1Socket.getOutputStream());			
-			Main.getExecutor().submit(new ObslugaGracza(g1Socket));
+			oosg1 = new ObjectOutputStream(g1Socket.getOutputStream());		
+			oisg1 = new ObjectInputStream(g1Socket.getInputStream());	
+			Main.getExecutor().submit(new ObslugaGracza(g1Socket, oisg1));
 			System.out.println("Socket gamer 1: " + g1Socket.getPort());
 			
 			g2Socket = gniazdoSerwera.accept();
-			oosg2 = new ObjectOutputStream(g2Socket.getOutputStream());			
-			Main.getExecutor().submit(new ObslugaGracza(g2Socket));
+			oosg2 = new ObjectOutputStream(g2Socket.getOutputStream());		
+			oisg2 = new ObjectInputStream(g2Socket.getInputStream());				
+			Main.getExecutor().submit(new ObslugaGracza(g2Socket, oisg2));
 			System.out.println("Socket gamer 2: " + g2Socket.getPort());
 			gniazdoSerwera.close();
 			Platform.runLater(() -> {
 					Main.runGame();
 			  });
-		} catch (Exception e) {
+		} catch (SocketException e) {
+		} catch (Exception e) {			
 			e.printStackTrace();
 		}
 	}
@@ -52,10 +56,10 @@ public class GameServer implements Runnable {
 		ObjectInputStream wej;
 		Socket gniazdoKlienta;
 
-		public ObslugaGracza(Socket socket) {
+		public ObslugaGracza(Socket socket, ObjectInputStream ois) {
 			try {
 				gniazdoKlienta = socket;
-				wej = new ObjectInputStream(gniazdoKlienta.getInputStream());
+				wej = ois;
 			} catch (Exception e) {
 			}
 		}
@@ -63,14 +67,20 @@ public class GameServer implements Runnable {
 		@Override
 		public void run() {
 			Object o1 = null;
-			Object o2 = null;
 			
 			try {
 				while ((o1 = wej.readObject()) != null) {
-					o2 = wej.readObject();
+					if (wej == oisg1) {
+						//send to oos2
+						oosg1.writeObject(g2Socket.getLocalAddress().toString());
+					} else if (wej == oisg2) {
+						//send to oos1
+						oosg2.writeObject(g1Socket.getLocalAddress().toString());
+					}
 				}
 			} catch (Exception e) {
 			}
 		}
 	}
+	
 }

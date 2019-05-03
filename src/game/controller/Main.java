@@ -3,6 +3,7 @@ package game.controller;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.RMISecurityManager;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -69,7 +70,11 @@ public class Main extends Application {
 	public static void setExecutor(ExecutorService executor) {
 		Main.executor = executor;
 	}
-		
+			
+	public static Stage getMainStage() {
+		return mainStage;
+	}
+
 	public static ServerSocket getServerSocket() {
 		return serverSocket;
 	}
