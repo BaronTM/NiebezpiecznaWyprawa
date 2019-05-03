@@ -47,8 +47,8 @@ public class Gra extends UnicastRemoteObject implements RemoteGame {
 			//Main.getExecutor().submit(new Thread(() -> remoteReader()));
 //			Registry registry = LocateRegistry.createRegistry(5850);
 //			registry.rebind("Gra", this);
-//			Environment env = new Environment();
-//			env.newSessionAcceptor(5080).acceptAll(this);
+			Environment env = new Environment();
+			env.newSessionAcceptor(5080).acceptAll(this);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

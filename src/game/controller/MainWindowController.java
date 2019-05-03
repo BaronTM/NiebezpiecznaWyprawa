@@ -50,17 +50,17 @@ public class MainWindowController {
 //			e1.printStackTrace();
 //		}
     	
-    	Environment env = new Environment();
-        //String host = args[0];
-        Session session;
-		try {
-			session = env.newSessionConnector("172.28.112.208", 1234).connect();
-			RemoteGame remoteGame = (RemoteGame) session.receive();
-	        remoteGame.updateData();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+//    	Environment env = new Environment();
+//        //String host = args[0];
+//        Session session;
+//		try {
+//			session = env.newSessionConnector("172.28.112.208", 1234).connect();
+//			RemoteGame remoteGame = (RemoteGame) session.receive();
+//	        remoteGame.updateData();
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
         
         
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/LosujWindowView.fxml"));
