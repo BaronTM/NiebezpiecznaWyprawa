@@ -54,7 +54,7 @@ public class MainWindowController {
 //        //String host = args[0];
 //        Session session;
 //		try {
-//			session = env.newSessionConnector("172.28.112.208", 1234).connect();
+//			session = env.newSessionConnector("localhost", 5058).connect();
 //			RemoteGame remoteGame = (RemoteGame) session.receive();
 //	        remoteGame.updateData();
 //		} catch (IOException e1) {

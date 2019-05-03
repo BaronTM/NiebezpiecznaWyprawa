@@ -3,6 +3,7 @@ package game.model;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -15,21 +16,23 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.cojen.dirmi.Environment;
+import org.cojen.dirmi.Session;
+import org.cojen.dirmi.SessionAcceptor;
 
 import game.controller.Main;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import sun.util.locale.provider.LocaleResources;
 
-public class Gra extends UnicastRemoteObject implements RemoteGame {
+public class Gra extends UnicastRemoteObject implements RemoteGame, Serializable{
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6259052728076334751L;
-	private Socket sock;
-	private ObjectOutputStream oos;
-	private ObjectInputStream ois;
+	private static final long serialVersionUID = 5712053620818160194L;
+	private transient Socket sock;
+	private transient ObjectOutputStream oos;
+	private transient ObjectInputStream ois;
 	
 	public Gra() throws RemoteException {
 		super();
@@ -48,7 +51,10 @@ public class Gra extends UnicastRemoteObject implements RemoteGame {
 //			Registry registry = LocateRegistry.createRegistry(5850);
 //			registry.rebind("Gra", this);
 			Environment env = new Environment();
-			env.newSessionAcceptor(5080).acceptAll(this);
+			SessionAcceptor sa = env.newSessionAcceptor(5058);
+			sa.acceptAll(this);
+			System.out.println(sa.getLocalAddress().toString());
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -128,6 +134,7 @@ public class Gra extends UnicastRemoteObject implements RemoteGame {
 		p.setLayoutX(100);
 		p.setLayoutY(100);
 		pane.getChildren().add(p);
+		System.out.println("dziala!!!!");
 		return true;
 	}
 	
