@@ -20,21 +20,13 @@ public class Pionek extends Pane {
 	private int stageY;
 	
 	public Pionek() {
-		super();
-		scale = 3;
-		color = Color.LIME;		
-		build();
+		this(Color.LIME, 1);
 	}
 	
 	public Pionek(Color color, double scale) {
 		super();
 		this.scale = scale;
-		this.color = color;		
-		build();
-	}
-	
-	public void build() {
-		circle = new Circle(15 * scale);
+		this.color = color;circle = new Circle(15 * scale);
 		circle.setFill(color);
 		circle.setLayoutX(20 * scale);
 		circle.setLayoutY(20 * scale);
@@ -74,6 +66,10 @@ public class Pionek extends Pane {
         group.getStyleClass().add("counter_triangle");
 		
 		this.getChildren().addAll(group, circle);
+	}
+	
+	public void build() {
+		
 	}
 
 	public int getStageX() {

@@ -40,3 +40,10 @@
 .wooden_info {
 	-fx-effect: dropshadow( three-pass-box , #512e09 , 30, 0.3 , 5 , 5 );
 }
+
+.infoTxt {
+	-fx-text-alignment: center;
+	-fx-font-family: "Western Grungy by Marta van Eck";
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , #5b0c0c , 30, 0.7 , 0 , 0 );
+}

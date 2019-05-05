@@ -12,16 +12,48 @@ import org.cojen.dirmi.Environment;
 import org.cojen.dirmi.Session;
 
 import game.model.RemoteGame;
+import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MainWindowController {
     private Main main;
     private Stage primaryStage;
+    
+    @FXML
+    private Button losBut;
+    
+    @FXML
+    private TextArea infoTxt;
+    
+    public void initialize() {
+    	infoTxt.setVisible(true);
+    	
+    	FadeTransition fade01 = new FadeTransition(Duration.seconds(1), infoTxt);
+    	fade01.setFromValue(0);
+    	fade01.setToValue(1);
+    	PauseTransition pause = new PauseTransition(Duration.seconds(3));
+    	FadeTransition fade02 = new FadeTransition(Duration.seconds(1), infoTxt);
+    	fade02.setFromValue(1);
+    	fade02.setToValue(0);
+    	SequentialTransition seq = new SequentialTransition();
+    	seq.getChildren().addAll(fade01, pause, fade02);
+    	Main.setInfoTxtSeq(seq);
+    	
+    	main.setInfoTxt(infoTxt);	
+    }
 
     public void setMain(Main main) {
         this.main = main;

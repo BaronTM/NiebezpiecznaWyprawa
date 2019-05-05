@@ -7,10 +7,14 @@ import java.util.concurrent.Executors;
 
 import game.model.DaemonThreadFactory;
 import game.model.Gra;
+import javafx.animation.SequentialTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import test.ViewTest;
 
@@ -19,6 +23,8 @@ public class Main extends Application {
 
 	private static Stage mainStage;
 	private static Main main;
+    private static TextArea infoTxt;
+    private static SequentialTransition infoTxtSeq;
 	
 	private static Gra gra;
 	private static ExecutorService executor;
@@ -27,7 +33,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            //FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/MainWindowView.fxml"));
         	FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/StartGameView.fxml"));            
         	AnchorPane pane;
         	main = this;
@@ -79,6 +84,22 @@ public class Main extends Application {
 
 	public static void setServerSocket(ServerSocket serverSocket) {
 		Main.serverSocket = serverSocket;
+	}	
+
+	public static TextArea getInfoTxt() {
+		return infoTxt;
+	}
+
+	public static void setInfoTxt(TextArea infoTxt) {
+		Main.infoTxt = infoTxt;
+	}	
+
+	public static SequentialTransition getInfoTxtSeq() {
+		return infoTxtSeq;
+	}
+
+	public static void setInfoTxtSeq(SequentialTransition infoTxtSeq) {
+		Main.infoTxtSeq = infoTxtSeq;
 	}
 
 	public static void cancelExecutor() {
