@@ -23,7 +23,7 @@ public class Main extends Application {
 
 	private static Stage mainStage;
 	private static Main main;
-    private static TextArea infoTxt;
+    private static Label infoTxt;
     private static SequentialTransition infoTxtSeq;
 	
 	private static Gra gra;
@@ -86,11 +86,11 @@ public class Main extends Application {
 		Main.serverSocket = serverSocket;
 	}	
 
-	public static TextArea getInfoTxt() {
+	public static Label getInfoTxt() {
 		return infoTxt;
 	}
 
-	public static void setInfoTxt(TextArea infoTxt) {
+	public static void setInfoTxt(Label infoTxt) {
 		Main.infoTxt = infoTxt;
 	}	
 

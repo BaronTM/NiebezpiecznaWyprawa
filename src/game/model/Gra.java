@@ -96,16 +96,19 @@ public class Gra extends UnicastRemoteObject implements RemoteGame, Serializable
 				System.out.println("pobrano objekt z serwera");
 				System.out.println(obj.getClass());
 				System.out.println((String) obj.toString());
-				if (obj instanceof Gra) {
-					String s = (String) obj;
-					Method m = Gra.class.getDeclaredMethod(s);
-					m.invoke(this);
-				} else if (obj instanceof String[]) {
+				String s = (String) obj;
+				Method m = Gra.class.getDeclaredMethod(s);
+				m.invoke(this);
+//				if (obj instanceof String[]) {
 //					String[] s = (String[]) obj;
-//					Method m = Gra.class.getDeclaredMethod(s[0]);
+//					Method m = Gra.class.getDeclaredMethod("showInfo");
 //					m.invoke(this, s[1]);
-					showInfo("asdas asd asd aasd gdfsgsd fg sd");
-				}
+////					showInfo(s[1]);
+//				} else if (obj instanceof Gra) {
+//					String s = (String) obj;
+//					Method m = Gra.class.getDeclaredMethod(s);
+//					m.invoke(this);
+//				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -142,15 +145,17 @@ public class Gra extends UnicastRemoteObject implements RemoteGame, Serializable
 					x += 60;
 				}
 		    });
+		showInfo("ZACZYNAMY");
 	}
 	
 	public void showInfo(String s) {
-		TextArea t = Main.getInfoTxt();
-		//t.setText(s);
-		//t.setVisible(true);
-		//System.out.println("powinnno pokazac");
-		Main.getInfoTxtSeq().play();
-		
+		Platform.setImplicitExit(false);
+		Platform.runLater(() -> {
+			Label t = Main.getInfoTxt();
+			t.setText(s.toUpperCase());
+			t.setVisible(true);
+			Main.getInfoTxtSeq().play();
+		});
 	}
 
 	@Override

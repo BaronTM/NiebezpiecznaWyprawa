@@ -23,6 +23,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -36,10 +38,9 @@ public class MainWindowController {
     private Button losBut;
     
     @FXML
-    private TextArea infoTxt;
+    private Label infoTxt;
     
     public void initialize() {
-    	infoTxt.setVisible(true);
     	
     	FadeTransition fade01 = new FadeTransition(Duration.seconds(1), infoTxt);
     	fade01.setFromValue(0);
@@ -51,6 +52,8 @@ public class MainWindowController {
     	SequentialTransition seq = new SequentialTransition();
     	seq.getChildren().addAll(fade01, pause, fade02);
     	Main.setInfoTxtSeq(seq);
+    	infoTxt.setStyle("-fx-background-color: transparent;");
+    	infoTxt.setVisible(false);
     	
     	main.setInfoTxt(infoTxt);	
     }

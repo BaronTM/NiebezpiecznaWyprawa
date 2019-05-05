@@ -47,9 +47,8 @@ public class GameServer implements Runnable {
 			Platform.runLater(() -> {
 					Main.runGame();
 					try {
-						Object m = new String[] {"showInfo", "jestem wesoly romek, mam na przedmiesciach domek :)"};
-						oosg1.writeObject(m);
-						oosg2.writeObject(m);
+						oosg1.writeObject("startNewGame");
+						oosg2.writeObject("startNewGame");
 					} catch (SecurityException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -80,19 +79,9 @@ public class GameServer implements Runnable {
 			
 			try {
 				while ((o = wej.readObject()) != null) {
-					if (o instanceof String) {
-						String oStr = (String) o;
-						if (oStr.equalsIgnoreCase("START")) {
-							
-						}						
-					}					
-//					if (wej == oisg1) {
-//						//send to oos2
-//						oosg1.writeObject(g2Socket.getLocalAddress().toString());
-//					} else if (wej == oisg2) {
-//						//send to oos1
-//						oosg2.writeObject(g1Socket.getLocalAddress().toString());
-//					}
+					
+					
+					
 				}
 			} catch (Exception e) {
 			}
