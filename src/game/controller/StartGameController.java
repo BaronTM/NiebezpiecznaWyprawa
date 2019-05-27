@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.function.UnaryOperator;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -13,13 +14,19 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import game.model.GameServer;
 import game.model.Gra;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -30,6 +37,9 @@ public class StartGameController {
     private int hoverTransX;
     private int hoverTransY;
     private Stage primaryStage; 
+    private String regex;
+    private StringProperty serverIpAddress;
+    private UnaryOperator<Change> ipAddressFilter;
     @FXML
     private ImageView startBut;
     @FXML
@@ -37,15 +47,21 @@ public class StartGameController {
     @FXML
     private ImageView exitBut;
     @FXML
+    private ImageView setBut;
+    @FXML
     private AnchorPane startAnchor;
     @FXML
     private AnchorPane waitingAnchor;
     @FXML
     private AnchorPane joinAnchor;
     @FXML
+    private AnchorPane setAnchor;
+    @FXML
     private ImageView cancelBut;
     @FXML
     private ImageView cancelJoinBut;
+    @FXML
+    private ImageView backSetBut;
     @FXML
     private Label startButLab;
     @FXML
@@ -53,12 +69,23 @@ public class StartGameController {
     @FXML
     private Label joinButLab;
     @FXML
+    private Label setButLab;
+    @FXML
     private Label cancelButLab;
     @FXML
     private Label cancelJoinButLab;
     @FXML
+    private Label backSetButLab;
+    @FXML
+    private Label ipLab;
+    @FXML
+    private ImageView ipSign;
+    @FXML
     private ImageView joinError;
+    @FXML
+    private TextField ipTextField;
     
+
     public void setMain(Main main) {
         this.main = main;
     }
@@ -70,6 +97,12 @@ public class StartGameController {
     @FXML public void exitGame() {
     	clickBut();
         primaryStage.close();
+    }
+    
+    @FXML public void setGame() {
+    	clickBut();
+    	startAnchor.setVisible(false);
+    	setAnchor.setVisible(true);
     }
 
     @FXML public void createGame() {
@@ -102,7 +135,7 @@ public class StartGameController {
 			e1.printStackTrace();
 		}
         try {
-			Main.getGra().setSock(new Socket("127.0.0.1", 4242));
+			Main.getGra().setSock(new Socket(serverIpAddress.getValue(), 4242));
 			System.out.println("Polaczono");
 			Main.runGame();
 		} catch (IOException e) {
@@ -116,6 +149,12 @@ public class StartGameController {
     	startAnchor.setVisible(true);
         waitingAnchor.setVisible(false);
         Main.cancelExecutor();
+    }
+    
+    @FXML public void backSet() {
+    	clickBut();
+    	startAnchor.setVisible(true);
+        setAnchor.setVisible(false);
     }
     
     @FXML public void cancelJoining() {
@@ -152,12 +191,27 @@ public class StartGameController {
         waitingAnchor.setVisible(false);
         joinAnchor.setVisible(false);
         joinError.setVisible(false);
+        setAnchor.setVisible(false);
     	startBut.setCursor(Cursor.HAND);
     	joinBut.setCursor(Cursor.HAND);
     	exitBut.setCursor(Cursor.HAND);
     	cancelBut.setCursor(Cursor.HAND);
+    	setBut.setCursor(Cursor.HAND);    	
     	initAudio();	
     	initHover();
+    	regex = makePartialIPRegex();
+    	ipAddressFilter = c -> {
+    		String text = c.getControlNewText();
+            if  (text.matches(regex)) {
+                return c ;
+            } else {
+                return null ;
+            }
+    	};
+    	ipTextField.setTextFormatter(new TextFormatter<>(ipAddressFilter));
+    	serverIpAddress = new SimpleStringProperty();
+    	serverIpAddress.setValue("127.0.0.1");
+    	ipTextField.textProperty().bindBidirectional(serverIpAddress);
     }
     
     private void initAudio() {
@@ -228,6 +282,19 @@ public class StartGameController {
 			startButLab.setTranslateY(0);
 		});
 		
+		setBut.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_ENTERED, event -> {
+			setBut.setTranslateX(-hoverTransX * 0.7);
+			setBut.setTranslateY(hoverTransY * 0.7);
+			setButLab.setTranslateX(-hoverTransX * 0.7);
+			setButLab.setTranslateY(hoverTransY * 0.7);
+		});
+		setBut.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_EXITED, event -> {
+			setBut.setTranslateX(0);
+			setBut.setTranslateY(0);
+			setButLab.setTranslateX(0);
+			setButLab.setTranslateY(0);
+		});
+		
 		cancelJoinBut.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_ENTERED, event -> {
 			cancelJoinBut.setTranslateX(hoverTransX);
 			cancelJoinBut.setTranslateY(hoverTransY);
@@ -240,6 +307,35 @@ public class StartGameController {
 			cancelJoinButLab.setTranslateX(0);
 			cancelJoinButLab.setTranslateY(0);
 		});
+		
+		backSetBut.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_ENTERED, event -> {
+			backSetBut.setTranslateX(hoverTransX);
+			backSetBut.setTranslateY(hoverTransY);
+			backSetButLab.setTranslateX(hoverTransX);
+			backSetButLab.setTranslateY(hoverTransY);
+		});
+		backSetBut.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_EXITED, event -> {
+			backSetBut.setTranslateX(0);
+			backSetBut.setTranslateY(0);
+			backSetButLab.setTranslateX(0);
+			backSetButLab.setTranslateY(0);
+		});
+    }
+    
+//    private String makePartialIPRegex() {
+//        String partialBlock = "(([01]?[0-9]{0,2})|(2[0-4][0-9])|(25[0-5]))" ;
+//        String subsequentPartialBlock = "(\\."+partialBlock+")" ;
+//        String ipAddress = partialBlock+"?"+subsequentPartialBlock+"{0,3}";
+//        return "^"+ipAddress ;
+//    }
+    
+    private String makePartialIPRegex() {
+    	String pattern = 
+    	        "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+    	        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+    	        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+    	        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+        return pattern;
     }
 
     

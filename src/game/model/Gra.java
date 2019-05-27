@@ -6,29 +6,14 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.net.Socket;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
-import org.cojen.dirmi.Environment;
-import org.cojen.dirmi.Session;
-import org.cojen.dirmi.SessionAcceptor;
 
 import game.controller.Main;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import sun.util.locale.provider.LocaleResources;
 
 public class Gra extends UnicastRemoteObject implements RemoteGame, Serializable{
 	

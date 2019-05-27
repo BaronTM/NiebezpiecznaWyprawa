@@ -80,8 +80,6 @@ public class GameServer implements Runnable {
 			try {
 				while ((o = wej.readObject()) != null) {
 					
-					
-					
 				}
 			} catch (Exception e) {
 			}
