@@ -6,6 +6,16 @@
 	src: url("fonts/adrip/adrip1.ttf");
 }
 
+@font-face {
+	src: url("fonts/skratch/SAVEOURSOULSsaji.ttf");
+}
+
+@font-face {
+	src: url("fonts/skratch/Skratch-Regular.otf");
+}
+
+
+
 .counter_circle {
     -fx-effect: innershadow(gaussian, rgba(1, 1, 1, 0.2), 18, 0.5, -1.0, -1.0);
 }
@@ -57,5 +67,16 @@
 	-fx-text-fill: rgb(138, 7, 7);
 	-fx-effect: dropshadow( three-pass-box , #8A0707 , 2, 0.7 , 0 , 0 );
 	-fx-font-size: 70;
+	
+}
+
+.place {
+	-fx-font-family: "Skratch";
+	-fx-text-fill: rgb(210, 200, 186);
+	-fx-effect: dropshadow( three-pass-box , rgb(124, 115, 103) , 50, 0.925 , 0 , 0);
+
+}
+
+.wooden_board {
 	
 }

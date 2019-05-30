@@ -24,9 +24,6 @@ public class GameServer implements Runnable {
 	private ObjectInputStream oisg1;
 	private ObjectInputStream oisg2;
 	
-	private Rozgrywka rozgrywka;
-
-	
 	@Override
 	public void run() {
 		try {

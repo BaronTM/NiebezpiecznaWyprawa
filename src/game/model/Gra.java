@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-public class Gra extends UnicastRemoteObject implements RemoteGame, Serializable{
+public class Gra extends UnicastRemoteObject implements Serializable{
 	
 	/**
 	 * 
@@ -97,15 +97,13 @@ public class Gra extends UnicastRemoteObject implements RemoteGame, Serializable
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-	
-	public void remoteSender() {
-		try {
-			oos.writeObject("Pozdrawiam");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} finally {
+			try {
+				sock.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -114,20 +112,18 @@ public class Gra extends UnicastRemoteObject implements RemoteGame, Serializable
 		g2 = new Gracz(2, "Player2", Color.BROWN);
 		Pane pane = (Pane) Main.getMainStage().getScene().getRoot();
 		Platform.runLater(() -> {
-				int x = 10;
-				int y = 540;
+				int x = 45;
+				int y = 765;
 				for (Pionek p : g1.getPionki()) {
-					p.setLayoutX(x);
-					p.setLayoutY(y);
+					p.setPosition(x, y);
 					pane.getChildren().add(p);
-					x += 60;
+					x += 80;
 				}
-				x += 20;
+				x = 415;
 				for (Pionek p : g2.getPionki()) {
-					p.setLayoutX(x);
-					p.setLayoutY(y);
+					p.setPosition(x, y);
 					pane.getChildren().add(p);
-					x += 60;
+					x += 80;
 				}
 		    });
 		showInfo("ZACZYNAMY");
@@ -141,36 +137,6 @@ public class Gra extends UnicastRemoteObject implements RemoteGame, Serializable
 			t.setVisible(true);
 			Main.getInfoTxtSeq().play();
 		});
-	}
-
-	@Override
-	public String getDiceResult() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean getDecision() throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean moveCounter() throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean showScore() throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updateData() throws RemoteException {		
-		System.out.println("dziala!!!!");
-		return true;
 	}
 	
 }

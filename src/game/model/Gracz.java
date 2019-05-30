@@ -13,7 +13,6 @@ public class Gracz {
 	private List<Pionek> pionki;
 	private Color kolor;
 	private int liczbaPionkow;
-	private Rozgrywka gra;
 	private Pionek aktualnyPionek;
 	
 	public Gracz(int id, String imie, Color kolor) {
@@ -33,11 +32,6 @@ public class Gracz {
 	public List<Pionek> getPionki() {
 		return pionki;
 	}
-	
-	public void setGra(Rozgrywka gra) {
-		this.gra = gra;
-	}
-	
 	
 	
 }

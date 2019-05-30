@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import test.ViewTest;
 
 
@@ -39,6 +40,7 @@ public class Main extends Application {
             primaryStage.setMinWidth(500);
             primaryStage.setResizable(false);
             mainStage = primaryStage;
+            mainStage.initStyle(StageStyle.UNDECORATED);
             Scene scene = new Scene(pane);
             StartGameController startGameController = loader.getController();
             startGameController.setMain(main);
@@ -130,6 +132,11 @@ public class Main extends Application {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static void exitGame() {
+		cancelExecutor();
+        mainStage.close();
 	}
     
 }

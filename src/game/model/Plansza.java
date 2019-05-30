@@ -1,6 +1,10 @@
 package game.model;
 
-public class Plansza {
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.Pane;
+
+public class Plansza extends Pane{
 	private static int[][] leweWspDesek;
 	private static int[][] praweWspDesek;
 	private static int[][] kamienieWsp;
@@ -21,5 +25,6 @@ public class Plansza {
 	
 	public static int[][] getKamienieWsp() {
 		return kamienieWsp;
-	}	
+	}
+	
 }

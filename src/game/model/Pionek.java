@@ -57,7 +57,7 @@ public class Pionek extends Pane {
         curve.setControlY2(95 * scale);
         
         stageX =(int) (20 * scale);
-        stageY =(int) (85 * scale);
+        stageY =(int) (80 * scale);
         
         
         circle.getStyleClass().add("counter_circle");
@@ -78,6 +78,11 @@ public class Pionek extends Pane {
 
 	public int getStageY() {
 		return stageY;
+	}
+	
+	public void setPosition(int x, int y) {
+		setLayoutX(x - stageX);
+		setLayoutY(y - stageY);
 	}
 	
 	

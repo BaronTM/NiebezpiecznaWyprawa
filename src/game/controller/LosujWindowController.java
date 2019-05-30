@@ -20,8 +20,10 @@ public class LosujWindowController {
     private Stage losujWindowStage;
 	private Stage primaryStage;
     private int a;
+    private String a1;
     private int b;
-    private boolean wskazanie;
+    private static String b1;
+    private static boolean wskazanie;
 
     @FXML Rectangle kostka;
     @FXML TextField liczba;
@@ -33,7 +35,7 @@ public class LosujWindowController {
     Animation animation;
     Random generator = new Random();
 
-    public void setAnimationWindowStage(Stage losujWindowStage) {
+	public void setAnimationWindowStage(Stage losujWindowStage) {
         this.losujWindowStage = losujWindowStage;
     }
 
@@ -49,45 +51,65 @@ public class LosujWindowController {
             transition.setAutoReverse(false);
             animation = transition;
             animation.play();
-            int a = generator.nextInt(6) + 1;
-    		if (a <= 4)
+            a = generator.nextInt(6) + 1;
+    		if (a <= 4) {
     			liczba.setText(Integer.toString(a));
-    		else
+    			a1 = a + "";
+    		} else {
     			liczba.setText("X");
+    			a1 = "X";
+    		}
     	return a;
     }
 
-    public int getA() {
-    	return a;
+    /*public String getA() {
+    	System.out.println("getA1: " + a1);
+    	return a1;
     }
+
+    public void setA(String a1) {
+    	LosujWindowController.a1 = a1;
+    }*/
 
     @FXML public void closeWindow() {
         losujWindowStage.close();
     }
 
-    @FXML public int wybranoPierwszy() {
-    	przekaz();
+    @FXML public String wybranoPierwszy() {
     	b = 1;
+    	b1 = b + "";
     	ustawWskazanie(b);
-    	return b;
-    }
-    @FXML public int wybranoDrugi() {
     	przekaz();
+    	return b1;
+    }
+    @FXML public String wybranoDrugi() {
     	b = 2;
+    	b1 = b + "";
     	ustawWskazanie(b);
-    	return b;
-    }
-    @FXML public int wybranoTrzeci() {
     	przekaz();
+    	return b1;
+    }
+    @FXML public String wybranoTrzeci() {
     	b = 3;
+    	b1 = b + "";
     	ustawWskazanie(b);
-    	return b;
-    }
-    @FXML public int wybranoCzwarty() {
     	przekaz();
+    	return b1;
+    }
+    @FXML public String wybranoCzwarty() {
     	b = 4;
+    	b1 = b + "";
     	ustawWskazanie(b);
-    	return b;
+    	przekaz();
+    	return b1;
+    }
+
+    public String getB() {
+    	return b1;
+    }
+
+    public void setB(String b1) {
+    	LosujWindowController.b1 = b1;
     }
 
     public boolean getWskazanie() {
@@ -95,7 +117,7 @@ public class LosujWindowController {
     }
 
     public boolean ustawWskazanie(int b) {
-    	if (b == a)
+    	if (b1.charAt(0) == a1.charAt(0))
     		wskazanie = true;
     	else
     		wskazanie = false;
@@ -103,7 +125,7 @@ public class LosujWindowController {
     }
 
     public void przekaz() {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/WybierzWindowView.fxml"));
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/view/WybierzWindowView.fxml"));
         try {
         	losujWindowStage.close();
             AnchorPane pane = loader.load();

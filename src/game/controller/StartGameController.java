@@ -25,6 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
@@ -39,6 +40,8 @@ public class StartGameController {
     private Stage primaryStage; 
     private String regex;
     private StringProperty serverIpAddress;
+    private int xx;
+    private int yy;
     private UnaryOperator<Change> ipAddressFilter;
     @FXML
     private ImageView startBut;
@@ -48,6 +51,8 @@ public class StartGameController {
     private ImageView exitBut;
     @FXML
     private ImageView setBut;
+    @FXML
+    private AnchorPane mainAnchor;
     @FXML
     private AnchorPane startAnchor;
     @FXML
@@ -96,7 +101,7 @@ public class StartGameController {
 
     @FXML public void exitGame() {
     	clickBut();
-        primaryStage.close();
+    	main.exitGame();
     }
     
     @FXML public void setGame() {
@@ -196,7 +201,8 @@ public class StartGameController {
     	joinBut.setCursor(Cursor.HAND);
     	exitBut.setCursor(Cursor.HAND);
     	cancelBut.setCursor(Cursor.HAND);
-    	setBut.setCursor(Cursor.HAND);    	
+    	setBut.setCursor(Cursor.HAND);
+    	backSetBut.setCursor(Cursor.HAND);
     	initAudio();	
     	initHover();
     	regex = makePartialIPRegex();
@@ -212,6 +218,12 @@ public class StartGameController {
     	serverIpAddress = new SimpleStringProperty();
     	serverIpAddress.setValue("127.0.0.1");
     	ipTextField.textProperty().bindBidirectional(serverIpAddress);
+    	mainAnchor.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+    		boardImageMousePressed(e);
+    	});
+    	mainAnchor.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
+    		boardImageMouseDragged(e);
+    	});
     }
     
     private void initAudio() {
@@ -336,6 +348,18 @@ public class StartGameController {
     	        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
     	        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
         return pattern;
+    }
+    
+    private void boardImageMousePressed(MouseEvent evt) {
+        xx=(int) evt.getX();
+        yy=(int) evt.getY();
+    }
+
+    private void boardImageMouseDragged(MouseEvent evt) {
+        int x=(int) evt.getScreenX();
+        int y=(int) evt.getScreenY();
+        primaryStage.setX(x-xx);
+        primaryStage.setY(y-yy);
     }
 
     

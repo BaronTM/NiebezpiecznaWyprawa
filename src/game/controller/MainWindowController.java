@@ -7,11 +7,11 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Optional;
 
 import org.cojen.dirmi.Environment;
 import org.cojen.dirmi.Session;
 
-import game.model.RemoteGame;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
@@ -19,9 +19,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
@@ -33,6 +39,8 @@ import javafx.util.Duration;
 public class MainWindowController {
     private Main main;
     private Stage primaryStage;
+    private int xx;
+    private int yy;
     
     @FXML
     private Button losBut;
@@ -40,8 +48,10 @@ public class MainWindowController {
     @FXML
     private Label infoTxt;
     
-    public void initialize() {
-    	
+    @FXML
+    private ImageView boardImage;
+    
+    public void initialize() {    	
     	FadeTransition fade01 = new FadeTransition(Duration.seconds(1), infoTxt);
     	fade01.setFromValue(0);
     	fade01.setToValue(1);
@@ -54,8 +64,13 @@ public class MainWindowController {
     	Main.setInfoTxtSeq(seq);
     	infoTxt.setStyle("-fx-background-color: transparent;");
     	infoTxt.setVisible(false);
-    	
-    	main.setInfoTxt(infoTxt);	
+    	main.setInfoTxt(infoTxt);
+    	boardImage.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+    		boardImageMousePressed(e);
+    	});
+    	boardImage.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
+    		boardImageMouseDragged(e);
+    	});
     }
 
     public void setMain(Main main) {
@@ -118,4 +133,32 @@ public class MainWindowController {
             e.printStackTrace();
         }
     }
+    
+    
+    private void boardImageMousePressed(MouseEvent evt) {
+        xx=(int) evt.getX();
+        yy=(int) evt.getY() + 80;
+    }
+
+    private void boardImageMouseDragged(MouseEvent evt) {
+        int x=(int) evt.getScreenX();
+        int y=(int) evt.getScreenY();
+        primaryStage.setX(x-xx);
+        primaryStage.setY(y-yy);
+    }
+    
+    @FXML
+    private void exitGame() {
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Wyjście z gry");
+    	alert.setHeaderText("Rozgrywka nie została zakończona!");
+    	alert.setContentText("Czy na pewno chcesz wyjść?");
+    	Optional<ButtonType> result = alert.showAndWait();
+    	if (result.get() == ButtonType.OK){
+    		Main.exitGame();
+    	} else {
+    	    // ... user chose CANCEL or closed the dialog
+    	}
+    }
+    
 }
