@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-public class Gra extends UnicastRemoteObject implements Serializable{
+public class Gra implements Serializable{
 	
 	/**
 	 * 
@@ -41,37 +41,11 @@ public class Gra extends UnicastRemoteObject implements Serializable{
 		try {
 			oos = new ObjectOutputStream(sock.getOutputStream());
 			ois = new ObjectInputStream(sock.getInputStream());
-			Main.getExecutor().submit(new Thread(() -> remoteReader()));
-//			Registry registry = LocateRegistry.createRegistry(5850);
-//			registry.rebind("Gra", this);
-//			Environment env = new Environment();
-//			SessionAcceptor sa = env.newSessionAcceptor(5058);
-//			sa.acceptAll(this);
-//			System.out.println(sa.getLocalAddress().toString());			
+			Main.getExecutor().submit(new Thread(() -> remoteReader()));	
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	public String getSocketOfSecondPlayer() {
-		Object obj = null;
-		String s = null;
-		try {
-			oos.writeObject("Socket");
-			while ((obj = ois.readObject()) != null) {
-				System.out.println("pobrano objekt z serwera");
-				System.out.println(obj.getClass());
-				s = (String) obj;
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return s;
 	}
 
 	public void remoteReader() {

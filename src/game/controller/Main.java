@@ -9,6 +9,7 @@ import game.model.DaemonThreadFactory;
 import game.model.Gra;
 import javafx.animation.SequentialTransition;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -137,6 +138,7 @@ public class Main extends Application {
 	public static void exitGame() {
 		cancelExecutor();
         mainStage.close();
+		System.exit(0);
 	}
     
 }
