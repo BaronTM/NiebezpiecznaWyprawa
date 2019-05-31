@@ -32,6 +32,12 @@ public class Gracz {
 	public List<Pionek> getPionki() {
 		return pionki;
 	}
+
+	public Pionek getAktualnyPionek() {
+		return aktualnyPionek;
+	}
+	
+	
 	
 	
 }

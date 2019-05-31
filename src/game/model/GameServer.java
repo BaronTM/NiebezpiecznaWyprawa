@@ -10,6 +10,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import game.controller.Main;
 import javafx.application.Platform;
@@ -31,14 +32,12 @@ public class GameServer implements Runnable {
 			Main.setServerSocket(gniazdoSerwera);
 			g1Socket = gniazdoSerwera.accept();
 			oosg1 = new ObjectOutputStream(g1Socket.getOutputStream());		
-			oisg1 = new ObjectInputStream(g1Socket.getInputStream());	
-			Main.getExecutor().submit(new ObslugaGracza(g1Socket, oisg1));
+			oisg1 = new ObjectInputStream(g1Socket.getInputStream());
 			System.out.println("Socket gamer 1: " + g1Socket.getPort());
 			
 			g2Socket = gniazdoSerwera.accept();
 			oosg2 = new ObjectOutputStream(g2Socket.getOutputStream());		
-			oisg2 = new ObjectInputStream(g2Socket.getInputStream());				
-			Main.getExecutor().submit(new ObslugaGracza(g2Socket, oisg2));
+			oisg2 = new ObjectInputStream(g2Socket.getInputStream());
 			System.out.println("Socket gamer 2: " + g2Socket.getPort());
 			gniazdoSerwera.close();
 			Platform.runLater(() -> {
@@ -50,37 +49,55 @@ public class GameServer implements Runnable {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}					
-			  });			
+			  });
+			checkIfConnected(oisg1, "Gracz 1 polaczony");
+			checkIfConnected(oisg2, "Gracz 2 polaczony");
+			letsPlay();
 		} catch (SocketException e) {
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}
 	}
 	
-	
-	public class ObslugaGracza implements Runnable {
-		ObjectInputStream wej;
-		Socket gniazdoKlienta;
-
-		public ObslugaGracza(Socket socket, ObjectInputStream ois) {
-			try {
-				gniazdoKlienta = socket;
-				wej = ois;
-			} catch (Exception e) {
-			}
-		}
-
-		@Override
-		public void run() {
-			Object o = null;
-			
-			try {
-				while ((o = wej.readObject()) != null) {
-					
-				}
-			} catch (Exception e) {
-			}
+	private void checkIfConnected(ObjectInputStream o, String s) {
+		Object obj;
+		try {
+			obj = o.readObject();
+			String str = (String) obj;
+			if (str.equals("connected")) System.out.println(s);
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
+	
+	private void letsPlay() {
+		
+		int x = 0;
+		int y = 0;
+		while(true) {
+			System.out.println("Gra sie toczy");
+			try {
+				x += 30;
+				y += 30;
+				
+				String[] command = new String[4];
+				command[0] = "przesunPoMoscie";
+				command[1] = "g1";
+				command[2] = "" + x;
+				command[3] = "" + y;				
+				
+				oosg1.writeObject(command);
+				oosg2.writeObject(command);
+				
+				TimeUnit.SECONDS.sleep(5);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	
 	
 }
