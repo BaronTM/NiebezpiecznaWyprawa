@@ -92,23 +92,25 @@ public class Pionek extends Pane {
 		return stageY;
 	}
 	
-	public void setPosition(int x, int y) {
-		setLayoutX(x - stageX);
-		setLayoutY(y - stageY);
+	public void setCounterPosition(double finalX, double finalY) {
+		setLayoutX(finalX - stageX);
+		setLayoutY(finalY - stageY);
 	}
 	
 	public void przesunPoMoscie(double finalX, double finalY) {
 		Path path = new Path();
-		path.getElements().add(new MoveTo(this.getLayoutX(), this.getLayoutY()));
-		path.getElements().add(new CubicCurveTo((finalX - this.getLayoutX()), this.getLayoutY(), 
-				this.getLayoutX(), (finalY - this.getLayoutY()), 
-				finalX - stageX, finalY - stageY));
+		path.getElements().add(new MoveTo(getLayoutX() - stageX, getLayoutY() - stageY));
+		path.getElements().add(new QuadCurveTo(
+				Math.max(getStageX(), finalX - stageX), 
+				Math.max(getStageY(), finalY - stageY), 
+				finalX - stageX, 
+				finalY - stageY));
 		PathTransition pathTransition = new PathTransition();
 		pathTransition.setDuration(Duration.millis(4000));
 		pathTransition.setPath(path);
 		pathTransition.setNode(this);
-		pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
 		pathTransition.play();
+		this.setCounterPosition(finalX, finalY);
 	}
 	
 	

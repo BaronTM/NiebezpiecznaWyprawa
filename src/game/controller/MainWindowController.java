@@ -68,6 +68,7 @@ public class MainWindowController {
     	boardImage.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
     		boardImageMouseDragged(e);
     	});
+    	losBut.setVisible(false);
     }
 
     public void setMain(Main main) {
@@ -156,6 +157,10 @@ public class MainWindowController {
     	} else {
     	    // ... user chose CANCEL or closed the dialog
     	}
+    }
+    
+    public Button getLosBut() {
+    	return losBut;
     }
     
 }

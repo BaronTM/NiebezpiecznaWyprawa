@@ -104,13 +104,13 @@ public class Gra implements Serializable {
 			int x = 45;
 			int y = 765;
 			for (Pionek p : g1.getPionki()) {
-				p.setPosition(x, y);
+				p.setCounterPosition(x, y);
 				pane.getChildren().add(p);
 				x += 80;
 			}
 			x = 415;
 			for (Pionek p : g2.getPionki()) {
-				p.setPosition(x, y);
+				p.setCounterPosition(x, y);
 				pane.getChildren().add(p);
 				x += 80;
 			}
