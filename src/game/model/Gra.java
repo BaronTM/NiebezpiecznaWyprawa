@@ -23,8 +23,8 @@ import javafx.scene.shape.Path;
 import javafx.scene.shape.QuadCurveTo;
 import javafx.util.Duration;
 
-public class Gra implements Serializable{
-	
+public class Gra implements Serializable {
+
 	/**
 	 * 
 	 */
@@ -34,22 +34,21 @@ public class Gra implements Serializable{
 	private transient ObjectInputStream ois;
 	private Gracz g1;
 	private Gracz g2;
-	
-	
+
 	public Gra() throws RemoteException {
 		super();
 	}
-	
+
 	public Socket getSock() {
 		return sock;
 	}
-	
+
 	public void setSock(Socket sock) {
 		this.sock = sock;
 		try {
 			oos = new ObjectOutputStream(sock.getOutputStream());
 			ois = new ObjectInputStream(sock.getInputStream());
-			Main.getExecutor().submit(new Thread(() -> remoteReader()));	
+			Main.getExecutor().submit(new Thread(() -> remoteReader()));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,20 +58,19 @@ public class Gra implements Serializable{
 	public void remoteReader() {
 		Object obj = null;
 		try {
+			obj = ois.readObject();
+			String s = (String) obj;
+			Method m = Gra.class.getDeclaredMethod(s);
+			m.invoke(this);
 			while ((obj = ois.readObject()) != null) {
-				String s = (String) obj;
-				Method m = Gra.class.getDeclaredMethod(s);
-				m.invoke(this);
-				while (true) {
-				obj = ois.readObject();
-				String[] str = (String[]) obj;
-				Pionek g = str[1].equals("g1") ? g1.getAktualnyPionek() : g2.getAktualnyPionek();
-				double xx = Double.parseDouble(str[2]);
-				double yy = Double.parseDouble(str[3]);
-				for (String ssss : str) System.out.println(ssss);
-				Method m2 = Gra.class.getDeclaredMethod(str[0], Pionek.class, double.class, double.class);
-				m2.invoke(this, g, xx, yy);
+				Object[] command = (Object[]) obj;
+				if (command[0].equals("1")) {
+					Gracz g = command[1].equals("1") ? g1 : g2;
+					int x = (int) command[2];
+					int y = (int) command[3];
+					g.getAktualnyPionek().przesunPoMoscie(x, y);					
 				}
+			}
 //				if (obj instanceof String[]) {
 //					String[] s = (String[]) obj;
 //					Method m = Gra.class.getDeclaredMethod("showInfo");
@@ -83,8 +81,10 @@ public class Gra implements Serializable{
 //					Method m = Gra.class.getDeclaredMethod(s);
 //					m.invoke(this);
 //				}
-			}
-		} catch (Exception e) {
+
+		} catch (
+
+		Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
@@ -95,36 +95,36 @@ public class Gra implements Serializable{
 			}
 		}
 	}
-	
+
 	public void startNewGame() {
 		g1 = new Gracz(1, "Player1", Color.LAVENDER);
 		g2 = new Gracz(2, "Player2", Color.BROWN);
 		Pane pane = (Pane) Main.getMainStage().getScene().getRoot();
 		Platform.runLater(() -> {
-				int x = 45;
-				int y = 765;
-				for (Pionek p : g1.getPionki()) {
-					p.setPosition(x, y);
-					pane.getChildren().add(p);
-					x += 80;
-				}
-				x = 415;
-				for (Pionek p : g2.getPionki()) {
-					p.setPosition(x, y);
-					pane.getChildren().add(p);
-					x += 80;
-				}
-		    });
+			int x = 45;
+			int y = 765;
+			for (Pionek p : g1.getPionki()) {
+				p.setPosition(x, y);
+				pane.getChildren().add(p);
+				x += 80;
+			}
+			x = 415;
+			for (Pionek p : g2.getPionki()) {
+				p.setPosition(x, y);
+				pane.getChildren().add(p);
+				x += 80;
+			}
+		});
 		showInfo("ZACZYNAMY");
 		try {
 			oos.writeObject("connected");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
-		
+		}
+
 	}
-	
+
 	public void showInfo(String s) {
 		Platform.setImplicitExit(false);
 		Platform.runLater(() -> {
@@ -134,7 +134,7 @@ public class Gra implements Serializable{
 			Main.getInfoTxtSeq().play();
 		});
 	}
-	
+
 //	public void przesunDoWody(Pionek pionek, Gracz gracz) {
 //    	Path animationPath = new Path();
 //    	MoveTo moveTo = new MoveTo();
@@ -160,25 +160,6 @@ public class Gra implements Serializable{
 //        pionek.setVisible(false);
 //    }
 
-    public void przesunPoMoscie(Pionek pionek, double finalX, double finalY) {
-    	Path animationPath = new Path();
-    	MoveTo moveTo = new MoveTo();
-    	QuadCurveTo curve = new QuadCurveTo();
-    	moveTo = new MoveTo(pionek.getStageX(), pionek.getStageY());
-    	
-    	curve = new QuadCurveTo((pionek.getStageX() + finalX) / 2, (pionek.getStageY() + finalY) / 2, finalX, finalY);
-        animationPath.getElements().addAll(moveTo, curve);
-
-        PathTransition transition = new PathTransition();
-        transition.setNode(pionek);
-        transition.setDuration(Duration.seconds(2));
-        transition.setPath(animationPath);
-        transition.setCycleCount(1);
-        transition.setAutoReverse(false);
-        transition.setOrientation(OrientationType.NONE);
-        transition.setInterpolator(Interpolator.LINEAR);
-        Animation animation = transition;
-        animation.play();
-    }
 	
+
 }

@@ -76,16 +76,15 @@ public class GameServer implements Runnable {
 		int x = 0;
 		int y = 0;
 		while(true) {
-			System.out.println("Gra sie toczy");
 			try {
-				x += 30;
-				y += 30;
+				x += 100;
+				y += 100;
 				
-				String[] command = new String[4];
-				command[0] = "przesunPoMoscie";
-				command[1] = "g1";
-				command[2] = "" + x;
-				command[3] = "" + y;				
+				Object[] command = new Object[4];
+				command[0] = "1";
+				command[1] = "1";
+				command[2] = x;
+				command[3] = y;				
 				
 				oosg1.writeObject(command);
 				oosg2.writeObject(command);

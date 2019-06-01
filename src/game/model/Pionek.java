@@ -1,12 +1,22 @@
 package game.model;
 
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
+import javafx.animation.PathTransition;
+import javafx.animation.PathTransition.OrientationType;
+import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.CubicCurve;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.QuadCurveTo;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 public class Pionek extends Pane {
 	
@@ -18,6 +28,8 @@ public class Pionek extends Pane {
 	private CubicCurve curve;
 	private int stageX;
 	private int stageY;
+	
+	
 	
 	public Pionek() {
 		this(Color.LIME, 1);
@@ -83,6 +95,20 @@ public class Pionek extends Pane {
 	public void setPosition(int x, int y) {
 		setLayoutX(x - stageX);
 		setLayoutY(y - stageY);
+	}
+	
+	public void przesunPoMoscie(double finalX, double finalY) {
+		Path path = new Path();
+		path.getElements().add(new MoveTo(this.getLayoutX(), this.getLayoutY()));
+		path.getElements().add(new CubicCurveTo((finalX - this.getLayoutX()), this.getLayoutY(), 
+				this.getLayoutX(), (finalY - this.getLayoutY()), 
+				finalX - stageX, finalY - stageY));
+		PathTransition pathTransition = new PathTransition();
+		pathTransition.setDuration(Duration.millis(4000));
+		pathTransition.setPath(path);
+		pathTransition.setNode(this);
+		pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+		pathTransition.play();
 	}
 	
 	
