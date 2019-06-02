@@ -48,6 +48,9 @@ public class MainWindowController {
     @FXML
     private ImageView boardImage;
     
+    @FXML
+    private AnchorPane mainAnchor;
+    
     public void initialize() {    	
     	FadeTransition fade01 = new FadeTransition(Duration.seconds(1), infoTxt);
     	fade01.setFromValue(0);
@@ -69,6 +72,12 @@ public class MainWindowController {
     		boardImageMouseDragged(e);
     	});
     	losBut.setVisible(false);
+    	
+//    	mainAnchor.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+//    		double x = e.getX();
+//    		double y = e.getY();
+//    		System.out.println("X: " + x + "    Y: " + y);
+//    	});
     }
 
     public void setMain(Main main) {

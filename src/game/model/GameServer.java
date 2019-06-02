@@ -77,7 +77,7 @@ public class GameServer implements Runnable {
 		int y = 0;
 		try {
 			while (true) {
-
+				TimeUnit.SECONDS.sleep(5);
 				x += 100;
 				y += 100;
 
@@ -89,9 +89,8 @@ public class GameServer implements Runnable {
 
 				oosg1.writeObject(command);
 				oosg2.writeObject(command);
-
-				TimeUnit.SECONDS.sleep(5);
 			}
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

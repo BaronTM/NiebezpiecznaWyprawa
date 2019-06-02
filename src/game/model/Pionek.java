@@ -1,14 +1,18 @@
 package game.model;
 
+import java.util.concurrent.TimeUnit;
+
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.ClosePath;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
@@ -16,6 +20,7 @@ import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.QuadCurveTo;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
 public class Pionek extends Pane {
@@ -98,19 +103,29 @@ public class Pionek extends Pane {
 	}
 	
 	public void przesunPoMoscie(double finalX, double finalY) {
+		System.out.println(getLayoutX() + "    " + getLayoutY());
+		double moveByX = finalX - getLayoutX() - (stageX - getWidth() / 2);
+		double moveByY = finalY - getLayoutY() - (stageY - getHeight() / 2);
+//		System.out.println("X: " + moveByX + "   Y: " + moveByY);
 		Path path = new Path();
-		path.getElements().add(new MoveTo(getLayoutX() - stageX, getLayoutY() - stageY));
+		path.getElements().add(new MoveTo(getLayoutX() + getWidth() / 2, getLayoutX() + getHeight() / 2));
 		path.getElements().add(new QuadCurveTo(
-				Math.max(getStageX(), finalX - stageX), 
-				Math.max(getStageY(), finalY - stageY), 
-				finalX - stageX, 
-				finalY - stageY));
+				Math.max(stageX, finalX), 
+				Math.max(stageY, finalY), 
+				moveByX, 
+				moveByY));
 		PathTransition pathTransition = new PathTransition();
-		pathTransition.setDuration(Duration.millis(4000));
+		pathTransition.setDuration(Duration.millis(3000));
 		pathTransition.setPath(path);
+		pathTransition.setAutoReverse(false);
+		pathTransition.setInterpolator(Interpolator.LINEAR);
+		pathTransition.setCycleCount(1);
 		pathTransition.setNode(this);
+		pathTransition.setOnFinished(e -> {
+			setCounterPosition(finalX, finalY);
+			System.out.println("ZAKONCZONO ANIMACJE");
+		});
 		pathTransition.play();
-		this.setCounterPosition(finalX, finalY);
 	}
 	
 	
