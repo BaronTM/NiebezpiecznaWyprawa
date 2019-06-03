@@ -31,6 +31,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class MainWindowController {
@@ -129,9 +130,16 @@ public class MainWindowController {
             losujWindowStage.initOwner(primaryStage);
             losujWindowStage.setMinHeight(650);
             losujWindowStage.setMinWidth(500);
+            losujWindowStage.setHeight(650);
+            losujWindowStage.setWidth(500);
+            losujWindowStage.setMaxHeight(650);
+            losujWindowStage.setMaxWidth(500);
             Scene scene = new Scene(pane);
+            losujWindowStage.initStyle(StageStyle.UNDECORATED);
             losujWindowStage.setScene(scene);
-
+            losujWindowStage.setX(primaryStage.getX() + 100);
+            losujWindowStage.setY(primaryStage.getY() + 75);
+            
             LosujWindowController animationWindowController = loader.getController();
             animationWindowController.setAnimationWindowStage(losujWindowStage);
             animationWindowController.setAnimation();

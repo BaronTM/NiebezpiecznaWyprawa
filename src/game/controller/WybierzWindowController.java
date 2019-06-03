@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.QuadCurveTo;
@@ -30,9 +31,14 @@ public class WybierzWindowController {
     @FXML Button falsz;
 
     private int p1 = 1;
-
-
-    private static int[] punkty;
+    private int p2 = 1;
+    List<Pionek> pionkiA;
+    List<Pionek> pionkiB;
+    Gracz graczA = new Gracz(1, "graczA", Color.RED);
+    Gracz graczB = new Gracz(1, "graczA", Color.GREEN);
+    private Plansza plansza;
+    private Pionek pionek1;
+    private Pionek pionek2;
 
     LosujWindowController los = new LosujWindowController();
 
@@ -61,16 +67,49 @@ public class WybierzWindowController {
     @FXML public void przesunPrawda() {
     	wybierzWindowStage.close();
     	//LosujWindowController los = new LosujWindowController();
-
-
+    	if (true == los.getWskazanie()) {
+    		przesunPoMoscie();
+    	}
+    	else {
+    		przesunDoWody();
+    	}
     }
 
     @FXML public void przesunFalsz() {
     	wybierzWindowStage.close();
     	LosujWindowController los = new LosujWindowController();
-    	
+    	if (false == los.getWskazanie())
+    		przesunPoMoscie();
+    	else
+    		przesunDoWody();
     }
 
-    
+    public void przesunPoMoscie() {
+    	pionkiA.get(p1-1);
+    	pionkiB.get(p2-1);
+    	//if (graczA)
+    }
+    public void przesunDoWody() {}
+
+    public void przesuniecie(int ile, Pionek pionek) {
+    	Path animationPath = new Path();
+    	int[][] lewe = Plansza.getLeweWspDesek();
+    	int[][] prawe = Plansza.getPraweWspDesek();
+    	int[][] kamienie = Plansza.getKamienieWsp();
+    	ile = Integer.parseInt(los.getB());
+        MoveTo moveTo = new MoveTo(lewe[p1 - 1][0],lewe[p1 - 1][1]);
+        QuadCurveTo curve = new QuadCurveTo((lewe[p1 - 1][0] + lewe[p1 - 1 + ile][0]) / 2, (lewe[p1 - 1][1] + lewe[p1 - 1 + ile][1]) / 2, lewe[p1 - 1 + ile][0], lewe[p1 - 1 + ile][1]);
+        animationPath.getElements().addAll(moveTo, curve);
+
+        PathTransition transition = new PathTransition();
+        transition.setNode(pionek);
+        transition.setDuration(Duration.seconds(2));
+        transition.setPath(animationPath);
+        transition.setCycleCount(1);
+        transition.setAutoReverse(false);
+        transition.setOrientation(OrientationType.NONE);
+        transition.setInterpolator(Interpolator.LINEAR);
+        animation = transition;
+    }
 
 }
