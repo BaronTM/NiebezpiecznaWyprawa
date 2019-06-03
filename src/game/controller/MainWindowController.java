@@ -163,4 +163,34 @@ public class MainWindowController {
     	return losBut;
     }
     
+    public void przekaz(String foeClaim) {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/WybierzWindowView.fxml"));
+        try {
+            AnchorPane pane = loader.load();
+            Stage wybierzWindowStage = new Stage();
+            wybierzWindowStage.setTitle("Wybor");
+            wybierzWindowStage.initModality(Modality.WINDOW_MODAL);
+            wybierzWindowStage.initOwner(main.getMainStage());//(losujWindowStage);
+            wybierzWindowStage.setMinHeight(650);
+            wybierzWindowStage.setMinWidth(500);
+            wybierzWindowStage.setMaxHeight(650);
+            wybierzWindowStage.setMaxWidth(500);
+            wybierzWindowStage.setHeight(650);
+            wybierzWindowStage.setWidth(500);
+            wybierzWindowStage.setX(primaryStage.getX() + 100);
+            wybierzWindowStage.setY(primaryStage.getY() + 75);
+            Scene scene = new Scene(pane);
+            wybierzWindowStage.initStyle(StageStyle.UNDECORATED);
+            wybierzWindowStage.setScene(scene);
+            WybierzWindowController animationWindowController = loader.getController();
+            animationWindowController.setAnimationWindowStage(wybierzWindowStage);
+            animationWindowController.setChoice(foeClaim);
+            wybierzWindowStage.showAndWait();
+            main.getGra().sendObj(animationWindowController.getAnswer());
+            wybierzWindowStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
 }

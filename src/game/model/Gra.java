@@ -76,6 +76,9 @@ public class Gra implements Serializable {
 			m.invoke(this);
 			while ((obj = ois.readObject()) != null) {
 				String[] commands = (String[]) obj;
+				for (String saa : commands) {
+					System.out.println(saa);
+				}
 				if (commands[0].equalsIgnoreCase("LOSUJ")) {
 					int nr = Integer.parseInt(commands[1]);
 					if (nr == gamerId) {
@@ -85,7 +88,9 @@ public class Gra implements Serializable {
 						showInfo("Przeciwnik rzuca");						
 					}
 				} else if (commands[0].equalsIgnoreCase("FOE")) {
-					przekaz();
+					Platform.runLater(() -> {
+					main.getMainWindowController().przekaz(commands[1]);
+					});
 				}
 			}
 		} catch (Exception e) {
@@ -167,26 +172,6 @@ public class Gra implements Serializable {
 //        pionek.setVisible(false);
 //    }
 
-    public void przekaz() {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("game/view/WybierzWindowView.fxml"));
-        try {
-            AnchorPane pane = loader.load();
-            Stage wybierzWindowStage = new Stage();
-            wybierzWindowStage.setTitle("Wybor");
-            wybierzWindowStage.initModality(Modality.WINDOW_MODAL);
-            wybierzWindowStage.initOwner(main.getMainStage());//(losujWindowStage);
-            wybierzWindowStage.setMinHeight(650);
-            wybierzWindowStage.setMinWidth(500);
-            Scene scene = new Scene(pane);
-            wybierzWindowStage.setScene(scene);
 
-            WybierzWindowController animationWindowController = loader.getController();
-            animationWindowController.setAnimationWindowStage(wybierzWindowStage);
-            animationWindowController.setChoice();
-            wybierzWindowStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 	
 }

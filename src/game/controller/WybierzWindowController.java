@@ -39,6 +39,7 @@ public class WybierzWindowController {
     private Plansza plansza;
     private Pionek pionek1;
     private Pionek pionek2;
+    private String[] answer;
 
     LosujWindowController los = new LosujWindowController();
 
@@ -48,7 +49,7 @@ public class WybierzWindowController {
         this.wybierzWindowStage = wybierzWindowStage;
     }
 
-    @FXML public void setChoice() {
+    @FXML public void setChoice(String foeClaim) {
     	//LosujWindowController los = new LosujWindowController();
             RotateTransition transition = new RotateTransition();
             transition.setNode(kostka);
@@ -57,59 +58,34 @@ public class WybierzWindowController {
                 transition.setFromAngle((i - 1) * 1080 * (31 - i));
             	transition.setToAngle(i * 1080 * (31 - i));
             }
-            wybor.setText(los.getB());
+            wybor.setText(foeClaim);
             transition.setCycleCount(1);
             transition.setAutoReverse(false);
             animation = transition;
             animation.play();
     }
-
-    @FXML public void przesunPrawda() {
+    
+    @FXML
+    public void setTrue() {
+    	answer = new String[] {"Answer", "true"};
+    	closeWindow();
+    }
+    
+    @FXML
+    public void setFalse() {
+    	answer = new String[] {"Answer", "false"};  
+    	closeWindow();
+    }
+    
+    public String[] getAnswer() {
+    	return answer;
+    }
+    
+    public TextField getWybor() {
+    	return wybor;
+    }
+    
+    public void closeWindow() {
     	wybierzWindowStage.close();
-    	//LosujWindowController los = new LosujWindowController();
-    	if (true == los.getWskazanie()) {
-    		przesunPoMoscie();
-    	}
-    	else {
-    		przesunDoWody();
-    	}
     }
-
-    @FXML public void przesunFalsz() {
-    	wybierzWindowStage.close();
-    	LosujWindowController los = new LosujWindowController();
-    	if (false == los.getWskazanie())
-    		przesunPoMoscie();
-    	else
-    		przesunDoWody();
-    }
-
-    public void przesunPoMoscie() {
-    	pionkiA.get(p1-1);
-    	pionkiB.get(p2-1);
-    	//if (graczA)
-    }
-    public void przesunDoWody() {}
-
-    public void przesuniecie(int ile, Pionek pionek) {
-    	Path animationPath = new Path();
-    	int[][] lewe = Plansza.getLeweWspDesek();
-    	int[][] prawe = Plansza.getPraweWspDesek();
-    	int[][] kamienie = Plansza.getKamienieWsp();
-    	ile = Integer.parseInt(los.getB());
-        MoveTo moveTo = new MoveTo(lewe[p1 - 1][0],lewe[p1 - 1][1]);
-        QuadCurveTo curve = new QuadCurveTo((lewe[p1 - 1][0] + lewe[p1 - 1 + ile][0]) / 2, (lewe[p1 - 1][1] + lewe[p1 - 1 + ile][1]) / 2, lewe[p1 - 1 + ile][0], lewe[p1 - 1 + ile][1]);
-        animationPath.getElements().addAll(moveTo, curve);
-
-        PathTransition transition = new PathTransition();
-        transition.setNode(pionek);
-        transition.setDuration(Duration.seconds(2));
-        transition.setPath(animationPath);
-        transition.setCycleCount(1);
-        transition.setAutoReverse(false);
-        transition.setOrientation(OrientationType.NONE);
-        transition.setInterpolator(Interpolator.LINEAR);
-        animation = transition;
-    }
-
 }

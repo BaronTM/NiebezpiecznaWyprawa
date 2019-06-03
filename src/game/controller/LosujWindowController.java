@@ -90,6 +90,7 @@ public class LosujWindowController {
     @FXML public String wybranoTrzeci() {
     	b = 3;
     	b1 = b + "";
+    	closeWindow();
     	return b1;
     }
     @FXML public String wybranoCzwarty() {

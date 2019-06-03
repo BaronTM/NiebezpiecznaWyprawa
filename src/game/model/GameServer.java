@@ -98,8 +98,17 @@ public class GameServer implements Runnable {
 				String[] res = (String[]) actOisg.readObject();
 				System.out.println(res[0] + "    " + res[1] + "    " + res[2] + "    ");
 				foeOosg.writeObject(new String[] {"FOE", res[2]});
-				boolean tf = foeOisg.readBoolean();
-				System.out.println(tf);
+				String[] tf = (String[]) foeOisg.readObject();
+				if (tf[1].equalsIgnoreCase("true")) {
+					System.out.println("ruch po moscie");
+				} else {
+					if (res[1].equalsIgnoreCase(res[2])) {
+						System.out.println("Przeciwnik nie zgadl i spada do wody a gracz sie rusza");
+					} else {
+						System.out.println("Przeciwnik zgadl a gracz wpada do wody");
+					}
+				}
+				currentPlayer = currentPlayer == 1 ? 2 : 1;
 			}
 		
 		} catch (Exception e) {
