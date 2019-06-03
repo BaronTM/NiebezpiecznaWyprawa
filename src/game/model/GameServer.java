@@ -73,22 +73,15 @@ public class GameServer implements Runnable {
 
 	private void letsPlay() {
 
-		int x = 0;
-		int y = 0;
 		try {
+			TimeUnit.SECONDS.sleep(7);
+			String[] commands = new String[] {"LOSUJ", "1"}; 
+			oosg1.writeObject(commands);
+			oosg2.writeObject(commands);
+
 			while (true) {
-				TimeUnit.SECONDS.sleep(5);
-				x += 100;
-				y += 100;
 
-				Object[] command = new Object[4];
-				command[0] = "1";
-				command[1] = "1";
-				command[2] = x;
-				command[3] = y;
 
-				oosg1.writeObject(command);
-				oosg2.writeObject(command);
 			}
 		
 		} catch (Exception e) {

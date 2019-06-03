@@ -116,7 +116,7 @@ public class StartGameController {
         waitingAnchor.setVisible(true);
         Main.getExecutor().submit(new GameServer());
         try {
-			Main.setGra(new Gra());
+			Main.setGra(new Gra(1, main));
 		} catch (RemoteException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -134,7 +134,7 @@ public class StartGameController {
         joinAnchor.setVisible(true);
         System.out.println("Dolacz");
         try {
-			Main.setGra(new Gra());
+			Main.setGra(new Gra(2, main));
 		} catch (RemoteException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

@@ -55,13 +55,13 @@ public class Pionek extends Pane {
 		triangle = new Polygon();
         triangle.getPoints().addAll(new Double[]{
             20.0 * scale, 10.0 * scale,
-            00.0 * scale, 75.0 * scale,
-            40.0 * scale, 75.0 * scale });
+            00.0 * scale, 76.0 * scale,
+            40.0 * scale, 76.0 * scale });
         triangle.setFill(color);
         
         rectangle = new Rectangle();
         rectangle.setWidth(40 * scale);
-        rectangle.setHeight(10 * scale);
+        rectangle.setHeight(11 * scale);
         rectangle.setFill(color);
         rectangle.setLayoutX(0 * scale);
         rectangle.setLayoutY(75 * scale);
@@ -79,7 +79,6 @@ public class Pionek extends Pane {
         
         stageX =(int) (20 * scale);
         stageY =(int) (80 * scale);
-        
         
         circle.getStyleClass().add("counter_circle");
         Group group = new Group();
@@ -109,16 +108,15 @@ public class Pionek extends Pane {
 	}
 	
 	public void przesunPoMoscie(double finalX, double finalY) {
-		System.out.println("xx: " + xx + "    yy: " + yy);
 		Path path = new Path();
-		path.getElements().add(new MoveTo(xx, yy));
+		path.getElements().add(new MoveTo(xx, yy - 35));
 		path.getElements().add(new QuadCurveTo(
-				Math.max(stageX, finalX), 
-				Math.min(stageY, finalY), 
+				Math.max(xx, finalX), 
+				Math.min(yy, finalY), 
 				finalX, 
-				finalY));
+				finalY - 35));
 		PathTransition pathTransition = new PathTransition();
-		pathTransition.setDuration(Duration.millis(3000));
+		pathTransition.setDuration(Duration.millis(1000));
 		pathTransition.setPath(path);
 		pathTransition.setAutoReverse(false);
 		pathTransition.setInterpolator(Interpolator.LINEAR);

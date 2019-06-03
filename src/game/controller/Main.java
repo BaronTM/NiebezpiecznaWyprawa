@@ -29,6 +29,7 @@ public class Main extends Application {
 	private static Gra gra;
 	private static ExecutorService executor;
 	private static ServerSocket serverSocket;
+	private static MainWindowController mwc;
 	
     @Override
     public void start(Stage primaryStage) {
@@ -102,6 +103,13 @@ public class Main extends Application {
 	public static void setInfoTxtSeq(SequentialTransition infoTxtSeq) {
 		Main.infoTxtSeq = infoTxtSeq;
 	}
+	public static MainWindowController getMainWindowController() {
+		return mwc;
+	}
+
+	public static void setMainWindowController(MainWindowController mainWindowController) {
+		mwc = mainWindowController;
+	}
 
 	public static void cancelExecutor() {
 		if (serverSocket != null) {
@@ -124,6 +132,7 @@ public class Main extends Application {
 			pane = loader.load();
 	        Scene scene = new Scene(pane);
 	        MainWindowController mainWindowController = loader.getController();
+	        mwc = mainWindowController;
 	        mainWindowController.setMain(main);
 	        mainWindowController.setPrimaryStage(mainStage);
 	        scene.getStylesheets().add(ViewTest.class.getResource("/game/view/styl.css").toExternalForm());

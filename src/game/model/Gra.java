@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import game.controller.Main;
+import game.controller.MainWindowController;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
@@ -34,9 +35,13 @@ public class Gra implements Serializable {
 	private transient ObjectInputStream ois;
 	private Gracz g1;
 	private Gracz g2;
+	private Main main;
+	private int gamerId;
 
-	public Gra() throws RemoteException {
+	public Gra(int nr, Main m) throws RemoteException {
 		super();
+		gamerId = nr;
+		main = m;
 	}
 
 	public Socket getSock() {
@@ -63,28 +68,18 @@ public class Gra implements Serializable {
 			Method m = Gra.class.getDeclaredMethod(s);
 			m.invoke(this);
 			while ((obj = ois.readObject()) != null) {
-				Object[] command = (Object[]) obj;
-				if (command[0].equals("1")) {
-					Gracz g = command[1].equals("1") ? g1 : g2;
-					int x = (int) command[2];
-					int y = (int) command[3];
-					g.getAktualnyPionek().przesunPoMoscie(x, y);					
+				String[] commands = (String[]) obj;
+				if (commands[0].equalsIgnoreCase("LOSUJ")) {
+					int nr = Integer.parseInt(commands[1]);
+					if (nr == gamerId) {
+						showInfo("Rzuc kostka");
+						main.getMainWindowController().getLosBut().setVisible(true);
+					} else {
+						showInfo("Przeciwnik rzuca");						
+					}
 				}
 			}
-//				if (obj instanceof String[]) {
-//					String[] s = (String[]) obj;
-//					Method m = Gra.class.getDeclaredMethod("showInfo");
-//					m.invoke(this, s[1]);
-////					showInfo(s[1]);
-//				} else if (obj instanceof Gra) {
-//					String s = (String) obj;
-//					Method m = Gra.class.getDeclaredMethod(s);
-//					m.invoke(this);
-//				}
-
-		} catch (
-
-		Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
@@ -102,7 +97,7 @@ public class Gra implements Serializable {
 		Pane pane = (Pane) Main.getMainStage().getScene().getRoot();
 		Platform.runLater(() -> {
 			int x = 45;
-			int y = 730;
+			int y = 765;
 			for (Pionek p : g1.getPionki()) {
 				p.przesunPoMoscie(x, y);
 				pane.getChildren().add(p);
@@ -159,7 +154,5 @@ public class Gra implements Serializable {
 //
 //        pionek.setVisible(false);
 //    }
-
-	
 
 }

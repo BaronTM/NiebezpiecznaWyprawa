@@ -10,8 +10,10 @@ import game.model.DaemonThreadFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class WindowTest extends Application{
 	
@@ -24,8 +26,13 @@ public class WindowTest extends Application{
         try {
         	FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/MainWindowView.fxml"));               
         	AnchorPane pane;
-        	main = this;
+        	primaryStage.initStyle(StageStyle.UNDECORATED);
             pane = loader.load();
+            pane.addEventHandler(MouseEvent.MOUSE_CLICKED, l -> {
+            	int x = (int) l.getSceneX();
+            	int y = (int) l.getSceneY();
+            	System.out.println( "x: " + x + "    y: " + y);
+            });
             primaryStage.setMinHeight(500);
             primaryStage.setMinWidth(500);
             primaryStage.setResizable(false);
