@@ -1,5 +1,6 @@
 package game.model;
 
+import java.sql.Time;
 import java.util.concurrent.TimeUnit;
 
 import javafx.animation.Animation;
@@ -33,6 +34,9 @@ public class Pionek extends Pane {
 	private CubicCurve curve;
 	private int stageX;
 	private int stageY;
+	private double xx;
+	private double yy;
+	
 	
 	
 	
@@ -100,20 +104,19 @@ public class Pionek extends Pane {
 	public void setCounterPosition(double finalX, double finalY) {
 		setLayoutX(finalX - stageX);
 		setLayoutY(finalY - stageY);
+		xx = finalX;
+		yy = finalY;
 	}
 	
 	public void przesunPoMoscie(double finalX, double finalY) {
-		System.out.println(getLayoutX() + "    " + getLayoutY());
-		double moveByX = finalX - getLayoutX() - (stageX - getWidth() / 2);
-		double moveByY = finalY - getLayoutY() - (stageY - getHeight() / 2);
-//		System.out.println("X: " + moveByX + "   Y: " + moveByY);
+		System.out.println("xx: " + xx + "    yy: " + yy);
 		Path path = new Path();
-		path.getElements().add(new MoveTo(getLayoutX() + getWidth() / 2, getLayoutX() + getHeight() / 2));
+		path.getElements().add(new MoveTo(xx, yy));
 		path.getElements().add(new QuadCurveTo(
 				Math.max(stageX, finalX), 
-				Math.max(stageY, finalY), 
-				moveByX, 
-				moveByY));
+				Math.min(stageY, finalY), 
+				finalX, 
+				finalY));
 		PathTransition pathTransition = new PathTransition();
 		pathTransition.setDuration(Duration.millis(3000));
 		pathTransition.setPath(path);
@@ -121,13 +124,9 @@ public class Pionek extends Pane {
 		pathTransition.setInterpolator(Interpolator.LINEAR);
 		pathTransition.setCycleCount(1);
 		pathTransition.setNode(this);
-		pathTransition.setOnFinished(e -> {
-			setCounterPosition(finalX, finalY);
-			System.out.println("ZAKONCZONO ANIMACJE");
-		});
 		pathTransition.play();
+		xx = finalX;
+		yy = finalY;
 	}
-	
-	
 	
 }

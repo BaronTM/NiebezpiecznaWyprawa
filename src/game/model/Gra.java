@@ -102,15 +102,15 @@ public class Gra implements Serializable {
 		Pane pane = (Pane) Main.getMainStage().getScene().getRoot();
 		Platform.runLater(() -> {
 			int x = 45;
-			int y = 765;
+			int y = 730;
 			for (Pionek p : g1.getPionki()) {
-				p.setCounterPosition(x, y);
+				p.przesunPoMoscie(x, y);
 				pane.getChildren().add(p);
 				x += 80;
 			}
 			x = 415;
 			for (Pionek p : g2.getPionki()) {
-				p.setCounterPosition(x, y);
+				p.przesunPoMoscie(x, y);
 				pane.getChildren().add(p);
 				x += 80;
 			}
