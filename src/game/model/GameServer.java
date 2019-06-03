@@ -23,11 +23,10 @@ public class GameServer implements Runnable {
 	private ObjectOutputStream oosg2;
 	private ObjectInputStream oisg1;
 	private ObjectInputStream oisg2;
-	private ObjectOutputStream actOosg;
-	private ObjectOutputStream foeOosg;
-	private ObjectInputStream actOisg;
-	private ObjectInputStream foeOisg;
-	private int currentPlayer;
+	private ImaginaryPlayer player1;
+	private ImaginaryPlayer player2;
+	private ImaginaryPlayer currentPlayer;
+	private ImaginaryPlayer foePlayer;
 
 	@Override
 	public void run() {
@@ -77,28 +76,22 @@ public class GameServer implements Runnable {
 	}
 
 	private void letsPlay() {
-		currentPlayer = 1;
+		player1 = new ImaginaryPlayer(1, oisg1, oosg1);
+		player2 = new ImaginaryPlayer(2, oisg2, oosg2);
+		currentPlayer = player1;
+		foePlayer = player2;
+		
 		try {
 			TimeUnit.SECONDS.sleep(7);
 			while (true) {
-				String[] commands = new String[] {"LOSUJ", "" + currentPlayer}; 
-				oosg1.writeObject(commands);
-				oosg2.writeObject(commands);
-				if (currentPlayer == 1) {
-					actOisg = oisg1;
-					actOosg = oosg1;
-					foeOisg = oisg2;
-					foeOosg = oosg2;
-				} else {
-					actOisg = oisg2;
-					actOosg = oosg2;
-					foeOisg = oisg1;
-					foeOosg = oosg1;					
-				}
-				String[] res = (String[]) actOisg.readObject();
+				String[] commands = new String[] {"LOSUJ", "" + currentPlayer.getId()}; 
+				player1.getObjectOutputStream().writeObject(commands);
+				player2.getObjectOutputStream().writeObject(commands);
+				
+				String[] res = (String[]) currentPlayer.getObjectInputStream().readObject();
 				System.out.println(res[0] + "    " + res[1] + "    " + res[2] + "    ");
-				foeOosg.writeObject(new String[] {"FOE", res[2]});
-				String[] tf = (String[]) foeOisg.readObject();
+				foePlayer.getObjectOutputStream().writeObject(new String[] {"FOE", res[2]});
+				String[] tf = (String[]) foePlayer.getObjectInputStream().readObject();
 				if (tf[1].equalsIgnoreCase("true")) {
 					System.out.println("ruch po moscie");
 				} else {
@@ -108,7 +101,13 @@ public class GameServer implements Runnable {
 						System.out.println("Przeciwnik zgadl a gracz wpada do wody");
 					}
 				}
-				currentPlayer = currentPlayer == 1 ? 2 : 1;
+				if (currentPlayer == player1) {
+					currentPlayer = player2;
+					foePlayer = player1;
+				} else {
+					currentPlayer = player1;
+					foePlayer = player2;					
+				}
 			}
 		
 		} catch (Exception e) {
