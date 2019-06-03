@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
@@ -13,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="650.0" maxWidth="500.0" minHeight="650.0" minWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.controller.LosujWindowController">
+<AnchorPane maxHeight="650.0" maxWidth="500.0" minHeight="650.0" minWidth="500.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="game.controller.LosujWindowController">
    <children>
       <Rectangle fx:id="kostka" arcHeight="150.0" arcWidth="150.0" height="250.0" layoutX="150.0" layoutY="125.0" stroke="BLACK" strokeType="INSIDE" width="250.0" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="125.0">
          <fill>

@@ -23,6 +23,11 @@ public class GameServer implements Runnable {
 	private ObjectOutputStream oosg2;
 	private ObjectInputStream oisg1;
 	private ObjectInputStream oisg2;
+	private ObjectOutputStream actOosg;
+	private ObjectOutputStream foeOosg;
+	private ObjectInputStream actOisg;
+	private ObjectInputStream foeOisg;
+	private int currentPlayer;
 
 	@Override
 	public void run() {
@@ -72,16 +77,29 @@ public class GameServer implements Runnable {
 	}
 
 	private void letsPlay() {
-
+		currentPlayer = 1;
 		try {
 			TimeUnit.SECONDS.sleep(7);
-			String[] commands = new String[] {"LOSUJ", "1"}; 
-			oosg1.writeObject(commands);
-			oosg2.writeObject(commands);
-
 			while (true) {
-
-
+				String[] commands = new String[] {"LOSUJ", "" + currentPlayer}; 
+				oosg1.writeObject(commands);
+				oosg2.writeObject(commands);
+				if (currentPlayer == 1) {
+					actOisg = oisg1;
+					actOosg = oosg1;
+					foeOisg = oisg2;
+					foeOosg = oosg2;
+				} else {
+					actOisg = oisg2;
+					actOosg = oosg2;
+					foeOisg = oisg1;
+					foeOosg = oosg1;					
+				}
+				String[] res = (String[]) actOisg.readObject();
+				System.out.println(res[0] + "    " + res[1] + "    " + res[2] + "    ");
+				foeOosg.writeObject(new String[] {"FOE", res[2]});
+				boolean tf = foeOisg.readBoolean();
+				System.out.println(tf);
 			}
 		
 		} catch (Exception e) {

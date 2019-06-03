@@ -78,30 +78,29 @@ public class LosujWindowController {
     @FXML public String wybranoPierwszy() {
     	b = 1;
     	b1 = b + "";
-    	ustawWskazanie(b);
-    	przekaz();
+    	closeWindow();
     	return b1;
     }
     @FXML public String wybranoDrugi() {
     	b = 2;
     	b1 = b + "";
-    	ustawWskazanie(b);
-    	przekaz();
+    	closeWindow();
     	return b1;
     }
     @FXML public String wybranoTrzeci() {
     	b = 3;
     	b1 = b + "";
-    	ustawWskazanie(b);
-    	przekaz();
     	return b1;
     }
     @FXML public String wybranoCzwarty() {
     	b = 4;
     	b1 = b + "";
-    	ustawWskazanie(b);
-    	przekaz();
+    	closeWindow();
     	return b1;
+    }
+    
+    public String[] getResult() {
+    	return new String[] {"RESULT", a1, b1};
     }
 
     public String getB() {
@@ -114,36 +113,5 @@ public class LosujWindowController {
 
     public boolean getWskazanie() {
     	return wskazanie;
-    }
-
-    public boolean ustawWskazanie(int b) {
-    	if (b1.charAt(0) == a1.charAt(0))
-    		wskazanie = true;
-    	else
-    		wskazanie = false;
-    	return wskazanie;
-    }
-
-    public void przekaz() {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/view/WybierzWindowView.fxml"));
-        try {
-        	losujWindowStage.close();
-            AnchorPane pane = loader.load();
-            Stage wybierzWindowStage = new Stage();
-            wybierzWindowStage.setTitle("Wybor");
-            wybierzWindowStage.initModality(Modality.WINDOW_MODAL);
-            wybierzWindowStage.initOwner(primaryStage);//(losujWindowStage);
-            wybierzWindowStage.setMinHeight(650);
-            wybierzWindowStage.setMinWidth(500);
-            Scene scene = new Scene(pane);
-            wybierzWindowStage.setScene(scene);
-
-            WybierzWindowController animationWindowController = loader.getController();
-            animationWindowController.setAnimationWindowStage(wybierzWindowStage);
-            animationWindowController.setChoice();
-            wybierzWindowStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

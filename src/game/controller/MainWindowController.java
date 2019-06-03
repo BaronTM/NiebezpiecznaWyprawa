@@ -9,6 +9,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Optional;
 
+import org.w3c.dom.ls.LSOutput;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
@@ -97,29 +99,7 @@ public class MainWindowController {
         losuj();
     }
 
-    public void losuj() {
-    	    	
-//    	try {
-//    		Registry registry = LocateRegistry.getRegistry("172.28.112.208");
-//			RemoteGame remoteGame = (RemoteGame) registry.lookup("Gra"); 
-//			remoteGame.updateData();
-//		} catch (RemoteException | NotBoundException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-    	
-//    	Environment env = new Environment();
-//        //String host = args[0];
-//        Session session;
-//		try {
-//			session = env.newSessionConnector("localhost", 5058).connect();
-//			RemoteGame remoteGame = (RemoteGame) session.receive();
-//	        remoteGame.updateData();
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-        
+    public void losuj() {     
         
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/LosujWindowView.fxml"));
         try {
@@ -144,6 +124,9 @@ public class MainWindowController {
             animationWindowController.setAnimationWindowStage(losujWindowStage);
             animationWindowController.setAnimation();
             losujWindowStage.showAndWait();
+            losBut.setVisible(false);
+            main.getGra().sendObj(animationWindowController.getResult());
+            losujWindowStage.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -8,20 +8,27 @@ import java.lang.reflect.Method;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.concurrent.Future;
 
 import game.controller.Main;
 import game.controller.MainWindowController;
+import game.controller.WybierzWindowController;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.QuadCurveTo;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Gra implements Serializable {
@@ -77,6 +84,8 @@ public class Gra implements Serializable {
 					} else {
 						showInfo("Przeciwnik rzuca");						
 					}
+				} else if (commands[0].equalsIgnoreCase("FOE")) {
+					przekaz();
 				}
 			}
 		} catch (Exception e) {
@@ -88,6 +97,15 @@ public class Gra implements Serializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public void sendObj(Object o) {
+		try {
+			oos.writeObject(o);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -111,13 +129,7 @@ public class Gra implements Serializable {
 			}
 		});
 		showInfo("ZACZYNAMY");
-		try {
-			oos.writeObject("connected");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		sendObj("connected");
 	}
 
 	public void showInfo(String s) {
@@ -155,4 +167,26 @@ public class Gra implements Serializable {
 //        pionek.setVisible(false);
 //    }
 
+    public void przekaz() {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("game/view/WybierzWindowView.fxml"));
+        try {
+            AnchorPane pane = loader.load();
+            Stage wybierzWindowStage = new Stage();
+            wybierzWindowStage.setTitle("Wybor");
+            wybierzWindowStage.initModality(Modality.WINDOW_MODAL);
+            wybierzWindowStage.initOwner(main.getMainStage());//(losujWindowStage);
+            wybierzWindowStage.setMinHeight(650);
+            wybierzWindowStage.setMinWidth(500);
+            Scene scene = new Scene(pane);
+            wybierzWindowStage.setScene(scene);
+
+            WybierzWindowController animationWindowController = loader.getController();
+            animationWindowController.setAnimationWindowStage(wybierzWindowStage);
+            animationWindowController.setChoice();
+            wybierzWindowStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	
 }
