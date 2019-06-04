@@ -83,6 +83,14 @@ public class GameServer implements Runnable {
 		
 		try {
 			TimeUnit.SECONDS.sleep(7);
+			player1.setCurrentCounterPosition(Plansza.getLeweWspDesek()[0]);
+			player2.setCurrentCounterPosition(Plansza.getPraweWspDesek()[0]);
+			
+			currentPlayer.getObjectOutputStream().writeObject(player1.moveCounter());
+			foePlayer.getObjectOutputStream().writeObject(player1.moveCounter());
+			currentPlayer.getObjectOutputStream().writeObject(player2.moveCounter());
+			foePlayer.getObjectOutputStream().writeObject(player2.moveCounter());
+			
 			while (true) {
 				String[] commands = new String[] {"LOSUJ", "" + currentPlayer.getId()}; 
 				player1.getObjectOutputStream().writeObject(commands);
@@ -104,6 +112,12 @@ public class GameServer implements Runnable {
 						foePlayer.getObjectOutputStream().writeObject(water);
 					} else {
 						System.out.println("Przeciwnik zgadl a gracz wpada do wody");
+						currentPlayer.getObjectOutputStream().writeObject(new String[] {"PRZECIWNIK SPRAWDZIL I ZGADL"});
+						foePlayer.getObjectOutputStream().writeObject(new String [] {"ZGADLES"});
+						String[] water = currentPlayer.counterToWater();						
+						currentPlayer.getObjectOutputStream().writeObject(water);
+						foePlayer.getObjectOutputStream().writeObject(water);
+						int move = Integer.parseInt(res[2]);
 					}
 				}
 				if (currentPlayer == player1) {

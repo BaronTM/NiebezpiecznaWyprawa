@@ -10,6 +10,7 @@ public class ImaginaryPlayer {
 	private int score;
 	private int idOfCurrentCounter;
 	private int[] currentCounterPosition;
+	private int currentCounterPositionStep;
 	private ObjectOutputStream objectOutputStream;
 	private ObjectInputStream objectInputStream;
 	private int sunkenCounters;
@@ -21,9 +22,10 @@ public class ImaginaryPlayer {
 		objectOutputStream = oos;
 		remainCounters = 4;
 		score = 0;
-		idOfCurrentCounter = 1;
+		idOfCurrentCounter = 0;
 		sunkenCounters = 0;
 		salvageCounters = 0;
+		currentCounterPositionStep = 0;
 	}
 
 	public int getId() {
@@ -96,16 +98,34 @@ public class ImaginaryPlayer {
 
 	public void setSalvageCounters(int salvageCounters) {
 		this.salvageCounters = salvageCounters;
-	}
+	}	
 	
+	public int getCurrentCounterPositionStep() {
+		return currentCounterPositionStep;
+	}
+
+	public void setCurrentCounterPositionStep(int currentCounterPositionStep) {
+		this.currentCounterPositionStep = currentCounterPositionStep;
+	}
+
 	public String[] counterToWater() {
 		String[] s = new String[] {
 				"WATER",
 				"" + id,
 				"" + idOfCurrentCounter				
 		};
-		idOfCurrentCounter--;
+		idOfCurrentCounter++;
 		return s;
+	}
+	
+	public String[] moveCounter() {
+		String[] move = new String[] {
+				"MOVE", 
+				"" + id, 
+				"" + idOfCurrentCounter, 
+				"" + currentCounterPosition[0],
+				"" + currentCounterPosition[1]};
+		return move;
 	}
 
 }
