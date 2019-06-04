@@ -11,6 +11,7 @@ public class ImaginaryPlayer {
 	private int idOfCurrentCounter;
 	private int[] currentCounterPosition;
 	private int currentCounterPositionStep;
+	private int[][] bridgeCoordinates;
 	private ObjectOutputStream objectOutputStream;
 	private ObjectInputStream objectInputStream;
 	private int sunkenCounters;
@@ -26,6 +27,8 @@ public class ImaginaryPlayer {
 		sunkenCounters = 0;
 		salvageCounters = 0;
 		currentCounterPositionStep = 0;
+		bridgeCoordinates = id == 1 ? Plansza.getLeweWspDesek() : Plansza.getPraweWspDesek();
+		currentCounterPosition = bridgeCoordinates[0];
 	}
 
 	public int getId() {
@@ -115,6 +118,8 @@ public class ImaginaryPlayer {
 				"" + idOfCurrentCounter				
 		};
 		idOfCurrentCounter++;
+		currentCounterPositionStep = 0;
+		currentCounterPosition = bridgeCoordinates[0];
 		return s;
 	}
 	
@@ -126,6 +131,13 @@ public class ImaginaryPlayer {
 				"" + currentCounterPosition[0],
 				"" + currentCounterPosition[1]};
 		return move;
+	}
+	
+	public void addToMove(int step) {
+		currentCounterPositionStep += step;
+		if (currentCounterPositionStep <= 8) {
+			currentCounterPosition = bridgeCoordinates[currentCounterPositionStep];
+		}
 	}
 
 }

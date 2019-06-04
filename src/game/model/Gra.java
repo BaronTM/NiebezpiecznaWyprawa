@@ -95,7 +95,10 @@ public class Gra implements Serializable {
 					int gamerNr = Integer.parseInt(commands[1]);
 					int counterNr = Integer.parseInt(commands[2]);
 					Gracz g = gamerNr == 1 ? g1 : g2;
-					g.getPionki().get(counterNr).wrzucDoWody(300, 400);
+					if (gamerNr == 1)
+						g.getPionki().get(counterNr).wrzucDoWody(300, 400);
+					else 
+						g.getPionki().get(counterNr).wrzucDoWody(650, 400);
 				} else if (commands[0].equalsIgnoreCase("MOVE")) {
 					int gamerNr = Integer.parseInt(commands[1]);
 					int counterNr = Integer.parseInt(commands[2]);

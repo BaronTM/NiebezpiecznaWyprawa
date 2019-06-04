@@ -83,8 +83,6 @@ public class GameServer implements Runnable {
 		
 		try {
 			TimeUnit.SECONDS.sleep(7);
-			player1.setCurrentCounterPosition(Plansza.getLeweWspDesek()[0]);
-			player2.setCurrentCounterPosition(Plansza.getPraweWspDesek()[0]);
 			
 			currentPlayer.getObjectOutputStream().writeObject(player1.moveCounter());
 			foePlayer.getObjectOutputStream().writeObject(player1.moveCounter());
@@ -102,22 +100,38 @@ public class GameServer implements Runnable {
 				String[] tf = (String[]) foePlayer.getObjectInputStream().readObject();
 				if (tf[1].equalsIgnoreCase("true")) {
 					System.out.println("ruch po moscie");
+					currentPlayer.getObjectOutputStream().writeObject(new String[] {"PRZECIWNIK UWIERZYL"});
+					int step = Integer.parseInt(res[2]);
+					currentPlayer.addToMove(step);
+					String[] move = currentPlayer.moveCounter();
+					currentPlayer.getObjectOutputStream().writeObject(move);
+					foePlayer.getObjectOutputStream().writeObject(move);
 				} else {
 					if (res[1].equalsIgnoreCase(res[2])) {
 						System.out.println("Przeciwnik nie zgadl i spada do wody a gracz sie rusza");
-						currentPlayer.getObjectOutputStream().writeObject(new String[] {"PRZECIWNIK SPRAWDZIL I NIE ZGADL"});
+						currentPlayer.getObjectOutputStream().writeObject(new String[] {"PRZECIWNIK SPRAWDZIL\nI NIE ZGADL"});
 						foePlayer.getObjectOutputStream().writeObject(new String [] {"NIE ZGADLES"});
 						String[] water = foePlayer.counterToWater();						
 						currentPlayer.getObjectOutputStream().writeObject(water);
 						foePlayer.getObjectOutputStream().writeObject(water);
+						int step = Integer.parseInt(res[2]);
+						currentPlayer.addToMove(step);
+						String[] move = currentPlayer.moveCounter();
+						currentPlayer.getObjectOutputStream().writeObject(move);
+						foePlayer.getObjectOutputStream().writeObject(move);
+						String[] moveNewCounter = foePlayer.moveCounter();
+						currentPlayer.getObjectOutputStream().writeObject(moveNewCounter);
+						foePlayer.getObjectOutputStream().writeObject(moveNewCounter);
 					} else {
 						System.out.println("Przeciwnik zgadl a gracz wpada do wody");
-						currentPlayer.getObjectOutputStream().writeObject(new String[] {"PRZECIWNIK SPRAWDZIL I ZGADL"});
+						currentPlayer.getObjectOutputStream().writeObject(new String[] {"PRZECIWNIK SPRAWDZIL\nI ZGADL"});
 						foePlayer.getObjectOutputStream().writeObject(new String [] {"ZGADLES"});
 						String[] water = currentPlayer.counterToWater();						
 						currentPlayer.getObjectOutputStream().writeObject(water);
 						foePlayer.getObjectOutputStream().writeObject(water);
-						int move = Integer.parseInt(res[2]);
+						String[] move = currentPlayer.moveCounter();
+						currentPlayer.getObjectOutputStream().writeObject(move);
+						foePlayer.getObjectOutputStream().writeObject(move);
 					}
 				}
 				if (currentPlayer == player1) {
