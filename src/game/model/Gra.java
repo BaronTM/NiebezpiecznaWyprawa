@@ -178,7 +178,7 @@ public class Gra implements Serializable {
 	public void showScore(String s) {
 		Platform.setImplicitExit(false);
 		Platform.runLater(() -> {
-			Label t = Main.getInfoTxt();
+			Label t = Main.getScoreInfoTxt();
 			t.setText(s.toUpperCase());
 			t.setVisible(true);
 			Main.getScoreTxtSeq().play();

@@ -24,6 +24,7 @@ public class Main extends Application {
 	private static Stage mainStage;
 	private static Main main;
     private static Label infoTxt;
+    private static Label scoreInfoTxt;
     private static SequentialTransition infoTxtSeq;
     private static SequentialTransition scoreTxtSeqOn;
 	
@@ -115,6 +116,14 @@ public class Main extends Application {
 
 	public static MainWindowController getMainWindowController() {
 		return mwc;
+	}	
+
+	public static Label getScoreInfoTxt() {
+		return scoreInfoTxt;
+	}
+
+	public static void setScoreInfoTxt(Label scoreInfoTxt) {
+		Main.scoreInfoTxt = scoreInfoTxt;
 	}
 
 	public static void setMainWindowController(MainWindowController mainWindowController) {

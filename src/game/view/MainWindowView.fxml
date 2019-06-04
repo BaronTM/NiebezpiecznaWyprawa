@@ -186,6 +186,11 @@
             <Font size="36.0" />
          </font>
       </Label>
+      <Label fx:id="scoreInfoTxt" alignment="CENTER" layoutX="30.0" layoutY="260.0" styleClass="scoreInfoTxt" text="ZACZYNAMY" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="250.0">
+         <font>
+            <Font size="64.0" />
+         </font>
+      </Label>
 
    </children>
 </AnchorPane>

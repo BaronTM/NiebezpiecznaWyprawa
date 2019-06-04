@@ -142,6 +142,7 @@ public class GameServer implements Runnable {
 					}
 				}
 				if (currentPlayer.getCurrentCounterPositionStep() >= 9) {
+					TimeUnit.SECONDS.sleep(2);
 					int moveX = Plansza.getKamienieWsp()[salvages][0];
 					int moveY = Plansza.getKamienieWsp()[salvages][1];
 					salvages++;
@@ -158,8 +159,8 @@ public class GameServer implements Runnable {
 					System.out.println("Koniec rozgrywki");
 					String[] msgC;
 					String[] msgF;
-					int scoreC = currentPlayer.getScore();
-					int scoreF = foePlayer.getScore();
+					int scoreC = currentPlayer.getFinishScore();
+					int scoreF = foePlayer.getFinishScore();
 					if (scoreC > scoreF) {
 						msgC = new String[] { "END", "WYGRALES", "" + scoreC, "" + scoreF };
 						msgF = new String[] { "END", "PRZEGRALES", "" + scoreF, "" + scoreC };

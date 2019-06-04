@@ -61,6 +61,12 @@
     -fx-effect: dropshadow( three-pass-box , #5b0c0c , 30, 0.7 , 0 , 0 );
 }
 
+.scoreInfoTxt {
+	-fx-font-family: "Skratch";
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , #5b0c0c , 30, 0.7 , 0 , 0 );
+}
+
 .ip_text_field {
 	-fx-background-color: transparent;
 	-fx-font-family: "a dripping marker";

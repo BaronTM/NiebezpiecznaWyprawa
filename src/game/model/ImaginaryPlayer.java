@@ -110,6 +110,11 @@ public class ImaginaryPlayer {
 	public void setCurrentCounterPositionStep(int currentCounterPositionStep) {
 		this.currentCounterPositionStep = currentCounterPositionStep;
 	}
+	
+	public int getFinishScore() {
+		int s = score + remainCounters * 5;
+		return s;
+	}
 
 	public String[] counterToWater() {
 		String[] s = new String[] {

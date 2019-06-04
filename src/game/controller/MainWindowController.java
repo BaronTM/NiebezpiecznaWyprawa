@@ -49,6 +49,9 @@ public class MainWindowController {
     private Label infoTxt;
     
     @FXML
+    private Label scoreInfoTxt;
+    
+    @FXML
     private ImageView boardImage;
     
     @FXML
@@ -66,17 +69,22 @@ public class MainWindowController {
     	seq.getChildren().addAll(fade01, pause, fade02);
     	Main.setInfoTxtSeq(seq);
     	
-    	FadeTransition fadeOn = new FadeTransition(Duration.seconds(1), infoTxt);
+    	FadeTransition fadeOn = new FadeTransition(Duration.seconds(1), scoreInfoTxt);
     	fadeOn.setFromValue(0);
     	fadeOn.setToValue(1);
     	SequentialTransition seqOn = new SequentialTransition();
     	seqOn.getChildren().addAll(fadeOn);
     	Main.setScoreTxtSeq(seqOn);
-    	
-    	
+    	    	
     	infoTxt.setStyle("-fx-background-color: transparent;");
     	infoTxt.setVisible(false);
+
+    	scoreInfoTxt.setStyle("-fx-background-color: transparent;");
+    	scoreInfoTxt.setVisible(false);
+    	
     	main.setInfoTxt(infoTxt);
+    	main.setScoreInfoTxt(scoreInfoTxt);
+    	
     	boardImage.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
     		boardImageMousePressed(e);
     	});
