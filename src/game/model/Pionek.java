@@ -5,7 +5,11 @@ import java.util.concurrent.TimeUnit;
 
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.SequentialTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
@@ -123,6 +127,42 @@ public class Pionek extends Pane {
 		pathTransition.setCycleCount(1);
 		pathTransition.setNode(this);
 		pathTransition.play();
+		xx = finalX;
+		yy = finalY;
+	}
+	
+	public void wrzucDoWody(double finalX, double finalY) {
+		Path path = new Path();
+		path.getElements().add(new MoveTo(xx, yy - 35));
+		path.getElements().add(new QuadCurveTo(
+				Math.max(xx, finalX), 
+				Math.min(yy, finalY), 
+				finalX, 
+				finalY - 35));
+		PathTransition pathTransition = new PathTransition();
+		pathTransition.setDuration(Duration.millis(3000));
+		pathTransition.setPath(path);
+		pathTransition.setAutoReverse(false);
+		pathTransition.setInterpolator(Interpolator.LINEAR);
+		pathTransition.setCycleCount(1);
+		
+		
+		RotateTransition rotateTransition = new RotateTransition();
+		rotateTransition.setDuration(Duration.millis(2000));
+		rotateTransition.setByAngle(360);
+		rotateTransition.setCycleCount(4);
+		rotateTransition.setAutoReverse(false);
+		
+		ScaleTransition scaleTransition = new ScaleTransition();
+		scaleTransition.setDuration(Duration.millis(2000));
+		scaleTransition.setToX(0);
+		scaleTransition.setToY(0);
+		scaleTransition.setCycleCount(1);
+		scaleTransition.setAutoReverse(false);
+		
+		ParallelTransition parallelTransition = new ParallelTransition(this, pathTransition, rotateTransition, scaleTransition);
+		parallelTransition.play();
+		
 		xx = finalX;
 		yy = finalY;
 	}

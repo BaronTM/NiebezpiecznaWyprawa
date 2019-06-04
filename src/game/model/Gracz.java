@@ -37,6 +37,15 @@ public class Gracz {
 		return aktualnyPionek;
 	}
 	
+	public Pionek getAktualnyPionekDoWody() throws Exception {
+		liczbaPionkow--;
+		if (liczbaPionkow <0 ) return null;
+		Pionek p = aktualnyPionek;
+		pionki.remove(p);
+		aktualnyPionek = pionki.get(0);
+		return p;
+	}
+	
 	
 	
 	

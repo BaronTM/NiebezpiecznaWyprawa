@@ -96,6 +96,16 @@ public class ImaginaryPlayer {
 
 	public void setSalvageCounters(int salvageCounters) {
 		this.salvageCounters = salvageCounters;
-	}	
+	}
+	
+	public String[] counterToWater() {
+		String[] s = new String[] {
+				"WATER",
+				"" + id,
+				"" + idOfCurrentCounter				
+		};
+		idOfCurrentCounter--;
+		return s;
+	}
 
 }

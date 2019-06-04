@@ -91,9 +91,19 @@ public class Gra implements Serializable {
 					Platform.runLater(() -> {
 					main.getMainWindowController().przekaz(commands[1]);
 					});
+				} else if (commands[0].equalsIgnoreCase("WATER")) {
+					int gamerNr = Integer.parseInt(commands[1]);
+					int counterNr = Integer.parseInt(commands[2]);
+					Gracz g = gamerNr == 1 ? g1 : g2;
+					g.getAktualnyPionekDoWody().wrzucDoWody(300, 400);
+				} else {
+					showInfo(commands[0]);
 				}
 			}
 		} catch (Exception e) {
+			if (e.getMessage().equals("ENDOFCOUNTERS")) {
+				System.out.println("ENDOFCOUNTERS");
+			}
 			e.printStackTrace();
 		} finally {
 			try {
@@ -146,32 +156,5 @@ public class Gra implements Serializable {
 			Main.getInfoTxtSeq().play();
 		});
 	}
-
-//	public void przesunDoWody(Pionek pionek, Gracz gracz) {
-//    	Path animationPath = new Path();
-//    	MoveTo moveTo = new MoveTo();
-//    	QuadCurveTo curve = new QuadCurveTo();
-//    	moveTo = new MoveTo(pionek.getLayoutX(), pionek.getLayoutY());
-//    	if (gracz == g1)
-//    		// wsporzedne do zmiany
-//    		curve = new QuadCurveTo((pionek.getLayoutX() + 60) / 2, (pionek.getLayoutY() + 180) / 2, 60, 180);
-//    	else
-//    		curve = new QuadCurveTo((pionek.getLayoutX() + 180) / 2, (pionek.getLayoutY() + 180) / 2, 180, 180);
-//    	animationPath.getElements().addAll(moveTo, curve);
-//
-//        PathTransition transition = new PathTransition();
-//        transition.setNode(pionek);
-//        transition.setDuration(Duration.seconds(2));
-//        transition.setPath(animationPath);
-//        transition.setCycleCount(1);
-//        transition.setAutoReverse(false);
-//        transition.setOrientation(OrientationType.NONE);
-//        transition.setInterpolator(Interpolator.LINEAR);
-//        animation = transition;
-//
-//        pionek.setVisible(false);
-//    }
-
-
 	
 }

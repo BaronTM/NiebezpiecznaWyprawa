@@ -97,6 +97,11 @@ public class GameServer implements Runnable {
 				} else {
 					if (res[1].equalsIgnoreCase(res[2])) {
 						System.out.println("Przeciwnik nie zgadl i spada do wody a gracz sie rusza");
+						currentPlayer.getObjectOutputStream().writeObject(new String[] {"PRZECIWNIK SPRAWDZIL I NIE ZGADL"});
+						foePlayer.getObjectOutputStream().writeObject(new String [] {"NIE ZGADLES"});
+						String[] water = foePlayer.counterToWater();						
+						currentPlayer.getObjectOutputStream().writeObject(water);
+						foePlayer.getObjectOutputStream().writeObject(water);
 					} else {
 						System.out.println("Przeciwnik zgadl a gracz wpada do wody");
 					}
