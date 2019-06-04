@@ -111,7 +111,7 @@ public class Gra implements Serializable {
 					String s1 = commands[1];
 					String s2 = commands[2];
 					String s3 = commands[3];				
-					String result = String.format("%s\n%s\n%-13s %s\n%-13s %s","KONIEC", s1, "WYNIK:", s2, "PRZECIWNIK" ,s3);
+					String result = String.format("%s\n%s\n%-15s %s\n%-13s %s","KONIEC", s1, "WYNIK", s2, "PRZECIWNIK" ,s3);
 					showScore(result);
 					break;
 				} else {
@@ -170,6 +170,7 @@ public class Gra implements Serializable {
 		Platform.runLater(() -> {
 			Label t = Main.getInfoTxt();
 			t.setText(s.toUpperCase());
+			t.toFront();
 			t.setVisible(true);
 			Main.getInfoTxtSeq().play();
 		});
@@ -180,6 +181,7 @@ public class Gra implements Serializable {
 		Platform.runLater(() -> {
 			Label t = Main.getScoreInfoTxt();
 			t.setText(s.toUpperCase());
+			t.toFront();
 			t.setVisible(true);
 			Main.getScoreTxtSeq().play();
 		});

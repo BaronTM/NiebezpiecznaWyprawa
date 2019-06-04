@@ -148,6 +148,7 @@ public class Pionek extends Pane {
 		pathTransition.setCycleCount(1);
 		
 		
+		
 		RotateTransition rotateTransition = new RotateTransition();
 		rotateTransition.setDuration(Duration.millis(2000));
 		rotateTransition.setByAngle(360);
