@@ -140,7 +140,7 @@ public class ImaginaryPlayer {
 	}
 	
 	public void addToMove(int step) {
-		score =+ step;
+		score += step;
 		currentCounterPositionStep += step;
 		if (currentCounterPositionStep <= 9) {
 			currentCounterPosition = bridgeCoordinates[currentCounterPositionStep];
