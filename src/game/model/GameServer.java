@@ -32,7 +32,7 @@ public class GameServer implements Runnable {
 	{
 		salvages = 0;
 	}
-	
+
 	@Override
 	public void run() {
 		try {
@@ -85,56 +85,58 @@ public class GameServer implements Runnable {
 		player2 = new ImaginaryPlayer(2, oisg2, oosg2);
 		currentPlayer = player1;
 		foePlayer = player2;
-		
+
 		try {
 			TimeUnit.SECONDS.sleep(7);
-			
-			currentPlayer.getObjectOutputStream().writeObject(player1.moveCounter());
-			foePlayer.getObjectOutputStream().writeObject(player1.moveCounter());
-			currentPlayer.getObjectOutputStream().writeObject(player2.moveCounter());
-			foePlayer.getObjectOutputStream().writeObject(player2.moveCounter());
-			
+
+			currentPlayer.getObjectOutputStream().writeObject(player1.moveCounterCommand());
+			foePlayer.getObjectOutputStream().writeObject(player1.moveCounterCommand());
+			currentPlayer.getObjectOutputStream().writeObject(player2.moveCounterCommand());
+			foePlayer.getObjectOutputStream().writeObject(player2.moveCounterCommand());
+
 			while (true) {
-				String[] commands = new String[] {"LOSUJ", "" + currentPlayer.getId()}; 
+				String[] commands = new String[] { "LOSUJ", "" + currentPlayer.getId() };
 				player1.getObjectOutputStream().writeObject(commands);
 				player2.getObjectOutputStream().writeObject(commands);
-				
+
 				String[] res = (String[]) currentPlayer.getObjectInputStream().readObject();
 				System.out.println(res[0] + "    " + res[1] + "    " + res[2] + "    ");
-				foePlayer.getObjectOutputStream().writeObject(new String[] {"FOE", res[2]});
+				foePlayer.getObjectOutputStream().writeObject(new String[] { "FOE", res[2] });
 				String[] tf = (String[]) foePlayer.getObjectInputStream().readObject();
 				if (tf[1].equalsIgnoreCase("true")) {
 					System.out.println("ruch po moscie");
-					currentPlayer.getObjectOutputStream().writeObject(new String[] {"PRZECIWNIK UWIERZYL"});
+					currentPlayer.getObjectOutputStream().writeObject(new String[] { "PRZECIWNIK UWIERZYL" });
 					int step = Integer.parseInt(res[2]);
 					currentPlayer.addToMove(step);
-					String[] move = currentPlayer.moveCounter();
+					String[] move = currentPlayer.moveCounterCommand();
 					currentPlayer.getObjectOutputStream().writeObject(move);
 					foePlayer.getObjectOutputStream().writeObject(move);
 				} else {
 					if (res[1].equalsIgnoreCase(res[2])) {
 						System.out.println("Przeciwnik nie zgadl i spada do wody a gracz sie rusza");
-						currentPlayer.getObjectOutputStream().writeObject(new String[] {"PRZECIWNIK SPRAWDZIL\nI NIE ZGADL"});
-						foePlayer.getObjectOutputStream().writeObject(new String [] {"NIE ZGADLES"});
-						String[] water = foePlayer.counterToWater();						
+						currentPlayer.getObjectOutputStream()
+								.writeObject(new String[] { "PRZECIWNIK SPRAWDZIL\nI NIE ZGADL" });
+						foePlayer.getObjectOutputStream().writeObject(new String[] { "NIE ZGADLES" });
+						String[] water = foePlayer.counterToWater();
 						currentPlayer.getObjectOutputStream().writeObject(water);
 						foePlayer.getObjectOutputStream().writeObject(water);
 						int step = Integer.parseInt(res[2]);
 						currentPlayer.addToMove(step);
-						String[] move = currentPlayer.moveCounter();
+						String[] move = currentPlayer.moveCounterCommand();
 						currentPlayer.getObjectOutputStream().writeObject(move);
 						foePlayer.getObjectOutputStream().writeObject(move);
-						String[] moveNewCounter = foePlayer.moveCounter();
+						String[] moveNewCounter = foePlayer.moveCounterCommand();
 						currentPlayer.getObjectOutputStream().writeObject(moveNewCounter);
 						foePlayer.getObjectOutputStream().writeObject(moveNewCounter);
 					} else {
 						System.out.println("Przeciwnik zgadl a gracz wpada do wody");
-						currentPlayer.getObjectOutputStream().writeObject(new String[] {"PRZECIWNIK SPRAWDZIL\nI ZGADL"});
-						foePlayer.getObjectOutputStream().writeObject(new String [] {"ZGADLES"});
-						String[] water = currentPlayer.counterToWater();						
+						currentPlayer.getObjectOutputStream()
+								.writeObject(new String[] { "PRZECIWNIK SPRAWDZIL\nI ZGADL" });
+						foePlayer.getObjectOutputStream().writeObject(new String[] { "ZGADLES" });
+						String[] water = currentPlayer.counterToWater();
 						currentPlayer.getObjectOutputStream().writeObject(water);
 						foePlayer.getObjectOutputStream().writeObject(water);
-						String[] move = currentPlayer.moveCounter();
+						String[] move = currentPlayer.moveCounterCommand();
 						currentPlayer.getObjectOutputStream().writeObject(move);
 						foePlayer.getObjectOutputStream().writeObject(move);
 					}
@@ -143,24 +145,44 @@ public class GameServer implements Runnable {
 					int moveX = Plansza.getKamienieWsp()[salvages][0];
 					int moveY = Plansza.getKamienieWsp()[salvages][1];
 					salvages++;
-					currentPlayer.setCurrentCounterPosition(new int[] {moveX, moveY});
-					String[] move = currentPlayer.moveCounter();
+					currentPlayer.setCurrentCounterPosition(new int[] { moveX, moveY });
+					String[] move = currentPlayer.moveCounterCommand();
 					currentPlayer.getObjectOutputStream().writeObject(move);
 					foePlayer.getObjectOutputStream().writeObject(move);
 					currentPlayer.newSalvage();
-					String[] moveNewCounter = currentPlayer.moveCounter();
+					String[] moveNewCounter = currentPlayer.moveCounterCommand();
 					currentPlayer.getObjectOutputStream().writeObject(moveNewCounter);
 					foePlayer.getObjectOutputStream().writeObject(moveNewCounter);
+				}
+				if (currentPlayer.getRemainCounters() <= 0 || foePlayer.getRemainCounters() <= 0) {
+					System.out.println("Koniec rozgrywki");
+					String[] msgC;
+					String[] msgF;
+					int scoreC = currentPlayer.getScore();
+					int scoreF = foePlayer.getScore();
+					if (scoreC > scoreF) {
+						msgC = new String[] { "END", "WYGRALES", "" + scoreC, "" + scoreF };
+						msgF = new String[] { "END", "PRZEGRALES", "" + scoreF, "" + scoreC };
+					} else if (scoreF > scoreC) {
+						msgC = new String[] { "END", "PRZEGRALES", "" + scoreC, "" + scoreF };
+						msgF = new String[] { "END", "WYGRALES", "" + scoreF, "" + scoreC };
+					} else {
+						msgC = new String[] { "END", "REMIS", "" + scoreC, "" + scoreF };
+						msgF = new String[] { "END", "REMIS", "" + scoreF, "" + scoreC };
+					}
+					currentPlayer.getObjectOutputStream().writeObject(msgC);
+					foePlayer.getObjectOutputStream().writeObject(msgF);
+					break;
 				}
 				if (currentPlayer == player1) {
 					currentPlayer = player2;
 					foePlayer = player1;
 				} else {
 					currentPlayer = player1;
-					foePlayer = player2;					
+					foePlayer = player2;
 				}
 			}
-		
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

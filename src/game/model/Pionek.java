@@ -127,6 +127,7 @@ public class Pionek extends Pane {
 		pathTransition.setCycleCount(1);
 		pathTransition.setNode(this);
 		pathTransition.play();
+		
 		xx = finalX;
 		yy = finalY;
 	}

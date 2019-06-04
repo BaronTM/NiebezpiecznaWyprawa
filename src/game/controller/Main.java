@@ -25,6 +25,7 @@ public class Main extends Application {
 	private static Main main;
     private static Label infoTxt;
     private static SequentialTransition infoTxtSeq;
+    private static SequentialTransition scoreTxtSeqOn;
 	
 	private static Gra gra;
 	private static ExecutorService executor;
@@ -103,6 +104,15 @@ public class Main extends Application {
 	public static void setInfoTxtSeq(SequentialTransition infoTxtSeq) {
 		Main.infoTxtSeq = infoTxtSeq;
 	}
+	
+	public static SequentialTransition getScoreTxtSeq() {
+		return scoreTxtSeqOn;
+	}
+
+	public static void setScoreTxtSeq(SequentialTransition scoreTxtSeq) {
+		Main.scoreTxtSeqOn = scoreTxtSeq;
+	}
+
 	public static MainWindowController getMainWindowController() {
 		return mwc;
 	}

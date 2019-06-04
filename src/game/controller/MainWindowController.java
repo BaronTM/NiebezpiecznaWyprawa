@@ -65,6 +65,15 @@ public class MainWindowController {
     	SequentialTransition seq = new SequentialTransition();
     	seq.getChildren().addAll(fade01, pause, fade02);
     	Main.setInfoTxtSeq(seq);
+    	
+    	FadeTransition fadeOn = new FadeTransition(Duration.seconds(1), infoTxt);
+    	fadeOn.setFromValue(0);
+    	fadeOn.setToValue(1);
+    	SequentialTransition seqOn = new SequentialTransition();
+    	seqOn.getChildren().addAll(fadeOn);
+    	Main.setScoreTxtSeq(seqOn);
+    	
+    	
     	infoTxt.setStyle("-fx-background-color: transparent;");
     	infoTxt.setVisible(false);
     	main.setInfoTxt(infoTxt);

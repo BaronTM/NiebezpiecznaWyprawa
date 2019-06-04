@@ -124,7 +124,7 @@ public class ImaginaryPlayer {
 		return s;
 	}
 	
-	public String[] moveCounter() {
+	public String[] moveCounterCommand() {
 		String[] move = new String[] {
 				"MOVE", 
 				"" + id, 

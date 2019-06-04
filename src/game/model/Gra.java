@@ -105,7 +105,15 @@ public class Gra implements Serializable {
 					int moveX = Integer.parseInt(commands[3]);
 					int moveY = Integer.parseInt(commands[4]);
 					Gracz g = gamerNr == 1 ? g1 : g2;
-					g.getPionki().get(counterNr).przesunPoMoscie(moveX, moveY);
+					if (counterNr < g.getPionki().size())
+						g.getPionki().get(counterNr).przesunPoMoscie(moveX, moveY);
+				} else if (commands[0].equalsIgnoreCase("END")) {
+					String s1 = commands[1];
+					String s2 = commands[2];
+					String s3 = commands[3];				
+					String result = String.format("%s\n%s\n%-13s %s\n%-13s %s","KONIEC", s1, "WYNIK:", s2, "PRZECIWNIK" ,s3);
+					showScore(result);
+					break;
 				} else {
 					showInfo(commands[0]);
 				}
@@ -164,6 +172,16 @@ public class Gra implements Serializable {
 			t.setText(s.toUpperCase());
 			t.setVisible(true);
 			Main.getInfoTxtSeq().play();
+		});
+	}
+	
+	public void showScore(String s) {
+		Platform.setImplicitExit(false);
+		Platform.runLater(() -> {
+			Label t = Main.getInfoTxt();
+			t.setText(s.toUpperCase());
+			t.setVisible(true);
+			Main.getScoreTxtSeq().play();
 		});
 	}
 	
