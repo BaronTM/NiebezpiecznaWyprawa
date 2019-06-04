@@ -27,7 +27,12 @@ public class GameServer implements Runnable {
 	private ImaginaryPlayer player2;
 	private ImaginaryPlayer currentPlayer;
 	private ImaginaryPlayer foePlayer;
+	private int salvages;
 
+	{
+		salvages = 0;
+	}
+	
 	@Override
 	public void run() {
 		try {
@@ -133,6 +138,19 @@ public class GameServer implements Runnable {
 						currentPlayer.getObjectOutputStream().writeObject(move);
 						foePlayer.getObjectOutputStream().writeObject(move);
 					}
+				}
+				if (currentPlayer.getCurrentCounterPositionStep() >= 9) {
+					int moveX = Plansza.getKamienieWsp()[salvages][0];
+					int moveY = Plansza.getKamienieWsp()[salvages][1];
+					salvages++;
+					currentPlayer.setCurrentCounterPosition(new int[] {moveX, moveY});
+					String[] move = currentPlayer.moveCounter();
+					currentPlayer.getObjectOutputStream().writeObject(move);
+					foePlayer.getObjectOutputStream().writeObject(move);
+					currentPlayer.newSalvage();
+					String[] moveNewCounter = currentPlayer.moveCounter();
+					currentPlayer.getObjectOutputStream().writeObject(moveNewCounter);
+					foePlayer.getObjectOutputStream().writeObject(moveNewCounter);
 				}
 				if (currentPlayer == player1) {
 					currentPlayer = player2;

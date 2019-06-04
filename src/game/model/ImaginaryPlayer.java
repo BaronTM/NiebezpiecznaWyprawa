@@ -118,6 +118,7 @@ public class ImaginaryPlayer {
 				"" + idOfCurrentCounter				
 		};
 		idOfCurrentCounter++;
+		remainCounters--;
 		currentCounterPositionStep = 0;
 		currentCounterPosition = bridgeCoordinates[0];
 		return s;
@@ -134,10 +135,22 @@ public class ImaginaryPlayer {
 	}
 	
 	public void addToMove(int step) {
+		score =+ step;
 		currentCounterPositionStep += step;
-		if (currentCounterPositionStep <= 8) {
+		if (currentCounterPositionStep <= 9) {
 			currentCounterPosition = bridgeCoordinates[currentCounterPositionStep];
+		} else {
+			currentCounterPosition = bridgeCoordinates[9];
 		}
+	}
+	
+	public void newSalvage() {
+		remainCounters--;
+		score += 10;
+		idOfCurrentCounter++;
+		salvageCounters++;
+		currentCounterPositionStep = 0;
+		currentCounterPosition = bridgeCoordinates[0];
 	}
 
 }
