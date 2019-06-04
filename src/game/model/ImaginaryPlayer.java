@@ -157,5 +157,4 @@ public class ImaginaryPlayer {
 		currentCounterPositionStep = 0;
 		currentCounterPosition = bridgeCoordinates[0];
 	}
-
 }
