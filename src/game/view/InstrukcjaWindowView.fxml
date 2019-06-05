@@ -10,6 +10,11 @@
 
 <AnchorPane maxHeight="650.0" maxWidth="500.0" minHeight="650.0" minWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.controller.InstrukcjaWindowController">
    <children>
+      <ImageView fitHeight="661.0" fitWidth="506.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@graphics/grafika/cartoon-jungle-background_490205.jpg" />
+         </image>
+      </ImageView>
       <ImageView fitHeight="120.0" fitWidth="455.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
          <image>
             <Image url="@graphics/ip_set.png" />
@@ -20,7 +25,7 @@
             <Font name="Western Grungy by Marta van Eck" size="40.0" />
          </font>
       </TextField>
-      <ImageView fitHeight="650.0" fitWidth="506.0" pickOnBounds="true">
+      <ImageView fitHeight="691.0" fitWidth="532.0" layoutX="-16.0" layoutY="-19.0" pickOnBounds="true">
          <image>
             <Image url="@graphics/grafika/tlo.png" />
          </image>
