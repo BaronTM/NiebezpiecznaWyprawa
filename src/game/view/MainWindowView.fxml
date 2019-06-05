@@ -21,7 +21,10 @@
       <MenuBar layoutX="14.0" layoutY="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="Reset" />
-            <Menu mnemonicParsing="false" text="Instrukcja" />
+            <Menu mnemonicParsing="false" text="Instrukcja">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#showInstr" text="Instrukcja" />
+               </items></Menu>
             <Menu mnemonicParsing="false" text="O autorach" />
             <Menu mnemonicParsing="false" text="Zakończ">
                <items>

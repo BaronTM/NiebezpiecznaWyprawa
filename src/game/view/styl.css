@@ -31,7 +31,7 @@
 }
 
 .wood_label:disabled {
-    -fx-opacity: 1; 
+    -fx-opacity: 1;
 }
 
 .start_pane {
@@ -39,7 +39,7 @@
 	-fx-background-size: cover;
 }
 
-.wooden_but {	
+.wooden_but {
     -fx-effect: dropshadow( three-pass-box , #512e09 , 5, 0.3 , 5 , 5 );
 }
 
@@ -48,7 +48,7 @@
 }
 
 .wooden_but:active {
-    -fx-effect: dropshadow( three-pass-box , #FFD700 , 5, 0.3 , 5 , 5 );  
+    -fx-effect: dropshadow( three-pass-box , #FFD700 , 5, 0.3 , 5 , 5 );
 }
 
 .wooden_info {
@@ -73,7 +73,7 @@
 	-fx-text-fill: rgb(138, 7, 7);
 	-fx-effect: dropshadow( three-pass-box , #8A0707 , 2, 0.7 , 0 , 0 );
 	-fx-font-size: 70;
-	
+
 }
 
 .place {
@@ -83,6 +83,12 @@
 
 }
 
+.textInstr {
+	-fx-background-color: transparent;
+	-fx-font-family: "Skratch";
+	-fx-font-size: 14;
+}
+
 .wooden_board {
-	
+
 }

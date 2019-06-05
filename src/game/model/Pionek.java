@@ -29,7 +29,7 @@ import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
 public class Pionek extends Pane {
-	
+
 	private double scale;
 	private Color color;
 	private Circle circle;
@@ -40,14 +40,14 @@ public class Pionek extends Pane {
 	private int stageY;
 	private double xx;
 	private double yy;
-	
-	
-	
-	
+
+
+
+
 	public Pionek() {
 		this(Color.LIME, 1);
 	}
-	
+
 	public Pionek(Color color, double scale) {
 		super();
 		this.scale = scale;
@@ -55,21 +55,21 @@ public class Pionek extends Pane {
 		circle.setFill(color);
 		circle.setLayoutX(20 * scale);
 		circle.setLayoutY(20 * scale);
-		
+
 		triangle = new Polygon();
         triangle.getPoints().addAll(new Double[]{
             20.0 * scale, 10.0 * scale,
             00.0 * scale, 76.0 * scale,
             40.0 * scale, 76.0 * scale });
         triangle.setFill(color);
-        
+
         rectangle = new Rectangle();
         rectangle.setWidth(40 * scale);
         rectangle.setHeight(11 * scale);
         rectangle.setFill(color);
         rectangle.setLayoutX(0 * scale);
         rectangle.setLayoutY(75 * scale);
-        
+
         curve = new CubicCurve();
         curve.setFill(color);
         curve.setStartX(0 * scale);
@@ -80,20 +80,20 @@ public class Pionek extends Pane {
         curve.setControlY1(95 * scale);
         curve.setControlX2(30 * scale);
         curve.setControlY2(95 * scale);
-        
+
         stageX =(int) (20 * scale);
         stageY =(int) (80 * scale);
-        
+
         circle.getStyleClass().add("counter_circle");
         Group group = new Group();
         group.getChildren().addAll(triangle, rectangle, curve);
         group.getStyleClass().add("counter_triangle");
-		
+
 		this.getChildren().addAll(group, circle);
 	}
-	
+
 	public void build() {
-		
+
 	}
 
 	public int getStageX() {
@@ -103,21 +103,21 @@ public class Pionek extends Pane {
 	public int getStageY() {
 		return stageY;
 	}
-	
+
 	public void setCounterPosition(double finalX, double finalY) {
 		setLayoutX(finalX - stageX);
 		setLayoutY(finalY - stageY);
 		xx = finalX;
 		yy = finalY;
 	}
-	
+
 	public void przesunPoMoscie(double finalX, double finalY) {
 		Path path = new Path();
 		path.getElements().add(new MoveTo(xx, yy - 35));
 		path.getElements().add(new QuadCurveTo(
-				Math.max(xx, finalX), 
-				Math.min(yy, finalY), 
-				finalX, 
+				Math.max(xx, finalX),
+				Math.min(yy, finalY),
+				finalX,
 				finalY - 35));
 		PathTransition pathTransition = new PathTransition();
 		pathTransition.setDuration(Duration.millis(1000));
@@ -127,18 +127,18 @@ public class Pionek extends Pane {
 		pathTransition.setCycleCount(1);
 		pathTransition.setNode(this);
 		pathTransition.play();
-		
+
 		xx = finalX;
 		yy = finalY;
 	}
-	
+
 	public void wrzucDoWody(double finalX, double finalY) {
 		Path path = new Path();
 		path.getElements().add(new MoveTo(xx, yy - 35));
 		path.getElements().add(new QuadCurveTo(
-				Math.max(xx, finalX), 
-				Math.min(yy, finalY), 
-				finalX, 
+				Math.max(xx, finalX),
+				Math.min(yy, finalY),
+				finalX,
 				finalY - 35));
 		PathTransition pathTransition = new PathTransition();
 		pathTransition.setDuration(Duration.millis(3000));
@@ -146,27 +146,27 @@ public class Pionek extends Pane {
 		pathTransition.setAutoReverse(false);
 		pathTransition.setInterpolator(Interpolator.LINEAR);
 		pathTransition.setCycleCount(1);
-		
-		
-		
+
+
+
 		RotateTransition rotateTransition = new RotateTransition();
 		rotateTransition.setDuration(Duration.millis(2000));
 		rotateTransition.setByAngle(360);
 		rotateTransition.setCycleCount(4);
 		rotateTransition.setAutoReverse(false);
-		
+
 		ScaleTransition scaleTransition = new ScaleTransition();
 		scaleTransition.setDuration(Duration.millis(2000));
 		scaleTransition.setToX(0);
 		scaleTransition.setToY(0);
 		scaleTransition.setCycleCount(1);
 		scaleTransition.setAutoReverse(false);
-		
+
 		ParallelTransition parallelTransition = new ParallelTransition(this, pathTransition, rotateTransition, scaleTransition);
 		parallelTransition.play();
-		
+
 		xx = finalX;
 		yy = finalY;
 	}
-	
+
 }

@@ -27,16 +27,16 @@ public class Main extends Application {
     private static Label scoreInfoTxt;
     private static SequentialTransition infoTxtSeq;
     private static SequentialTransition scoreTxtSeqOn;
-	
+
 	private static Gra gra;
 	private static ExecutorService executor;
 	private static ServerSocket serverSocket;
 	private static MainWindowController mwc;
-	
+
     @Override
     public void start(Stage primaryStage) {
         try {
-        	FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/StartGameView.fxml"));            
+        	FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/StartGameView.fxml"));
         	AnchorPane pane;
         	main = this;
             pane = loader.load();
@@ -77,7 +77,7 @@ public class Main extends Application {
 	public static void setExecutor(ExecutorService executor) {
 		Main.executor = executor;
 	}
-			
+
 	public static Stage getMainStage() {
 		return mainStage;
 	}
@@ -88,7 +88,7 @@ public class Main extends Application {
 
 	public static void setServerSocket(ServerSocket serverSocket) {
 		Main.serverSocket = serverSocket;
-	}	
+	}
 
 	public static Label getInfoTxt() {
 		return infoTxt;
@@ -96,7 +96,7 @@ public class Main extends Application {
 
 	public static void setInfoTxt(Label infoTxt) {
 		Main.infoTxt = infoTxt;
-	}	
+	}
 
 	public static SequentialTransition getInfoTxtSeq() {
 		return infoTxtSeq;
@@ -105,7 +105,7 @@ public class Main extends Application {
 	public static void setInfoTxtSeq(SequentialTransition infoTxtSeq) {
 		Main.infoTxtSeq = infoTxtSeq;
 	}
-	
+
 	public static SequentialTransition getScoreTxtSeq() {
 		return scoreTxtSeqOn;
 	}
@@ -116,7 +116,7 @@ public class Main extends Application {
 
 	public static MainWindowController getMainWindowController() {
 		return mwc;
-	}	
+	}
 
 	public static Label getScoreInfoTxt() {
 		return scoreInfoTxt;
@@ -139,14 +139,14 @@ public class Main extends Application {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}		
+		}
 		executor.shutdownNow();
 		executor = Executors.newFixedThreadPool(4, new DaemonThreadFactory());
 	}
-	
-	public static void runGame() {		
+
+	public static void runGame() {
         try {
-        	FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/MainWindowView.fxml"));            
+        	FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/MainWindowView.fxml"));
         	AnchorPane pane;
 			pane = loader.load();
 	        Scene scene = new Scene(pane);
@@ -156,17 +156,17 @@ public class Main extends Application {
 	        mainWindowController.setPrimaryStage(mainStage);
 	        scene.getStylesheets().add(ViewTest.class.getResource("/game/view/styl.css").toExternalForm());
 	        mainStage.setScene(scene);
-		
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void exitGame() {
 		cancelExecutor();
         mainStage.close();
 		System.exit(0);
 	}
-    
+
 }

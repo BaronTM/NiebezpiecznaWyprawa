@@ -34,7 +34,7 @@ import javafx.util.Duration;
 public class Gra implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 5712053620818160194L;
 	private transient Socket sock;
@@ -85,7 +85,7 @@ public class Gra implements Serializable {
 						showInfo("Rzuc kostka");
 						main.getMainWindowController().getLosBut().setVisible(true);
 					} else {
-						showInfo("Przeciwnik rzuca");						
+						showInfo("Przeciwnik rzuca");
 					}
 				} else if (commands[0].equalsIgnoreCase("FOE")) {
 					Platform.runLater(() -> {
@@ -97,7 +97,7 @@ public class Gra implements Serializable {
 					Gracz g = gamerNr == 1 ? g1 : g2;
 					if (gamerNr == 1)
 						g.getPionki().get(counterNr).wrzucDoWody(300, 400);
-					else 
+					else
 						g.getPionki().get(counterNr).wrzucDoWody(650, 400);
 				} else if (commands[0].equalsIgnoreCase("MOVE")) {
 					int gamerNr = Integer.parseInt(commands[1]);
@@ -110,7 +110,7 @@ public class Gra implements Serializable {
 				} else if (commands[0].equalsIgnoreCase("END")) {
 					String s1 = commands[1];
 					String s2 = commands[2];
-					String s3 = commands[3];				
+					String s3 = commands[3];
 					String result = String.format("%s\n%s\n%-15s %s\n%-13s %s","KONIEC", s1, "WYNIK", s2, "PRZECIWNIK" ,s3);
 					showScore(result);
 					break;
@@ -132,7 +132,7 @@ public class Gra implements Serializable {
 			}
 		}
 	}
-	
+
 	public void sendObj(Object o) {
 		try {
 			oos.writeObject(o);
@@ -175,7 +175,7 @@ public class Gra implements Serializable {
 			Main.getInfoTxtSeq().play();
 		});
 	}
-	
+
 	public void showScore(String s) {
 		Platform.setImplicitExit(false);
 		Platform.runLater(() -> {
@@ -186,5 +186,5 @@ public class Gra implements Serializable {
 			Main.getScoreTxtSeq().play();
 		});
 	}
-	
+
 }

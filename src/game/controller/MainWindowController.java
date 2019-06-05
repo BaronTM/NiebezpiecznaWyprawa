@@ -1,63 +1,58 @@
 package game.controller;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.Optional;
-
-import org.w3c.dom.ls.LSOutput;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import test.ViewTest;
 
 public class MainWindowController {
     private Main main;
     private Stage primaryStage;
     private int xx;
     private int yy;
-    
+
     @FXML
     private Button losBut;
-    
+
     @FXML
     private Label infoTxt;
-    
+
     @FXML
     private Label scoreInfoTxt;
-    
+
     @FXML
     private ImageView boardImage;
-    
+
     @FXML
     private AnchorPane mainAnchor;
-    
-    public void initialize() {    	
+
+    @FXML
+    private TextArea textInstr;
+
+    @FXML
+    private TextField lab;
+
+    public void initialize() {
     	FadeTransition fade01 = new FadeTransition(Duration.seconds(1), infoTxt);
     	fade01.setFromValue(0);
     	fade01.setToValue(1);
@@ -68,23 +63,23 @@ public class MainWindowController {
     	SequentialTransition seq = new SequentialTransition();
     	seq.getChildren().addAll(fade01, pause, fade02);
     	Main.setInfoTxtSeq(seq);
-    	
+
     	FadeTransition fadeOn = new FadeTransition(Duration.seconds(1), scoreInfoTxt);
     	fadeOn.setFromValue(0);
     	fadeOn.setToValue(1);
     	SequentialTransition seqOn = new SequentialTransition();
     	seqOn.getChildren().addAll(fadeOn);
     	Main.setScoreTxtSeq(seqOn);
-    	    	
+
     	infoTxt.setStyle("-fx-background-color: transparent;");
     	infoTxt.setVisible(false);
 
     	scoreInfoTxt.setStyle("-fx-background-color: transparent;");
     	scoreInfoTxt.setVisible(false);
-    	
+
     	main.setInfoTxt(infoTxt);
     	main.setScoreInfoTxt(scoreInfoTxt);
-    	
+
     	boardImage.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
     		boardImageMousePressed(e);
     	});
@@ -92,7 +87,7 @@ public class MainWindowController {
     		boardImageMouseDragged(e);
     	});
     	losBut.setVisible(false);
-    	
+
 //    	mainAnchor.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
 //    		double x = e.getX();
 //    		double y = e.getY();
@@ -116,8 +111,8 @@ public class MainWindowController {
         losuj();
     }
 
-    public void losuj() {     
-        
+    public void losuj() {
+
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/LosujWindowView.fxml"));
         try {
             AnchorPane pane = loader.load();
@@ -136,7 +131,7 @@ public class MainWindowController {
             losujWindowStage.setScene(scene);
             losujWindowStage.setX(primaryStage.getX() + 100);
             losujWindowStage.setY(primaryStage.getY() + 75);
-            
+
             LosujWindowController animationWindowController = loader.getController();
             animationWindowController.setAnimationWindowStage(losujWindowStage);
             animationWindowController.setAnimation();
@@ -148,8 +143,8 @@ public class MainWindowController {
             e.printStackTrace();
         }
     }
-    
-    
+
+
     private void boardImageMousePressed(MouseEvent evt) {
         xx=(int) evt.getX();
         yy=(int) evt.getY() + 80;
@@ -161,7 +156,7 @@ public class MainWindowController {
         primaryStage.setX(x-xx);
         primaryStage.setY(y-yy);
     }
-    
+
     @FXML
     private void exitGame() {
     	Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -175,11 +170,11 @@ public class MainWindowController {
     	    // ... user chose CANCEL or closed the dialog
     	}
     }
-    
+
     public Button getLosBut() {
     	return losBut;
     }
-    
+
     public void przekaz(String foeClaim) {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/WybierzWindowView.fxml"));
         try {
@@ -209,5 +204,33 @@ public class MainWindowController {
             e.printStackTrace();
         }
     }
-    
+
+    @FXML
+    public void showInstr() {
+    	Stage instrWindowStage = new Stage();
+    	FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/InstrukcjaWindowView.fxml"));
+        try {
+        	AnchorPane pane = loader.load();
+        	((InstrukcjaWindowController) loader.getController()).setStage(instrWindowStage);
+        	instrWindowStage.setTitle("Instrukcja");
+        	instrWindowStage.initModality(Modality.WINDOW_MODAL);
+        	instrWindowStage.initOwner(Main.getMainStage());
+        	instrWindowStage.setMinHeight(650);
+        	instrWindowStage.setMinWidth(500);
+        	instrWindowStage.setHeight(650);
+        	instrWindowStage.setWidth(500);
+        	instrWindowStage.setMaxHeight(650);
+        	instrWindowStage.setMaxWidth(500);
+            instrWindowStage.initStyle(StageStyle.UNDECORATED);
+            instrWindowStage.setX(primaryStage.getX() + 100);
+            instrWindowStage.setY(primaryStage.getY() + 75);
+            Scene scene = new Scene(pane);
+            instrWindowStage.setScene(scene);
+
+            scene.getStylesheets().add(ViewTest.class.getResource("/game/view/styl.css").toExternalForm());
+            instrWindowStage.showAndWait();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

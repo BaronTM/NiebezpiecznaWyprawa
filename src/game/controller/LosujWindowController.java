@@ -66,7 +66,6 @@ public class LosujWindowController {
     	System.out.println("getA1: " + a1);
     	return a1;
     }
-
     public void setA(String a1) {
     	LosujWindowController.a1 = a1;
     }*/

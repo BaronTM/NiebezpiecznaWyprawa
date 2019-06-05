@@ -6,7 +6,7 @@ import java.util.List;
 import javafx.scene.paint.Color;
 
 public class Gracz {
-	
+
 	private int id;
 	private String imie;
 	private int pkt;
@@ -14,7 +14,7 @@ public class Gracz {
 	private Color kolor;
 	private int liczbaPionkow;
 	private Pionek aktualnyPionek;
-	
+
 	public Gracz(int id, String imie, Color kolor) {
 		this.imie = imie;
 		this.id = id;
@@ -28,7 +28,7 @@ public class Gracz {
 		}
 		aktualnyPionek = pionki.get(0);
 	}
-	
+
 	public List<Pionek> getPionki() {
 		return pionki;
 	}
@@ -36,5 +36,5 @@ public class Gracz {
 	public Pionek getAktualnyPionek() {
 		return aktualnyPionek;
 	}
-	
+
 }
