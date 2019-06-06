@@ -6,8 +6,15 @@ import java.util.Optional;
 import javax.sound.sampled.Clip;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
+import javafx.animation.PathTransition;
 import javafx.animation.PauseTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
+import javafx.animation.Transition;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,6 +28,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.QuadCurveTo;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -35,6 +45,7 @@ public class MainWindowController {
 
     @FXML private Button drawBut;
     @FXML private Label infoTxt;
+    @FXML private Label additionalInfoTxt;
     @FXML private Label scoreInfoTxt;
     @FXML private ImageView boardImage;
     @FXML private AnchorPane mainAnchor;
@@ -48,7 +59,7 @@ public class MainWindowController {
     	FadeTransition fade01 = new FadeTransition(Duration.seconds(1), infoTxt);
     	fade01.setFromValue(0);
     	fade01.setToValue(1);
-    	PauseTransition pause = new PauseTransition(Duration.seconds(3));
+    	PauseTransition pause = new PauseTransition(Duration.seconds(2));
     	FadeTransition fade02 = new FadeTransition(Duration.seconds(1), infoTxt);
     	fade02.setFromValue(1);
     	fade02.setToValue(0);
@@ -62,15 +73,41 @@ public class MainWindowController {
     	SequentialTransition seqOn = new SequentialTransition();
     	seqOn.getChildren().addAll(fadeOn);
     	Main.setScoreTxtSeq(seqOn);
+    	
+    	
+    	// Additional info text animation
+    	TranslateTransition transition = new TranslateTransition();
+    	transition.setDuration(Duration.seconds(2));
+    	transition.setFromY(0);
+    	transition.setToY(300);
+    	
+    	FadeTransition fadeAdditional = new FadeTransition(Duration.seconds(1));
+    	fadeAdditional.setFromValue(0);
+    	fadeAdditional.setToValue(1);
+    	
+    	FadeTransition fadeAdditional2 = new FadeTransition(Duration.seconds(1));
+    	fadeAdditional2.setFromValue(1);
+    	fadeAdditional2.setToValue(0);
+    	
+    	SequentialTransition seqAdditional = new SequentialTransition();
+    	seqAdditional.getChildren().addAll(fadeAdditional, fadeAdditional2);
+    	
+		ParallelTransition parallelTransition = new ParallelTransition(additionalInfoTxt, transition, seqAdditional);
+		Main.setAdditionalInfoTxtSeq(parallelTransition);
+    	
 
     	infoTxt.setStyle("-fx-background-color: transparent;");
     	infoTxt.setVisible(false);
 
     	scoreInfoTxt.setStyle("-fx-background-color: transparent;");
     	scoreInfoTxt.setVisible(false);
+    	
+    	additionalInfoTxt.setStyle("-fx-background-color: transparent;");
+    	additionalInfoTxt.setVisible(false);
 
     	main.setInfoTxt(infoTxt);
     	main.setScoreInfoTxt(scoreInfoTxt);
+    	main.setAdditionalInfoTxt(additionalInfoTxt);
 
     	boardImage.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
     		boardImageMousePressed(e);

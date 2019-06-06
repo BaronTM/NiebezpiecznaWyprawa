@@ -93,18 +93,12 @@ public class StartGameController {
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		}
-        try {
-			Main.getGame().setSock(new Socket("127.0.0.1", 4242));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
     }
 
     @FXML public void joinGame() {
         clickBut();
         startAnchor.setVisible(false);
         joinAnchor.setVisible(true);
-        System.out.println("Dolacz");
         try {
 			Main.setGame(new Game(2, main));
 		} catch (RemoteException e1) {
@@ -112,7 +106,6 @@ public class StartGameController {
 		}
         try {
 			Main.getGame().setSock(new Socket(serverIpAddress.getValue(), 4242));
-			System.out.println("Polaczono");
 			Main.runGame();
 		} catch (IOException e) {
 			joinError.setVisible(true);

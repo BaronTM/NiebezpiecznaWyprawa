@@ -40,15 +40,22 @@ public class GameServer implements Runnable {
 		try {
 			ServerSocket serverSocket = new ServerSocket(4242);
 			Main.setServerSocket(serverSocket);
+			Platform.runLater(() -> {
+				try {
+					TimeUnit.MILLISECONDS.sleep(300);
+					Main.getGame().setSock(new Socket("127.0.0.1", 4242));
+				} catch (IOException | InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
 			g1Socket = serverSocket.accept();
 			oosg1 = new ObjectOutputStream(g1Socket.getOutputStream());
 			oisg1 = new ObjectInputStream(g1Socket.getInputStream());
-			System.out.println("Socket gamer 1: " + g1Socket.getPort());
-
+			
 			g2Socket = serverSocket.accept();
 			oosg2 = new ObjectOutputStream(g2Socket.getOutputStream());
 			oisg2 = new ObjectInputStream(g2Socket.getInputStream());
-			System.out.println("Socket gamer 2: " + g2Socket.getPort());
 			serverSocket.close();
 			Platform.runLater(() -> {
 				Main.runGame();
@@ -63,7 +70,6 @@ public class GameServer implements Runnable {
 			checkIfConnected(oisg2, "Gracz 2 polaczony");
 			letsPlay();
 		} catch (SocketException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -74,8 +80,6 @@ public class GameServer implements Runnable {
 		try {
 			obj = o.readObject();
 			String str = (String) obj;
-			if (str.equals("connected"))
-				System.out.println(s);
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
@@ -101,12 +105,10 @@ public class GameServer implements Runnable {
 				player2.getObjectOutputStream().writeObject(commands);
 
 				String[] res = (String[]) currentPlayer.getObjectInputStream().readObject();
-				System.out.println(res[0] + "    " + res[1] + "    " + res[2] + "    ");
 				foePlayer.getObjectOutputStream().writeObject(new String[] { "FOE", res[2] });
 				String[] tf = (String[]) foePlayer.getObjectInputStream().readObject();
 				if (tf[1].equalsIgnoreCase("true")) {
-					System.out.println("ruch po moscie");
-					currentPlayer.getObjectOutputStream().writeObject(new String[] { "PRZECIWNIK UWIERZYL" });
+					currentPlayer.getObjectOutputStream().writeObject(new String[] {"ADD", "PRZECIWNIK UWIERZYL" });
 					int step = Integer.parseInt(res[2]);
 					currentPlayer.addToMove(step);
 					String[] move = currentPlayer.moveCounterCommand();
@@ -114,10 +116,9 @@ public class GameServer implements Runnable {
 					foePlayer.getObjectOutputStream().writeObject(move);
 				} else {
 					if (res[1].equalsIgnoreCase(res[2])) {
-						System.out.println("Przeciwnik nie zgadl i spada do wody a gracz sie rusza");
 						currentPlayer.getObjectOutputStream()
-								.writeObject(new String[] { "PRZECIWNIK SPRAWDZIL\nI NIE ZGADL" });
-						foePlayer.getObjectOutputStream().writeObject(new String[] { "NIE ZGADLES" });
+								.writeObject(new String[] {"ADD", "PRZECIWNIK SPRAWDZIL\nI NIE ZGADL" });
+						foePlayer.getObjectOutputStream().writeObject(new String[] {"ADD", "NIE ZGADLES" });
 						String[] water = foePlayer.counterToWater();
 						currentPlayer.getObjectOutputStream().writeObject(water);
 						foePlayer.getObjectOutputStream().writeObject(water);
@@ -130,10 +131,9 @@ public class GameServer implements Runnable {
 						currentPlayer.getObjectOutputStream().writeObject(moveNewCounter);
 						foePlayer.getObjectOutputStream().writeObject(moveNewCounter);
 					} else {
-						System.out.println("Przeciwnik zgadl a gracz wpada do wody");
 						currentPlayer.getObjectOutputStream()
-								.writeObject(new String[] { "PRZECIWNIK SPRAWDZIL\nI ZGADL" });
-						foePlayer.getObjectOutputStream().writeObject(new String[] { "ZGADLES" });
+								.writeObject(new String[] { "ADD", "PRZECIWNIK SPRAWDZIL\nI ZGADL" });
+						foePlayer.getObjectOutputStream().writeObject(new String[] {"ADD", "ZGADLES" });
 						String[] water = currentPlayer.counterToWater();
 						currentPlayer.getObjectOutputStream().writeObject(water);
 						foePlayer.getObjectOutputStream().writeObject(water);
@@ -157,7 +157,6 @@ public class GameServer implements Runnable {
 					foePlayer.getObjectOutputStream().writeObject(moveNewCounter);
 				}
 				if (currentPlayer.getRemainCounters() <= 0 || foePlayer.getRemainCounters() <= 0) {
-					System.out.println("Koniec rozgrywki");
 					String[] msgC;
 					String[] msgF;
 					int scoreC = currentPlayer.getFinishScore();

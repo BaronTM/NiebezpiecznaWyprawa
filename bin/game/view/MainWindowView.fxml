@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchor" maxHeight="800.0" maxWidth="700.0" minHeight="800.0" minWidth="700.0" prefHeight="800.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.controller.MainWindowController">
+<AnchorPane fx:id="mainAnchor" maxHeight="800.0" maxWidth="700.0" minHeight="800.0" minWidth="700.0" prefHeight="800.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.controller.MainWindowController">
    <children>
       <MenuBar layoutX="14.0" layoutY="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -194,6 +194,11 @@
       <Label fx:id="scoreInfoTxt" alignment="CENTER" layoutX="30.0" layoutY="260.0" styleClass="scoreInfoTxt" text="ZACZYNAMY" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="250.0">
          <font>
             <Font size="64.0" />
+         </font>
+      </Label>
+      <Label fx:id="additionalInfoTxt" alignment="CENTER" layoutX="234.0" layoutY="350.0" styleClass="infoTxt" text="ZACZYNAMY" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="250.0">
+         <font>
+            <Font size="40.0" />
          </font>
       </Label>
 

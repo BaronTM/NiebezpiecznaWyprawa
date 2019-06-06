@@ -57,9 +57,6 @@ public class Game implements Serializable {
 			m.invoke(this);
 			while ((obj = ois.readObject()) != null) {
 				String[] commands = (String[]) obj;
-				for (String saa : commands) {
-					System.out.println(saa);
-				}
 				if (commands[0].equalsIgnoreCase("LOSUJ")) {
 					int nr = Integer.parseInt(commands[1]);
 					if (nr == gamerId) {
@@ -77,7 +74,7 @@ public class Game implements Serializable {
 					int counterNr = Integer.parseInt(commands[2]);
 					Gamer g = gamerNr == 1 ? g1 : g2;
 					if (gamerNr == 1)
-						g.getPawns().get(counterNr).fallIntoWater(300, 400);
+						g.getPawns().get(counterNr).fallIntoWater(200, 400);
 					else
 						g.getPawns().get(counterNr).fallIntoWater(650, 400);
 				} else if (commands[0].equalsIgnoreCase("MOVE")) {
@@ -96,6 +93,8 @@ public class Game implements Serializable {
 							s3);
 					showScore(result);
 					break;
+				} else if (commands[0].equalsIgnoreCase("ADD")) {
+					showAddInfo(commands[1]);
 				} else {
 					showInfo(commands[0]);
 				}
@@ -115,8 +114,9 @@ public class Game implements Serializable {
 	public void sendObj(Object o) {
 		try {
 			oos.writeObject(o);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			showInfo("POLACZENIE\nZOSTALO\nPRZERWANE");
+			showScore("\n\n\nKONIEC GRY");
 		}
 	}
 
@@ -152,6 +152,20 @@ public class Game implements Serializable {
 				t.toFront();
 				t.setVisible(true);
 				Main.getInfoTxtSeq().play();
+			} catch (NullPointerException npe) {
+			}
+		});
+	}
+	
+	public void showAddInfo(String s) {
+		Platform.setImplicitExit(false);
+		Platform.runLater(() -> {
+			try {
+				Label t = Main.getAdditionalInfoTxt();
+				t.setText(s.toUpperCase());
+				t.toFront();
+				t.setVisible(true);
+				Main.getAdditionalInfoTxtSeq().play();
 			} catch (NullPointerException npe) {
 			}
 		});

@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 
 import game.model.DaemonThreadFactory;
 import game.model.Game;
+import javafx.animation.ParallelTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -21,9 +22,11 @@ public class Main extends Application {
 	private static Stage mainStage;
 	private static Main main;
     private static Label infoTxt;
+    private static Label additionalInfoTxt;
     private static Label scoreInfoTxt;
     private static SequentialTransition infoTxtSeq;
     private static SequentialTransition scoreTxtSeqOn;
+    private static ParallelTransition additionalInfoTxtSeq;
 
 	private static Game game;
 	private static ExecutorService executor;
@@ -121,6 +124,24 @@ public class Main extends Application {
 
 	public static void setScoreInfoTxt(Label scoreInfoTxt) {
 		Main.scoreInfoTxt = scoreInfoTxt;
+	}	
+	
+	public static Label getAdditionalInfoTxt() {
+		return additionalInfoTxt;
+	}
+
+	public static void setAdditionalInfoTxt(Label additionalInfoTxt) {
+		Main.additionalInfoTxt = additionalInfoTxt;
+	}
+	
+	
+
+	public static ParallelTransition getAdditionalInfoTxtSeq() {
+		return additionalInfoTxtSeq;
+	}
+
+	public static void setAdditionalInfoTxtSeq(ParallelTransition additionalInfoTxtSeq) {
+		Main.additionalInfoTxtSeq = additionalInfoTxtSeq;
 	}
 
 	public static void setMainWindowController(MainWindowController mainWindowController) {

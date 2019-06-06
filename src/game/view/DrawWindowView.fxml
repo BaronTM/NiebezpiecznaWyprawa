@@ -14,7 +14,7 @@
 
 <AnchorPane maxHeight="650.0" maxWidth="500.0" minHeight="650.0" minWidth="500.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="game.controller.DrawWindowController">
    <children>
-      <Rectangle fx:id="kostka" arcHeight="150.0" arcWidth="150.0" height="250.0" layoutX="150.0" layoutY="125.0" stroke="BLACK" strokeType="INSIDE" width="250.0" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="125.0">
+      <Rectangle fx:id="dice" arcHeight="150.0" arcWidth="150.0" height="250.0" layoutX="150.0" layoutY="125.0" stroke="BLACK" strokeType="INSIDE" width="250.0" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="125.0">
          <fill>
             <RadialGradient centerX="0.5" centerY="0.5" cycleMethod="REFLECT" proportional="false" radius="0.8">
                <stops>
