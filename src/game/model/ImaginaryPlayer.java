@@ -4,7 +4,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class ImaginaryPlayer {
-	
+
 	private int id;
 	private int remainCounters;
 	private int score;
@@ -16,7 +16,7 @@ public class ImaginaryPlayer {
 	private ObjectInputStream objectInputStream;
 	private int sunkenCounters;
 	private int salvageCounters;
-	
+
 	public ImaginaryPlayer(int nr, ObjectInputStream ois, ObjectOutputStream oos) {
 		id = nr;
 		objectInputStream = ois;
@@ -27,7 +27,7 @@ public class ImaginaryPlayer {
 		sunkenCounters = 0;
 		salvageCounters = 0;
 		currentCounterPositionStep = 0;
-		bridgeCoordinates = id == 1 ? Plansza.getLeweWspDesek() : Plansza.getPraweWspDesek();
+		bridgeCoordinates = id == 1 ? Board.getLeftPlanksPos() : Board.getRightPlanksPos();
 		currentCounterPosition = bridgeCoordinates[0];
 	}
 
@@ -101,8 +101,8 @@ public class ImaginaryPlayer {
 
 	public void setSalvageCounters(int salvageCounters) {
 		this.salvageCounters = salvageCounters;
-	}	
-	
+	}
+
 	public int getCurrentCounterPositionStep() {
 		return currentCounterPositionStep;
 	}
@@ -110,7 +110,7 @@ public class ImaginaryPlayer {
 	public void setCurrentCounterPositionStep(int currentCounterPositionStep) {
 		this.currentCounterPositionStep = currentCounterPositionStep;
 	}
-	
+
 	public int getFinishScore() {
 		int s = score + remainCounters * 5;
 		return s;
@@ -120,7 +120,7 @@ public class ImaginaryPlayer {
 		String[] s = new String[] {
 				"WATER",
 				"" + id,
-				"" + idOfCurrentCounter				
+				"" + idOfCurrentCounter
 		};
 		idOfCurrentCounter++;
 		remainCounters--;
@@ -128,17 +128,17 @@ public class ImaginaryPlayer {
 		currentCounterPosition = bridgeCoordinates[0];
 		return s;
 	}
-	
+
 	public String[] moveCounterCommand() {
 		String[] move = new String[] {
-				"MOVE", 
-				"" + id, 
-				"" + idOfCurrentCounter, 
+				"MOVE",
+				"" + id,
+				"" + idOfCurrentCounter,
 				"" + currentCounterPosition[0],
 				"" + currentCounterPosition[1]};
 		return move;
 	}
-	
+
 	public void addToMove(int step) {
 		score += step;
 		currentCounterPositionStep += step;
@@ -148,7 +148,7 @@ public class ImaginaryPlayer {
 			currentCounterPosition = bridgeCoordinates[9];
 		}
 	}
-	
+
 	public void newSalvage() {
 		remainCounters--;
 		score += 10;
@@ -157,5 +157,4 @@ public class ImaginaryPlayer {
 		currentCounterPositionStep = 0;
 		currentCounterPosition = bridgeCoordinates[0];
 	}
-
 }

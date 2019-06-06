@@ -6,10 +6,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import game.model.DaemonThreadFactory;
-import game.model.Gra;
+import game.model.Game;
 import javafx.animation.SequentialTransition;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -18,9 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import test.ViewTest;
 
-
 public class Main extends Application {
-
 	private static Stage mainStage;
 	private static Main main;
     private static Label infoTxt;
@@ -28,7 +25,7 @@ public class Main extends Application {
     private static SequentialTransition infoTxtSeq;
     private static SequentialTransition scoreTxtSeqOn;
 
-	private static Gra gra;
+	private static Game game;
 	private static ExecutorService executor;
 	private static ServerSocket serverSocket;
 	private static MainWindowController mwc;
@@ -49,7 +46,7 @@ public class Main extends Application {
             StartGameController startGameController = loader.getController();
             startGameController.setMain(main);
             startGameController.setPrimaryStage(mainStage);
-            scene.getStylesheets().add(ViewTest.class.getResource("/game/view/styl.css").toExternalForm());
+            scene.getStylesheets().add(ViewTest.class.getResource("/game/view/style.css").toExternalForm());
             executor = Executors.newFixedThreadPool(4, new DaemonThreadFactory());
             mainStage.setScene(scene);
             mainStage.show();
@@ -62,12 +59,12 @@ public class Main extends Application {
         launch(args);
     }
 
-	public static Gra getGra() {
-		return gra;
+	public static Game getGame() {
+		return game;
 	}
 
-	public static void setGra(Gra gra) {
-		Main.gra = gra;
+	public static void setGame(Game game) {
+		Main.game = game;
 	}
 
 	public static ExecutorService getExecutor() {
@@ -134,9 +131,8 @@ public class Main extends Application {
 		if (serverSocket != null) {
 			try {
 				serverSocket.close();
-				gra.getSock().close();
+				game.getSock().close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -154,11 +150,10 @@ public class Main extends Application {
 	        mwc = mainWindowController;
 	        mainWindowController.setMain(main);
 	        mainWindowController.setPrimaryStage(mainStage);
-	        scene.getStylesheets().add(ViewTest.class.getResource("/game/view/styl.css").toExternalForm());
+	        scene.getStylesheets().add(ViewTest.class.getResource("/game/view/style.css").toExternalForm());
 	        mainStage.setScene(scene);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -168,5 +163,4 @@ public class Main extends Application {
         mainStage.close();
 		System.exit(0);
 	}
-
 }

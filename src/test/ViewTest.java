@@ -1,6 +1,6 @@
 package test;
 
-import game.model.Pionek;
+import game.model.Pawn;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -14,9 +14,9 @@ public class ViewTest extends Application{
 		try {
 			BorderPane root = new BorderPane();
 			Scene scene = new Scene(root, 400, 400);
-			Pionek pionek1 = new Pionek(Color.BLUE, 1);
-			Pionek pionek2 = new Pionek(Color.LIME, 2);
-			Pionek pionek3 = new Pionek(Color.RED, 3);
+			Pawn pionek1 = new Pawn(Color.BLUE, 1);
+			Pawn pionek2 = new Pawn(Color.LIME, 2);
+			Pawn pionek3 = new Pawn(Color.RED, 3);
 			root.setLeft(pionek1);
 			root.setCenter(pionek2);
 			root.setRight(pionek3);

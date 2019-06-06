@@ -3,6 +3,8 @@ package game.controller;
 import java.io.IOException;
 import java.util.Optional;
 
+import javax.sound.sampled.Clip;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
@@ -31,26 +33,16 @@ public class MainWindowController {
     private int xx;
     private int yy;
 
-    @FXML
-    private Button losBut;
+    @FXML private Button drawBut;
+    @FXML private Label infoTxt;
+    @FXML private Label scoreInfoTxt;
+    @FXML private ImageView boardImage;
+    @FXML private AnchorPane mainAnchor;
+    @FXML private TextArea textInstr;
+    @FXML private TextField lab;
 
-    @FXML
-    private Label infoTxt;
-
-    @FXML
-    private Label scoreInfoTxt;
-
-    @FXML
-    private ImageView boardImage;
-
-    @FXML
-    private AnchorPane mainAnchor;
-
-    @FXML
-    private TextArea textInstr;
-
-    @FXML
-    private TextField lab;
+    private Clip bowClip;
+    private Clip clickClip;
 
     public void initialize() {
     	FadeTransition fade01 = new FadeTransition(Duration.seconds(1), infoTxt);
@@ -86,13 +78,7 @@ public class MainWindowController {
     	boardImage.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
     		boardImageMouseDragged(e);
     	});
-    	losBut.setVisible(false);
-
-//    	mainAnchor.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-//    		double x = e.getX();
-//    		double y = e.getY();
-//    		System.out.println("X: " + x + "    Y: " + y);
-//    	});
+    	drawBut.setVisible(false);
     }
 
     public void setMain(Main main) {
@@ -107,43 +93,42 @@ public class MainWindowController {
         primaryStage.close();
     }
 
-    @FXML public void uruchomLosowanie() {
-        losuj();
+    @FXML public void startDraw() {
+        draw();
     }
 
-    public void losuj() {
+    public void draw() {
 
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/LosujWindowView.fxml"));
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/DrawWindowView.fxml"));
         try {
             AnchorPane pane = loader.load();
-            Stage losujWindowStage = new Stage();
-            losujWindowStage.setTitle("Losowanie");
-            losujWindowStage.initModality(Modality.WINDOW_MODAL);
-            losujWindowStage.initOwner(primaryStage);
-            losujWindowStage.setMinHeight(650);
-            losujWindowStage.setMinWidth(500);
-            losujWindowStage.setHeight(650);
-            losujWindowStage.setWidth(500);
-            losujWindowStage.setMaxHeight(650);
-            losujWindowStage.setMaxWidth(500);
+            Stage drawWindowStage = new Stage();
+            drawWindowStage.setTitle("Losowanie");
+            drawWindowStage.initModality(Modality.WINDOW_MODAL);
+            drawWindowStage.initOwner(primaryStage);
+            drawWindowStage.setMinHeight(650);
+            drawWindowStage.setMinWidth(500);
+            drawWindowStage.setHeight(650);
+            drawWindowStage.setWidth(500);
+            drawWindowStage.setMaxHeight(650);
+            drawWindowStage.setMaxWidth(500);
             Scene scene = new Scene(pane);
-            losujWindowStage.initStyle(StageStyle.UNDECORATED);
-            losujWindowStage.setScene(scene);
-            losujWindowStage.setX(primaryStage.getX() + 100);
-            losujWindowStage.setY(primaryStage.getY() + 75);
+            drawWindowStage.initStyle(StageStyle.UNDECORATED);
+            drawWindowStage.setScene(scene);
+            drawWindowStage.setX(primaryStage.getX() + 100);
+            drawWindowStage.setY(primaryStage.getY() + 75);
 
-            LosujWindowController animationWindowController = loader.getController();
-            animationWindowController.setAnimationWindowStage(losujWindowStage);
+            DrawWindowController animationWindowController = loader.getController();
+            animationWindowController.setAnimationWindowStage(drawWindowStage);
             animationWindowController.setAnimation();
-            losujWindowStage.showAndWait();
-            losBut.setVisible(false);
-            main.getGra().sendObj(animationWindowController.getResult());
-            losujWindowStage.close();
+            drawWindowStage.showAndWait();
+            drawBut.setVisible(false);
+            main.getGame().sendObj(animationWindowController.getResult());
+            drawWindowStage.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     private void boardImageMousePressed(MouseEvent evt) {
         xx=(int) evt.getX();
@@ -157,61 +142,57 @@ public class MainWindowController {
         primaryStage.setY(y-yy);
     }
 
-    @FXML
-    private void exitGame() {
+    @FXML private void exitGame() {
     	Alert alert = new Alert(AlertType.CONFIRMATION);
     	alert.setTitle("Wyjście z gry");
-    	alert.setHeaderText("Rozgrywka nie została zakończona!");
+    	alert.setHeaderText("Wybrałeś opcję ZAKOŃCZ");
     	alert.setContentText("Czy na pewno chcesz wyjść?");
     	Optional<ButtonType> result = alert.showAndWait();
     	if (result.get() == ButtonType.OK){
     		Main.exitGame();
-    	} else {
-    	    // ... user chose CANCEL or closed the dialog
-    	}
+    	} else {}
     }
 
-    public Button getLosBut() {
-    	return losBut;
+    public Button getDrawBut() {
+    	return drawBut;
     }
 
-    public void przekaz(String foeClaim) {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/WybierzWindowView.fxml"));
+    public void comunicate(String foeClaim) {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/ChoiceWindowView.fxml"));
         try {
             AnchorPane pane = loader.load();
-            Stage wybierzWindowStage = new Stage();
-            wybierzWindowStage.setTitle("Wybor");
-            wybierzWindowStage.initModality(Modality.WINDOW_MODAL);
-            wybierzWindowStage.initOwner(main.getMainStage());//(losujWindowStage);
-            wybierzWindowStage.setMinHeight(650);
-            wybierzWindowStage.setMinWidth(500);
-            wybierzWindowStage.setMaxHeight(650);
-            wybierzWindowStage.setMaxWidth(500);
-            wybierzWindowStage.setHeight(650);
-            wybierzWindowStage.setWidth(500);
-            wybierzWindowStage.setX(primaryStage.getX() + 100);
-            wybierzWindowStage.setY(primaryStage.getY() + 75);
+            Stage choiceWindowStage = new Stage();
+            choiceWindowStage.setTitle("Wybor");
+            choiceWindowStage.initModality(Modality.WINDOW_MODAL);
+            choiceWindowStage.initOwner(main.getMainStage());
+            choiceWindowStage.setMinHeight(650);
+            choiceWindowStage.setMinWidth(500);
+            choiceWindowStage.setMaxHeight(650);
+            choiceWindowStage.setMaxWidth(500);
+            choiceWindowStage.setHeight(650);
+            choiceWindowStage.setWidth(500);
+            choiceWindowStage.setX(primaryStage.getX() + 100);
+            choiceWindowStage.setY(primaryStage.getY() + 75);
             Scene scene = new Scene(pane);
-            wybierzWindowStage.initStyle(StageStyle.UNDECORATED);
-            wybierzWindowStage.setScene(scene);
-            WybierzWindowController animationWindowController = loader.getController();
-            animationWindowController.setAnimationWindowStage(wybierzWindowStage);
+            choiceWindowStage.initStyle(StageStyle.UNDECORATED);
+            choiceWindowStage.setScene(scene);
+            ChoiceWindowController animationWindowController = loader.getController();
+            animationWindowController.setAnimationWindowStage(choiceWindowStage);
             animationWindowController.setChoice(foeClaim);
-            wybierzWindowStage.showAndWait();
-            main.getGra().sendObj(animationWindowController.getAnswer());
-            wybierzWindowStage.close();
+            choiceWindowStage.showAndWait();
+            main.getGame().sendObj(animationWindowController.getAnswer());
+            choiceWindowStage.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @FXML
-    public void showInstr() {
+    @FXML public void showInstr() {
     	Stage instrWindowStage = new Stage();
-    	FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/InstrukcjaWindowView.fxml"));
+    	FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/InstructionWindowView.fxml"));
         try {
         	AnchorPane pane = loader.load();
-        	((InstrukcjaWindowController) loader.getController()).setStage(instrWindowStage);
+        	((InstructionWindowController) loader.getController()).setStage(instrWindowStage);
         	instrWindowStage.setTitle("Instrukcja");
         	instrWindowStage.initModality(Modality.WINDOW_MODAL);
         	instrWindowStage.initOwner(Main.getMainStage());
@@ -221,16 +202,60 @@ public class MainWindowController {
         	instrWindowStage.setWidth(500);
         	instrWindowStage.setMaxHeight(650);
         	instrWindowStage.setMaxWidth(500);
-            instrWindowStage.initStyle(StageStyle.UNDECORATED);
-            instrWindowStage.setX(primaryStage.getX() + 100);
-            instrWindowStage.setY(primaryStage.getY() + 75);
+        	instrWindowStage.initStyle(StageStyle.UNDECORATED);
+        	instrWindowStage.setX(primaryStage.getX() + 100);
+        	instrWindowStage.setY(primaryStage.getY() + 75);
             Scene scene = new Scene(pane);
             instrWindowStage.setScene(scene);
 
-            scene.getStylesheets().add(ViewTest.class.getResource("/game/view/styl.css").toExternalForm());
+            scene.getStylesheets().add(ViewTest.class.getResource("/game/view/style.css").toExternalForm());
             instrWindowStage.showAndWait();
         } catch(Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML public void showAuth() {
+    	Stage authWindowStage = new Stage();
+    	FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/AuthorsWindowView.fxml"));
+        try {
+        	AnchorPane pane = loader.load();
+        	((AuthorsWindowController) loader.getController()).setStage(authWindowStage);
+        	authWindowStage.setTitle("Instrukcja");
+        	authWindowStage.initModality(Modality.WINDOW_MODAL);
+        	authWindowStage.initOwner(Main.getMainStage());
+        	authWindowStage.setMinHeight(650);
+        	authWindowStage.setMinWidth(500);
+        	authWindowStage.setHeight(650);
+        	authWindowStage.setWidth(500);
+        	authWindowStage.setMaxHeight(650);
+        	authWindowStage.setMaxWidth(500);
+        	authWindowStage.initStyle(StageStyle.UNDECORATED);
+        	authWindowStage.setX(primaryStage.getX() + 100);
+        	authWindowStage.setY(primaryStage.getY() + 75);
+            Scene scene = new Scene(pane);
+            authWindowStage.setScene(scene);
+
+            scene.getStylesheets().add(ViewTest.class.getResource("/game/view/style.css").toExternalForm());
+            authWindowStage.showAndWait();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML private void exitG() {
+    	Main.exitGame();
+    }
+
+	@FXML public void hoverBut() {
+    	bowClip.stop();
+    	bowClip.setMicrosecondPosition(0);
+    	bowClip.start();
+    }
+
+    @FXML public void clickBut() {
+    	clickClip.stop();
+    	clickClip.setMicrosecondPosition(0);
+    	clickClip.start();
     }
 }

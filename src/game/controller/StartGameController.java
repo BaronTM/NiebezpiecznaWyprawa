@@ -13,13 +13,11 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import game.model.GameServer;
-import game.model.Gra;
+import game.model.Game;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -27,8 +25,6 @@ import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class StartGameController {
@@ -43,53 +39,30 @@ public class StartGameController {
     private int xx;
     private int yy;
     private UnaryOperator<Change> ipAddressFilter;
-    @FXML
-    private ImageView startBut;
-    @FXML
-    private ImageView joinBut;
-    @FXML
-    private ImageView exitBut;
-    @FXML
-    private ImageView setBut;
-    @FXML
-    private AnchorPane mainAnchor;
-    @FXML
-    private AnchorPane startAnchor;
-    @FXML
-    private AnchorPane waitingAnchor;
-    @FXML
-    private AnchorPane joinAnchor;
-    @FXML
-    private AnchorPane setAnchor;
-    @FXML
-    private ImageView cancelBut;
-    @FXML
-    private ImageView cancelJoinBut;
-    @FXML
-    private ImageView backSetBut;
-    @FXML
-    private Label startButLab;
-    @FXML
-    private Label exitButLab;
-    @FXML
-    private Label joinButLab;
-    @FXML
-    private Label setButLab;
-    @FXML
-    private Label cancelButLab;
-    @FXML
-    private Label cancelJoinButLab;
-    @FXML
-    private Label backSetButLab;
-    @FXML
-    private Label ipLab;
-    @FXML
-    private ImageView ipSign;
-    @FXML
-    private ImageView joinError;
-    @FXML
-    private TextField ipTextField;
 
+    @FXML private ImageView startBut;
+    @FXML private ImageView joinBut;
+    @FXML private ImageView exitBut;
+    @FXML private ImageView setBut;
+    @FXML private AnchorPane mainAnchor;
+    @FXML private AnchorPane startAnchor;
+    @FXML private AnchorPane waitingAnchor;
+    @FXML private AnchorPane joinAnchor;
+    @FXML private AnchorPane setAnchor;
+    @FXML private ImageView cancelBut;
+    @FXML private ImageView cancelJoinBut;
+    @FXML private ImageView backSetBut;
+    @FXML private Label startButLab;
+    @FXML private Label exitButLab;
+    @FXML private Label joinButLab;
+    @FXML private Label setButLab;
+    @FXML private Label cancelButLab;
+    @FXML private Label cancelJoinButLab;
+    @FXML private Label backSetButLab;
+    @FXML private Label ipLab;
+    @FXML private ImageView ipSign;
+    @FXML private ImageView joinError;
+    @FXML private TextField ipTextField;
 
     public void setMain(Main main) {
         this.main = main;
@@ -114,15 +87,14 @@ public class StartGameController {
         clickBut();
         startAnchor.setVisible(false);
         waitingAnchor.setVisible(true);
-        Main.getExecutor().submit(new GameServer());
+        Main.getExecutor().submit(new GameServer(main));
         try {
-			Main.setGra(new Gra(1, main));
+			Main.setGame(new Game(1, main));
 		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
         try {
-			Main.getGra().setSock(new Socket("127.0.0.1", 4242));
+			Main.getGame().setSock(new Socket("127.0.0.1", 4242));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -134,13 +106,12 @@ public class StartGameController {
         joinAnchor.setVisible(true);
         System.out.println("Dolacz");
         try {
-			Main.setGra(new Gra(2, main));
+			Main.setGame(new Game(2, main));
 		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
         try {
-			Main.getGra().setSock(new Socket(serverIpAddress.getValue(), 4242));
+			Main.getGame().setSock(new Socket(serverIpAddress.getValue(), 4242));
 			System.out.println("Polaczono");
 			Main.runGame();
 		} catch (IOException e) {
@@ -164,11 +135,10 @@ public class StartGameController {
 
     @FXML public void cancelJoining() {
     	clickBut();
-    	if (Main.getGra().getSock() != null) {
+    	if (Main.getGame().getSock() != null) {
     		try {
-				Main.getGra().getSock().close();
+				Main.getGame().getSock().close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     	}
@@ -334,13 +304,6 @@ public class StartGameController {
 		});
     }
 
-//    private String makePartialIPRegex() {
-//        String partialBlock = "(([01]?[0-9]{0,2})|(2[0-4][0-9])|(25[0-5]))" ;
-//        String subsequentPartialBlock = "(\\."+partialBlock+")" ;
-//        String ipAddress = partialBlock+"?"+subsequentPartialBlock+"{0,3}";
-//        return "^"+ipAddress ;
-//    }
-
     private String makePartialIPRegex() {
     	String pattern =
     	        "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
@@ -361,7 +324,4 @@ public class StartGameController {
         primaryStage.setX(x-xx);
         primaryStage.setY(y-yy);
     }
-
-
-
 }

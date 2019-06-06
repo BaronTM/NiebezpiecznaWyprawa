@@ -1,34 +1,23 @@
 package game.model;
 
-import java.sql.Time;
-import java.util.concurrent.TimeUnit;
-
-import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
-import javafx.animation.SequentialTransition;
-import javafx.animation.PathTransition.OrientationType;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.ClosePath;
 import javafx.scene.shape.CubicCurve;
-import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.QuadCurveTo;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
-public class Pionek extends Pane {
+public class Pawn extends Pane {
 
 	private double scale;
 	private Color color;
@@ -41,14 +30,11 @@ public class Pionek extends Pane {
 	private double xx;
 	private double yy;
 
-
-
-
-	public Pionek() {
+	public Pawn() {
 		this(Color.LIME, 1);
 	}
 
-	public Pionek(Color color, double scale) {
+	public Pawn(Color color, double scale) {
 		super();
 		this.scale = scale;
 		this.color = color;circle = new Circle(15 * scale);
@@ -92,10 +78,6 @@ public class Pionek extends Pane {
 		this.getChildren().addAll(group, circle);
 	}
 
-	public void build() {
-
-	}
-
 	public int getStageX() {
 		return stageX;
 	}
@@ -111,7 +93,7 @@ public class Pionek extends Pane {
 		yy = finalY;
 	}
 
-	public void przesunPoMoscie(double finalX, double finalY) {
+	public void moveOnBridge(double finalX, double finalY) {
 		Path path = new Path();
 		path.getElements().add(new MoveTo(xx, yy - 35));
 		path.getElements().add(new QuadCurveTo(
@@ -132,7 +114,7 @@ public class Pionek extends Pane {
 		yy = finalY;
 	}
 
-	public void wrzucDoWody(double finalX, double finalY) {
+	public void fallIntoWater(double finalX, double finalY) {
 		Path path = new Path();
 		path.getElements().add(new MoveTo(xx, yy - 35));
 		path.getElements().add(new QuadCurveTo(
@@ -146,8 +128,6 @@ public class Pionek extends Pane {
 		pathTransition.setAutoReverse(false);
 		pathTransition.setInterpolator(Interpolator.LINEAR);
 		pathTransition.setCycleCount(1);
-
-
 
 		RotateTransition rotateTransition = new RotateTransition();
 		rotateTransition.setDuration(Duration.millis(2000));
@@ -168,5 +148,4 @@ public class Pionek extends Pane {
 		xx = finalX;
 		yy = finalY;
 	}
-
 }

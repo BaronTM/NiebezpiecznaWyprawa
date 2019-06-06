@@ -10,43 +10,33 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import test.ViewTest;
 
-public class InstrukcjaWindowController {
-	
+public class InstructionWindowController {
+
     private Clip bowClip;
     private Clip clickClip;
     private int hoverTransX;
     private int hoverTransY;
     private Stage stage;
-	
-	@FXML
-    private ImageView exitBut;
-	
-	@FXML
-    private Label exitButLab;
+
+	@FXML private ImageView exitBut;
+	@FXML private Label exitButLab;
 
 	Stage instrWindowStage = new Stage();
-	
+
 	public void setStage(Stage s) {
 		stage = s;
 	}
 
-	@FXML
-	public void closeInstr() {
+	@FXML public void closeInstr() {
 		clickBut();
 		stage.close();
 	}
-	
+
 	@FXML public void hoverBut() {
     	bowClip.stop();
     	bowClip.setMicrosecondPosition(0);
@@ -58,7 +48,7 @@ public class InstrukcjaWindowController {
     	clickClip.setMicrosecondPosition(0);
     	clickClip.start();
     }
-	
+
 	public void initialize() {
     	hoverTransX = -50;
     	hoverTransY = -20;
@@ -88,5 +78,4 @@ public class InstrukcjaWindowController {
 	    	clickClip.open(audioInputStream2);
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {}
 	}
-
 }

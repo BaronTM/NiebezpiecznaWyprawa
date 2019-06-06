@@ -1,15 +1,12 @@
 package game.model;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import game.controller.Main;
@@ -28,33 +25,37 @@ public class GameServer implements Runnable {
 	private ImaginaryPlayer currentPlayer;
 	private ImaginaryPlayer foePlayer;
 	private int salvages;
+	private Main main;
 
 	{
 		salvages = 0;
+	}
+	
+	public GameServer(Main m) {
+		main = m;
 	}
 
 	@Override
 	public void run() {
 		try {
-			ServerSocket gniazdoSerwera = new ServerSocket(4242);
-			Main.setServerSocket(gniazdoSerwera);
-			g1Socket = gniazdoSerwera.accept();
+			ServerSocket serverSocket = new ServerSocket(4242);
+			Main.setServerSocket(serverSocket);
+			g1Socket = serverSocket.accept();
 			oosg1 = new ObjectOutputStream(g1Socket.getOutputStream());
 			oisg1 = new ObjectInputStream(g1Socket.getInputStream());
 			System.out.println("Socket gamer 1: " + g1Socket.getPort());
 
-			g2Socket = gniazdoSerwera.accept();
+			g2Socket = serverSocket.accept();
 			oosg2 = new ObjectOutputStream(g2Socket.getOutputStream());
 			oisg2 = new ObjectInputStream(g2Socket.getInputStream());
 			System.out.println("Socket gamer 2: " + g2Socket.getPort());
-			gniazdoSerwera.close();
+			serverSocket.close();
 			Platform.runLater(() -> {
 				Main.runGame();
 				try {
 					oosg1.writeObject("startNewGame");
 					oosg2.writeObject("startNewGame");
 				} catch (SecurityException | IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			});
@@ -62,6 +63,7 @@ public class GameServer implements Runnable {
 			checkIfConnected(oisg2, "Gracz 2 polaczony");
 			letsPlay();
 		} catch (SocketException e) {
+			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -75,7 +77,6 @@ public class GameServer implements Runnable {
 			if (str.equals("connected"))
 				System.out.println(s);
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -143,8 +144,8 @@ public class GameServer implements Runnable {
 				}
 				if (currentPlayer.getCurrentCounterPositionStep() >= 9) {
 					TimeUnit.SECONDS.sleep(2);
-					int moveX = Plansza.getKamienieWsp()[salvages][0];
-					int moveY = Plansza.getKamienieWsp()[salvages][1];
+					int moveX = Board.getStonesPos()[salvages][0];
+					int moveY = Board.getStonesPos()[salvages][1];
 					salvages++;
 					currentPlayer.setCurrentCounterPosition(new int[] { moveX, moveY });
 					String[] move = currentPlayer.moveCounterCommand();
@@ -183,11 +184,16 @@ public class GameServer implements Runnable {
 					foePlayer = player2;
 				}
 			}
-
 		} catch (Exception e) {
-			e.printStackTrace();
+			main.getGame().showInfo("POLACZENIE\nZOSTALO\nPRZERWANE");
+			main.getGame().showScore("\n\n\nKONIEC GRY");
+		} finally {
+			try {
+				g1Socket.close();
+				g2Socket.close();
+			} catch (IOException e) {
+			}
 		}
-
 	}
 
 }
