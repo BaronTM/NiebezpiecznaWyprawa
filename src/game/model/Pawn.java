@@ -116,13 +116,16 @@ public class Pawn extends Pane {
 	}
 
 	public void fallIntoWater(double finalX, double finalY) {
-		int moveX = (int) (finalX - xx);
-		int moveY = (int) Math.abs(moveX)/2;
 		Path path = new Path();
 		path.getElements().add(new MoveTo(xx, yy - 35));
 		path.getElements().add(new QuadCurveTo(
+				Math.max(xx, finalX) ,
+				Math.min(yy, finalY) ,
+				finalX,
+				yy - 35));
+		path.getElements().add(new QuadCurveTo(
 				Math.max(xx, finalX),
-				Math.min(yy, finalY),
+				Math.min(yy, finalY) ,
 				finalX,
 				finalY - 35));
 		

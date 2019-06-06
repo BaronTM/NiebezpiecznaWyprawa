@@ -74,7 +74,7 @@ public class Game implements Serializable {
 					int counterNr = Integer.parseInt(commands[2]);
 					Gamer g = gamerNr == 1 ? g1 : g2;
 					if (gamerNr == 1)
-						g.getPawns().get(counterNr).fallIntoWater(200, 400);
+						g.getPawns().get(counterNr).fallIntoWater(300, 400);
 					else
 						g.getPawns().get(counterNr).fallIntoWater(650, 400);
 				} else if (commands[0].equalsIgnoreCase("MOVE")) {
