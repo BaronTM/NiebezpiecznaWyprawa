@@ -15,40 +15,79 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+/**
+ * Klasa obsluguje wyswietlanie okna z instrukcja gry
+ * @author Karol Kusmierz
+ */
 public class InstructionWindowController {
 
+	/**
+     * plik do odtworzenia dzwieku po wskazaniu przycisku kursorem myszy
+     */
     private Clip bowClip;
+    /**
+     * plik do odtworzenia dzwieku po kliknieciu w przycisk
+     */
     private Clip clickClip;
+    /**
+     * parametr do przesuniecia przycisku w poziomie po wskazaniu przycisku kursorem myszy
+     */
     private int hoverTransX;
+    /**
+     * parametr do przesuniecia przycisku w pionie po wskazaniu przycisku kursorem myszy
+     */
     private int hoverTransY;
+    /**
+     * kontener do wyswietlenia okna z informacja o autorach
+     */
     private Stage stage;
 
+    /**
+	 * obraz reprezentujacy przycisk zamkniecia okna
+	 */
 	@FXML private ImageView exitBut;
+	/**
+	 * etykieta wskazuja przycisk do zamkniecia okna
+	 */
 	@FXML private Label exitButLab;
 
-	Stage instrWindowStage = new Stage();
-
+		/**
+	 * Metoda do ustawiania glownego kontenera dla okna
+	 * @param s parametr typu Stage wskazujacy obslugiwany kontener
+	 */
 	public void setStage(Stage s) {
 		stage = s;
 	}
 
+	/**
+	 * Metoda do zamykania okna z instrukcja, z obsluga odtworzenia dzwieku
+	 */
 	@FXML public void closeInstr() {
 		clickBut();
 		stage.close();
 	}
 
+	/**
+	 * Metoda do odtwarzania dzwieku po wskazaniu kursorem myszy na przycisk zamykania okna
+	 */
 	@FXML public void hoverBut() {
     	bowClip.stop();
     	bowClip.setMicrosecondPosition(0);
     	bowClip.start();
     }
 
+	/**
+	 * Metoda do odtwarzania dzwieku po kliknieciu na przycisk zamykania okna
+	 */
     @FXML public void clickBut() {
     	clickClip.stop();
     	clickClip.setMicrosecondPosition(0);
     	clickClip.start();
     }
 
+    /**
+	 * Metoda do inicjalizacji, definiujaca parametry do obslugi przycisku zamykania okna
+	 */
 	public void initialize() {
     	hoverTransX = -50;
     	hoverTransY = -20;

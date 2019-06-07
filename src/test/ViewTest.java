@@ -20,7 +20,7 @@ public class ViewTest extends Application{
 			root.setLeft(pionek1);
 			root.setCenter(pionek2);
 			root.setRight(pionek3);
-			scene.getStylesheets().add(ViewTest.class.getResource("/game/view/styl.css").toExternalForm());
+			scene.getStylesheets().add(ViewTest.class.getResource("/game/view/style.css").toExternalForm());
 			primaryStage.setTitle("Welcome app");
 			primaryStage.setScene(scene);
 			primaryStage.show();

@@ -5,7 +5,6 @@ import java.util.concurrent.Executors;
 
 import game.controller.Main;
 import game.controller.MainWindowController;
-import game.controller.StartGameController;
 import game.model.DaemonThreadFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,15 +15,15 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class WindowTest extends Application{
-	
+
 	WindowTest main;
 	Stage mainStage;
 	Executor executor;
-	
+
 	@Override
     public void start(Stage primaryStage) {
         try {
-        	FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/MainWindowView.fxml"));               
+        	FXMLLoader loader = new FXMLLoader(Main.class.getResource("/game/view/MainWindowView.fxml"));
         	AnchorPane pane;
         	primaryStage.initStyle(StageStyle.UNDECORATED);
             pane = loader.load();
@@ -40,7 +39,7 @@ public class WindowTest extends Application{
             Scene scene = new Scene(pane);
             MainWindowController startGameController = loader.getController();
             startGameController.setPrimaryStage(mainStage);
-            scene.getStylesheets().add(ViewTest.class.getResource("/game/view/styl.css").toExternalForm());
+            scene.getStylesheets().add(ViewTest.class.getResource("/game/view/style.css").toExternalForm());
             executor = Executors.newFixedThreadPool(4, new DaemonThreadFactory());
             mainStage.setScene(scene);
             mainStage.show();
@@ -48,11 +47,11 @@ public class WindowTest extends Application{
             e.printStackTrace();
         }
     }
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
 
-	
+
 
 }

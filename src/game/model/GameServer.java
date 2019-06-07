@@ -1,6 +1,5 @@
 package game.model;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -30,7 +29,7 @@ public class GameServer implements Runnable {
 	{
 		salvages = 0;
 	}
-	
+
 	public GameServer(Main m) {
 		main = m;
 	}
@@ -45,14 +44,13 @@ public class GameServer implements Runnable {
 					TimeUnit.MILLISECONDS.sleep(300);
 					Main.getGame().setSock(new Socket("127.0.0.1", 4242));
 				} catch (IOException | InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			});
 			g1Socket = serverSocket.accept();
 			oosg1 = new ObjectOutputStream(g1Socket.getOutputStream());
 			oisg1 = new ObjectInputStream(g1Socket.getInputStream());
-			
+
 			g2Socket = serverSocket.accept();
 			oosg2 = new ObjectOutputStream(g2Socket.getOutputStream());
 			oisg2 = new ObjectInputStream(g2Socket.getInputStream());

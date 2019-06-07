@@ -20,7 +20,7 @@
             <Image url="@graphics/ip_set.png" />
          </image>
       </ImageView>
-      <TextField fx:id="lab" alignment="TOP_LEFT" editable="false" focusTraversable="false" layoutX="50.0" layoutY="57.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="60.0" style="-fx-background-color: transparent;" text="O AUTORACH" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="60.0">
+      <TextField alignment="TOP_LEFT" editable="false" focusTraversable="false" layoutX="50.0" layoutY="57.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="60.0" style="-fx-background-color: transparent;" text="O AUTORACH" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="60.0">
          <font>
             <Font name="Western Grungy by Marta van Eck" size="40.0" />
          </font>
@@ -30,8 +30,8 @@
             <Image url="@graphics/grafika/tlo.png" />
          </image>
       </ImageView>
-      <TextArea fx:id="textAut" editable="false" layoutX="70.0" layoutY="168.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent;" styleClass="textAut" text="Projekt zrealizowany w ramach pracy koncowej, podsumowajacej studia podyplomowe JAVA EE – produkcja oprogramowania w Instytucie Informatyki Politechniki Warszawskiej.&#10;&#10;&#10;&#10;autorzy:&#10;&#10;Ernest Paprocki&#10;Karol Kusmierz&#10;&#10;&#10;&#10;Warszawa&#10;czerwiec 2019" wrapText="true" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="170.0" />
-      <ImageView fx:id="exitBut" fitHeight="85.0" fitWidth="300.0" layoutX="45.0" layoutY="381.0" onMouseClicked="#closeAut" onMouseEntered="#hoverBut" pickOnBounds="true" styleClass="wooden_but" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="0.0">
+      <TextArea editable="false" layoutX="70.0" layoutY="168.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent;" styleClass="textAut" text="Projekt zrealizowany w ramach pracy koncowej, podsumowajacej studia podyplomowe JAVA EE – produkcja oprogramowania w Instytucie Informatyki Politechniki Warszawskiej.&#10;&#10;&#10;&#10;autorzy:&#10;&#10;Ernest Paprocki&#10;Karol Kusmierz&#10;&#10;&#10;&#10;Warszawa&#10;czerwiec 2019" wrapText="true" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="170.0" />
+      <ImageView fx:id="exitBut" fitHeight="85.0" fitWidth="300.0" layoutX="45.0" layoutY="381.0" onMouseClicked="#closeAuth" onMouseEntered="#hoverBut" pickOnBounds="true" styleClass="wooden_but" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="0.0">
          <image>
             <Image url="@graphics/wyjdz_but.png" />
          </image>

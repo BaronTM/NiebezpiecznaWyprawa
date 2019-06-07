@@ -10,7 +10,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.CubicCurve;
-import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
@@ -128,7 +127,7 @@ public class Pawn extends Pane {
 				Math.min(yy, finalY) ,
 				finalX,
 				finalY - 35));
-		
+
 		PathTransition pathTransition = new PathTransition();
 		pathTransition.setDuration(Duration.millis(3000));
 		pathTransition.setPath(path);

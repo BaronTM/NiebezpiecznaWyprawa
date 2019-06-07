@@ -1,39 +1,67 @@
 package game.controller;
 
-import java.util.List;
-
 import javafx.animation.Animation;
 import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import game.model.Gamer;
-import game.model.Pawn;
 
+/**
+ * Klasa obsluguje wyswietlanie okna ze wskazaniem prawdy/falszu, po owczesnym wskazaniu wylosowania przez przeciwnika
+ * @author Karol Kusmierz
+ */
 public class ChoiceWindowController {
-    private Stage choiceWindowStage;
 
+	/**
+	 * kontener do wyswietlenia okna
+	 */
+	private Stage choiceWindowStage;
+
+    /**
+     * ksztalt bedacy podkladem wyswietlanej wartosci wskazanej przez przeciwnika
+     */
     @FXML Rectangle dice;
+    /**
+     * pole tekstowe do wyswietlania wartosci wskazanej przez przeciwnika
+     */
     @FXML TextField textChoice;
+    /**
+     * przycisk do wskazania wartosci przawdziwej
+     */
     @FXML Button isTrue;
+    /**
+     * przycisk do wskazania wartosci falszywej
+     */
     @FXML Button isFalse;
 
-    List<Pawn> pawnsA;
-    List<Pawn> pawnsB;
-    Gamer gamerA = new Gamer(1, "graczA", Color.RED);
-    Gamer gamerB = new Gamer(1, "graczA", Color.GREEN);
+    /**
+     * tabela do przekazania wartosci wskazanej przez gracza
+     */
     private String[] answer;
+    /**
+     * kontroler do obslugi okna losowania wartosci
+     */
     DrawWindowController draw = new DrawWindowController();
+    /**
+     * klasa do obslugi animacji elementow
+     */
     Animation animation;
 
-    public void setAnimationWindowStage(Stage choiceWindowStage) {
+    /**
+	 * Metoda do ustawiania glownego kontenera dla okna
+	 * @param choiceWindowStage parametr typu Stage wskazujacy obslugiwany kontener
+	 */
+    public void setChoiceWindowStage(Stage choiceWindowStage) {
         this.choiceWindowStage = choiceWindowStage;
     }
 
+    /**
+	 * Metoda do obslugi animacji i przekazania inforacji o losowaniu przeciwnika
+	 * @param foeClaim parametr typu String przekazujacy informacje - prawdziwa lub nie - od przeciwnika
+	 */
     @FXML public void setChoice(String foeClaim) {
     	RotateTransition transition = new RotateTransition();
         transition.setNode(dice);
@@ -49,24 +77,41 @@ public class ChoiceWindowController {
         animation.play();
     }
 
+    /**
+	 * Metoda do oznaczenia informacji od gracza, ze zgadza sie z wynikiem przeciwnika i zamkniecia biezacego okna
+	 */
     @FXML public void setTrue() {
     	answer = new String[] {"Answer", "true"};
     	closeWindow();
     }
 
+    /**
+	 * Metoda do oznaczenia informacji od gracza, ze nie zgadza sie z wynikiem przeciwnika i zamkniecia biezacego okna
+	 */
     @FXML public void setFalse() {
     	answer = new String[] {"Answer", "false"};
     	closeWindow();
     }
 
+    /**
+	 * Metoda do przekazania wyboru gracza
+	 * @return tablica z wartoscia wskazania gracza
+	 */
     public String[] getAnswer() {
     	return answer;
     }
 
+    /**
+	 * Metoda do zwrocenia wyboru gracza
+	 * @return pole do wyswietlenia wartosci wskazanej przez przeciwnika
+	 */
     public TextField getTextChoice() {
     	return textChoice;
     }
 
+    /**
+	 * Metoda do zamykania biezacego okna
+	 */
     public void closeWindow() {
     	choiceWindowStage.close();
     }

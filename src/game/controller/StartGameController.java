@@ -88,22 +88,16 @@ public class StartGameController {
         startAnchor.setVisible(false);
         waitingAnchor.setVisible(true);
         Main.getExecutor().submit(new GameServer(main));
-        try {
-			Main.setGame(new Game(1, main));
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
+		Main.setGame(new Game(1, main));
+
     }
 
     @FXML public void joinGame() {
         clickBut();
         startAnchor.setVisible(false);
         joinAnchor.setVisible(true);
-        try {
-			Main.setGame(new Game(2, main));
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
+		Main.setGame(new Game(2, main));
+
         try {
 			Main.getGame().setSock(new Socket(serverIpAddress.getValue(), 4242));
 			Main.runGame();

@@ -11,29 +11,80 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * Klasa obsluguje wyswietlanie okna z symulacja rzutu zmodyfikowana kostka.
+ * Tutaj gracz przekazuje przeciwnikowi prawidlowy wynik lub oszukuje po losowaniu
+ * @author Karol Kusmierz
+ */
 public class DrawWindowController {
+    /**
+     * kontroler do wyswietlenia okna losowania
+     */
     private Stage drawWindowStage;
+    /**
+     * parametr do przechowania wartosci wylosowanej, liczba naturalna
+     */
     private int drawInt;
+    /**
+     * parametr do przechowania zmodyfikowanej wartosci wylosowanej, tekstowo
+     */
     private String drawStr;
+    /**
+     * parametr do przechowania wartosci przekazanej przeciwnikowi, liczba naturalna
+     */
     private int choiceInt;
+    /**
+     * parametr do przechowania wartosci przekazanej przeciwnikowi, tekst
+     */
     private static String choiceStr;
-    private static boolean showing;
 
+    /**
+     * ksztalt bedacy podkladem wyswietlanej wylosowanej wartosci gracza
+     */
     @FXML Rectangle dice;
+    /**
+     *  pole tekstowe do wyswietlania wartosci wylosowanej przez gracza
+     */
     @FXML TextField numb;
+    /**
+     * przycisk do wskazania przeciwnikowi wartosci '1'
+     */
     @FXML Button button1;
+    /**
+     * przycisk do wskazania przeciwnikowi wartosci '2'
+     */
     @FXML Button button2;
+    /**
+     * przycisk do wskazania przeciwnikowi wartosci '3'
+     */
     @FXML Button button3;
+    /**
+     * przycisk do wskazania przeciwnikowi wartosci '4'
+     */
     @FXML Button button4;
 
+    /**
+     * klasa do obslugi animacji elementow
+     */
     Animation animation;
+    /**
+     * klasa do generowania wartosci losowych z rozkladu jednostajnego na (0, 1)
+     */
     Random generator = new Random();
 
-	public void setAnimationWindowStage(Stage drawWindowStage) {
+    /**
+	 * Metoda do ustawiania glownego kontenera dla okna
+	 * @param drawWindowStage parametr wskazujacy obslugiwany kontener
+	 */
+	public void setDrawWindowStage(Stage drawWindowStage) {
         this.drawWindowStage = drawWindowStage;
     }
 
-    @FXML public int setAnimation() {
+    /**
+	 * Metoda do obslugi animacji i przekazania inforacji o losowaniu po rzucie kostka
+	 * @return zwraca wylosowana wartosc zmodyfikowana
+	 */
+    @FXML public String setAnimation() {
             RotateTransition transition = new RotateTransition();
             transition.setNode(dice);
             for (int i = 1; i <=30; i++) {
@@ -53,31 +104,53 @@ public class DrawWindowController {
     			numb.setText("X");
     			drawStr = "X";
     		}
-    	return drawInt;
+    	return drawStr;
     }
 
+    /**
+	 * Metoda do zamykania biezacego okna
+	 */
     @FXML public void closeWindow() {
         drawWindowStage.close();
     }
 
+    /**
+	 * Metoda do przekazania przeciwnikowi wyniku '1' po rzucie kostka
+	 * @return zwraca wskazana wartosc '1'
+	 */
     @FXML public String choseFirst() {
     	choiceInt = 1;
     	choiceStr = choiceInt + "";
     	closeWindow();
     	return choiceStr;
     }
+
+    /**
+	 * Metoda do przekazania przeciwnikowi wyniku '2' po rzucie kostka
+	 * @return zwraca wskazana wartosc '2'
+	 */
     @FXML public String choseSecond() {
     	choiceInt = 2;
     	choiceStr = choiceInt + "";
     	closeWindow();
     	return choiceStr;
     }
+
+    /**
+	 * Metoda do przekazania przeciwnikowi wyniku '3' po rzucie kostka
+	 * @return zwraca wskazana wartosc '3'
+	 */
     @FXML public String choseThird() {
     	choiceInt = 3;
     	choiceStr = choiceInt + "";
     	closeWindow();
     	return choiceStr;
     }
+
+    /**
+	 * Metoda do przekazania przeciwnikowi wyniku '4' po rzucie kostka
+	 * @return zwraca wskazana wartosc '4'
+	 */
     @FXML public String choseFourth() {
     	choiceInt = 4;
     	choiceStr = choiceInt + "";
@@ -85,19 +158,27 @@ public class DrawWindowController {
     	return choiceStr;
     }
 
+    /**
+	 * Metoda do przekazania informacji o wyniku po rzucie kostka i o informacji przekazanej przeciwnikowi
+	 * @return zwraca tablice z wartoscia wylosowana oraz przekazana przeciwnikowi
+	 */
     public String[] getResult() {
     	return new String[] {"RESULT", drawStr, choiceStr};
     }
 
+    /**
+	 * Metoda do przekazania informacji dla przeciwnika
+	 * @return zwraca wartosc przekazana przeciwnikowi
+	 */
     public String getChoiceStr() {
     	return choiceStr;
     }
 
+    /**
+	 * Metoda do przekazania wyniku wskazanego przeciwnikowi
+	 * @param choiceStr parametr typu String przekazujacy wynik wskazany przeciwnikowi
+	 */
     public void setChoiceStr(String choiceStr) {
     	DrawWindowController.choiceStr = choiceStr;
-    }
-
-    public boolean getShowing() {
-    	return showing;
     }
 }

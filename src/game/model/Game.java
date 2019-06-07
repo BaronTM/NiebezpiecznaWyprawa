@@ -16,19 +16,17 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-public class Game implements Serializable {
+public class Game {
 
-	private static final long serialVersionUID = 5712053620818160194L;
-	private transient Socket sock;
-	private transient ObjectOutputStream oos;
-	private transient ObjectInputStream ois;
+	private Socket sock;
+	private ObjectOutputStream oos;
+	private ObjectInputStream ois;
 	private Gamer g1;
 	private Gamer g2;
 	private Main main;
 	private int gamerId;
 
-	public Game(int nr, Main m) throws RemoteException {
-		super();
+	public Game(int nr, Main m) {
 		gamerId = nr;
 		main = m;
 	}
