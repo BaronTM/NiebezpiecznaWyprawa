@@ -1,9 +1,14 @@
 package game.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
@@ -12,6 +17,7 @@ import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -50,7 +56,11 @@ public class MainWindowController {
     /**
      * przycisk uruchamiajacy losowanie
      */
-    @FXML private Button drawBut;
+    @FXML private ImageView drawBut;
+    /**
+     * etykieta przycisku losowania
+     */
+    @FXML private Label drawLab;
     /**
      * etykieta wskazujaca biezacy ruch
      */
@@ -94,6 +104,23 @@ public class MainWindowController {
      * Tu przekazywana jest informacja o rozpoczeciu rozgrywki, ustawienie pionkow na planszy, przesuniecie pierwszych pionkow na poczatek mostu
      */
     public void initialize() {
+    	
+    	AudioInputStream audioInputStream;
+		try {
+			audioInputStream = AudioSystem.getAudioInputStream(new File("bin/game/view/sounds/bow.wav").getAbsoluteFile());
+	    	bowClip = AudioSystem.getClip();
+	    	bowClip.open(audioInputStream);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {}
+		AudioInputStream audioInputStream2;
+		try {
+			audioInputStream2 = AudioSystem.getAudioInputStream(new File("bin/game/view/sounds/click.wav").getAbsoluteFile());
+	    	clickClip = AudioSystem.getClip();
+	    	clickClip.open(audioInputStream2);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {}
+	
+		drawBut.setCursor(Cursor.HAND);
+		drawLab.visibleProperty().bindBidirectional(drawBut.visibleProperty());
+    	
     	FadeTransition fade01 = new FadeTransition(Duration.seconds(1), infoTxt);
     	fade01.setFromValue(0);
     	fade01.setToValue(1);
@@ -152,7 +179,9 @@ public class MainWindowController {
     	boardImage.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
     		boardImageMouseDragged(e);
     	});
+    	
     	drawBut.setVisible(false);
+    	
     }
 
     /**
@@ -182,6 +211,7 @@ public class MainWindowController {
      * Metoda uruchamiajaca losowanie
      */
     @FXML public void startDraw() {
+    	clickBut();
         draw();
     }
 
@@ -258,9 +288,10 @@ public class MainWindowController {
 
     /**
      * Metoda do przekazania przycisku do uruchomienia losowania
-     * @return przycisk do uruchomienia losowania typu Button
+     * @return przycisk do uruchomienia losowania typu ImageView
      */
-    public Button getDrawBut() {
+    public ImageView getDrawBut() {
+    	clickBut();
     	return drawBut;
     }
 
