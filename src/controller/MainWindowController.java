@@ -205,7 +205,7 @@ public class MainWindowController {
     @FXML public void startDraw() {
     	clickBut();
         draw();
-}
+    }
 
     /**
      * Metoda do uruchomienia okna z losowaniem
@@ -283,9 +283,8 @@ public class MainWindowController {
      * @return zwraca przycisk do uruchomienia losowania typu ImageView
      */
     public ImageView getDrawBut() {
-    	clickBut();
     	return drawBut;
-}
+    }
 
     /**
      * Metoda do uruchomienia przeciwnikowi okna z proponowana wartoscia losowania
