@@ -342,13 +342,13 @@ public class StartGameController {
     private void initAudio() {
     	AudioInputStream audioInputStream;
 		try {
-			audioInputStream = AudioSystem.getAudioInputStream(new File("bin/view/sounds/bow.wav").getAbsoluteFile());
+			audioInputStream = AudioSystem.getAudioInputStream(Main.class.getResource("/view/sounds/bow.wav"));
 	    	bowClip = AudioSystem.getClip();
 	    	bowClip.open(audioInputStream);
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {}
 		AudioInputStream audioInputStream2;
 		try {
-			audioInputStream2 = AudioSystem.getAudioInputStream(new File("bin/view/sounds/click.wav").getAbsoluteFile());
+			audioInputStream2 = AudioSystem.getAudioInputStream(Main.class.getResource("/view/sounds/click.wav"));
 	    	clickClip = AudioSystem.getClip();
 	    	clickClip.open(audioInputStream2);
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {}
