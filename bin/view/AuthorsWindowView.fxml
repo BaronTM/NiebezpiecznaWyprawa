@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="650.0" maxWidth="500.0" minHeight="650.0" minWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AuthorsWindowController">
+   <children>
+      <ImageView fitHeight="661.0" fitWidth="506.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@graphics/grafika/cartoon-jungle-background_490205.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="120.0" fitWidth="455.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
+         <image>
+            <Image url="@graphics/ip_set.png" />
+         </image>
+      </ImageView>
+      <TextField alignment="TOP_LEFT" editable="false" focusTraversable="false" layoutX="50.0" layoutY="57.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="60.0" style="-fx-background-color: transparent;" text="O AUTORACH" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="60.0">
+         <font>
+            <Font name="Western Grungy by Marta van Eck" size="40.0" />
+         </font>
+      </TextField>
+      <ImageView fitHeight="691.0" fitWidth="532.0" layoutX="-16.0" layoutY="-19.0" pickOnBounds="true">
+         <image>
+            <Image url="@graphics/grafika/tlo.png" />
+         </image>
+      </ImageView>
+      <TextArea editable="false" layoutX="70.0" layoutY="168.0" prefHeight="200.0" prefWidth="200.0" styleClass="textInstr" text="Projekt zrealizowany w ramach pracy koncowej, podsumowajacej studia podyplomowe JAVA EE – produkcja oprogramowania w Instytucie Informatyki Politechniki Warszawskiej.&#10;&#10;&#10;&#10;autorzy:&#10;&#10;Ernest Paprocki&#10;Karol Kusmierz&#10;&#10;&#10;&#10;Warszawa&#10;czerwiec 2019" wrapText="true" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="170.0" />
+      <ImageView fx:id="exitBut" fitHeight="85.0" fitWidth="300.0" layoutX="45.0" layoutY="381.0" onMouseClicked="#closeAuth" onMouseEntered="#hoverBut" pickOnBounds="true" styleClass="wooden_but" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="0.0">
+         <image>
+            <Image url="@graphics/wyjdz_but.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="exitButLab" disable="true" layoutX="293.0" layoutY="569.0" prefHeight="37.0" prefWidth="159.0" rotate="-10.0" styleClass="wood_label" text="ZAMKNIJ">
+         <font>
+            <Font name="Western Grungy by Marta van Eck" size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

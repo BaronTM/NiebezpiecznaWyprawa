@@ -1,0 +1,142 @@
+@font-face {
+	src: url("fonts/western/Western.ttf");
+}
+
+@font-face {
+	src: url("fonts/adrip/adrip1.ttf");
+}
+
+@font-face {
+	src: url("fonts/skratch/SAVEOURSOULSsaji.ttf");
+}
+
+@font-face {
+	src: url("fonts/skratch/Skratch-Regular.otf");
+}
+
+
+
+.counter_circle {
+    -fx-effect: innershadow(gaussian, rgba(1, 1, 1, 0.2), 18, 0.5, -1.0, -1.0);
+}
+
+.counter_triangle {
+    -fx-effect: innershadow(gaussian, rgba(1, 1, 1, 0.2), 26, 0.5, -3.0, 5.0);
+}
+
+.wood_label {
+	-fx-font-family: "Western Grungy by Marta van Eck";
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , #c4b8ac , 5, 0.5 , 0 , 0 );
+}
+
+.wood_label:disabled {
+    -fx-opacity: 1;
+}
+
+.start_pane {
+	-fx-background-image: url("graphics/startImg.png");
+	-fx-background-size: cover;
+}
+
+.wooden_but {
+    -fx-effect: dropshadow( three-pass-box , #512e09 , 5, 0.3 , 5 , 5 );
+}
+
+.wooden_but:hover {
+    -fx-effect: dropshadow( three-pass-box , #199fc4 , 5, 0.3 , 5 , 5 );
+}
+
+.wooden_but:active {
+    -fx-effect: dropshadow( three-pass-box , #FFD700 , 5, 0.3 , 5 , 5 );
+}
+
+.wooden_info {
+	-fx-effect: dropshadow( three-pass-box , #512e09 , 30, 0.3 , 5 , 5 );
+}
+
+.infoTxt {
+	-fx-font-family: "Western Grungy by Marta van Eck";
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , #5b0c0c , 30, 0.7 , 0 , 0 );
+}
+
+.scoreInfoTxt {
+	-fx-font-family: "Skratch";
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , #5b0c0c , 30, 0.7 , 0 , 0 );
+}
+
+.ip_text_field {
+	-fx-background-color: transparent;
+	-fx-font-family: "a dripping marker";
+	-fx-text-fill: rgb(138, 7, 7);
+	-fx-effect: dropshadow( three-pass-box , #8A0707 , 2, 0.7 , 0 , 0 );
+	-fx-font-size: 70;
+
+}
+
+.place {
+	-fx-font-family: "Skratch";
+	-fx-text-fill: rgb(210, 200, 186);
+	-fx-effect: dropshadow( three-pass-box , rgb(124, 115, 103) , 50, 0.925 , 0 , 0);
+
+}
+
+.textInstr {
+	-fx-background-color: transparent;
+	-fx-font-family: "Monospaced";
+	-fx-text-fill: white;
+	-fx-font-size: 16;
+	-fx-effect: dropshadow( three-pass-box , rgb(102, 157, 0) , 50, 0.93 , 0 , 0);
+}
+
+.textInstr .scroll-pane {
+    -fx-background-color: transparent;
+    -fx-hbar-policy : never;
+    -fx-vbar-policy : never;
+}
+
+.textInstr .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+.textInstr .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+.textInstr .scroll-bar .increment-button {
+  visibility: hidden;
+}
+
+.textInstr .scroll-bar .decrement-button {
+  visibility: hidden;
+}
+
+.textAut {
+	-fx-background-color: transparent;
+	-fx-font-family: "Skratch";
+	-fx-font-size: 16;
+}
+
+.wooden_board {
+
+}
+
+.drawTxt {
+	-fx-font-family: "Western Grungy by Marta van Eck";
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , #c4b8ac , 3, 0.5 , 0 , 0 );
+}
+
+.drawTxt:disabled {
+    -fx-opacity: 1;
+}
+
+.draw_but {
+    -fx-effect: dropshadow( three-pass-box , #512e09 , 5, 0.3 , 5 , 5 );
+}
+
+.draw_but:hover {
+    -fx-effect: dropshadow( three-pass-box , #199fc4 , 5, 0.3 , 5 , 5 );
+}
