@@ -269,9 +269,9 @@ public class MainWindowController {
      */
     @FXML private void exitGame() {
     	Alert alert = new Alert(AlertType.CONFIRMATION);
-    	alert.setTitle("Wyjście z gry");
-    	alert.setHeaderText("Wybrałeś opcję ZAKOŃCZ");
-    	alert.setContentText("Czy na pewno chcesz wyjść?");
+    	alert.setTitle("Wyjscie z gry");
+    	alert.setHeaderText("Wybrales opcje ZAKONCZ");
+    	alert.setContentText("Czy na pewno chcesz wyjsc?");
     	Optional<ButtonType> result = alert.showAndWait();
     	if (result.get() == ButtonType.OK){
     		Main.exitGame();

@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchor" maxHeight="800.0" maxWidth="700.0" minHeight="800.0" minWidth="700.0" prefHeight="800.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainWindowController">
+<AnchorPane fx:id="mainAnchor" maxHeight="800.0" maxWidth="700.0" minHeight="800.0" minWidth="700.0" prefHeight="800.0" prefWidth="700.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.MainWindowController">
    <children>
       <MenuBar layoutX="14.0" layoutY="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -25,9 +25,9 @@
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#showAuth" text="O autorach" />
                </items></Menu>
-            <Menu mnemonicParsing="false" text="Zakończ">
+            <Menu mnemonicParsing="false" text="Zakoncz">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#exitGame" text="Zakończ" />
+                  <MenuItem mnemonicParsing="false" onAction="#exitGame" text="Zakoncz" />
                </items></Menu>
         </menus>
       </MenuBar>
